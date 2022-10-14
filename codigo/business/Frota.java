@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
 package business;
 
-=======
->>>>>>> Stashed changes
 public class Frota {
     private veiculo[] veiculo;
 
