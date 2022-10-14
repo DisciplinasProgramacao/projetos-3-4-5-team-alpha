@@ -1,4 +1,4 @@
-
+package business;
 
 class veiculo {
     private int taque;

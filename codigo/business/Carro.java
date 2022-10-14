@@ -1,4 +1,4 @@
-
+package business;
 
 public class Carro extends veiculo {
     private static double VALOR_ALINHAMENTO = 80.00;

@@ -1,4 +1,4 @@
-
+package business;
 
 public class Caminhao {
     private static double VALOR_VISTORIA = 1000.00;

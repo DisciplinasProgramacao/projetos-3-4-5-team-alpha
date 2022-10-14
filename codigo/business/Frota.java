@@ -1,4 +1,4 @@
-
+package business;
 
 public class Frota {
     private veiculo[] veiculo;
