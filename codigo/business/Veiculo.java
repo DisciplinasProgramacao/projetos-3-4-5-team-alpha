@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-package business;
-
-=======
->>>>>>> Stashed changes
 class veiculo {
     private int taque;
     private float valor_ipva;
@@ -20,10 +15,6 @@ class veiculo {
 
     public void setRota(Rota rota) {
         this.rota = rota;
-    }
-
-    public void calcular_ipva(float valor_venda){
-        this.valor_ipva = valor_venda;
     }
 
     public void calcular_ipva(){
