@@ -9,7 +9,7 @@ class veiculo {
     private String placa;
     private Rota rota;
     private float valor_venda;
-    private final double percentual_ipva=0.0;
+    private final double PERCENTUAL_IPVA=0.0;
 
 
  
@@ -65,8 +65,8 @@ class veiculo {
         return valor_venda;
     }
 
-    public double getPercentual_ipva() {
-        return percentual_ipva;
+    public double getPERCENTUAL_IPVA() {
+        return PERCENTUAL_IPVA;
     }
 
 
