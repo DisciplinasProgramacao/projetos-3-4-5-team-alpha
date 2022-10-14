@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+package business;
+
+>>>>>>> 17d031a55c0c31855af2ab0ebf54dd495c7d27e6
 class veiculo {
     private int taque;
     private float valor_ipva;

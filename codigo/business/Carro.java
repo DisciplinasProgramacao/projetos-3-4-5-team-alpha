@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
 package business;
 
-=======
->>>>>>> Stashed changes
 public class Carro extends veiculo {
     private static double VALOR_ALINHAMENTO = 80.00;
     private static final int QUILOMETRO_ALINHAMENTO=10000;

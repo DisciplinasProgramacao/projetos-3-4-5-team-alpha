@@ -1,13 +1,9 @@
-<<<<<<< Updated upstream
 package business;
 
-=======
->>>>>>> Stashed changes
 public class Caminhao {
     private static double VALOR_VISTORIA = 1000.00;
     private static final int QUILOMETRO_VISTORIA=30000;
     private static double VALOR_MANUTENCAO = 1000.00;
-<<<<<<< Updated upstream
     private static final int QUILOMETRO_MANUTENCAO=20000;
     private int qtdManutencao;
     private int qtdVistoria;
@@ -25,10 +21,6 @@ public class Caminhao {
     public void setQtdVistoria(int qtdVistoria) {
         this.qtdVistoria = qtdVistoria;
     }
-=======
-    private int max_quilometro_manutencao;
-
->>>>>>> Stashed changes
     public static double getVALOR_VISTORIA() {
         return VALOR_VISTORIA;
     }
