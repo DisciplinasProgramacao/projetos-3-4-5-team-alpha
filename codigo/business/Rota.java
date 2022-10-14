@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream
 package business;
 
+=======
+>>>>>>> Stashed changes
 import java.time.LocalDate;
 
 public class Rota {

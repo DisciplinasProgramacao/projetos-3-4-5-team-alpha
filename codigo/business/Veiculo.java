@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream
 package business;
 
+=======
+>>>>>>> Stashed changes
 class veiculo {
     private int taque;
     private float valor_ipva;
