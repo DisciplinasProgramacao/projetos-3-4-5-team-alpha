@@ -2,14 +2,23 @@ package business;
 
 public class Carro extends veiculo {
     private static double VALOR_ALINHAMENTO = 80.00;
-    private int max_quilometro_alinhamento;
+    private static final int QUILOMETRO_ALINHAMENTO=10000;
+    private int qtdAlinhamentos;
+
+    public int getQtdAlinhamentos() {
+        return qtdAlinhamentos;
+    }
+
+    public void setQtdAlinhamentos(int qtdAlinhamentos) {
+        this.qtdAlinhamentos = qtdAlinhamentos;
+    }
 
     public static double getVALOR_ALINHAMENTO() {
         return VALOR_ALINHAMENTO;
     }
 
-    public int getMax_quilometro_alinhamento() {
-        return max_quilometro_alinhamento;
+    public int getQUILOMETRO_ALINHAMENTO() {
+        return QUILOMETRO_ALINHAMENTO;
     }
 
     public double getGastos() {

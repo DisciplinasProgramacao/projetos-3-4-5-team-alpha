@@ -10,8 +10,6 @@ class veiculo {
     private Rota rota;
     private float valor_venda;
     private final double PERCENTUAL_IPVA=0.0;
-
-
  
     public double getGastos(){
         return 0.0;

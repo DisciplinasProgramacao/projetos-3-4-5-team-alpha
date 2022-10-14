@@ -2,28 +2,36 @@ package business;
 
 public class Caminhao {
     private static double VALOR_VISTORIA = 1000.00;
-    private int max_quilometro_vistoria;
+    private static final int QUILOMETRO_VISTORIA=30000;
     private static double VALOR_MANUTENCAO = 1000.00;
-    private int max_quilometro_manutencao;
+    private static final int QUILOMETRO_MANUTENCAO=20000;
+    private int qtdManutencao;
+    private int qtdVistoria;
+    
+    public int getQtdManutencao() {
+        return qtdManutencao;
+    }
+    public void setQtdManutencao(int qtdManutencao) {
+        this.qtdManutencao = qtdManutencao;
+    }
 
-
+    public int getQtdVistoria() {
+        return qtdVistoria;
+    }
+    public void setQtdVistoria(int qtdVistoria) {
+        this.qtdVistoria = qtdVistoria;
+    }
     public static double getVALOR_VISTORIA() {
         return VALOR_VISTORIA;
     }
-    public int getMax_quilometro_vistoria() {
-        return max_quilometro_vistoria;
-    }
-    public void setMax_quilometro_vistoria(int max_quilometro_vistoria) {
-        this.max_quilometro_vistoria = max_quilometro_vistoria;
+    public int getQUILOMETRO_VISTORIA() {
+        return QUILOMETRO_VISTORIA;
     }
     public static double getVALOR_MANUTENCAO() {
         return VALOR_MANUTENCAO;
     }
-    public int getMax_quilometro_manutencao() {
-        return max_quilometro_manutencao;
-    }
-    public void setMax_quilometro_manutencao(int max_quilometro_manutencao) {
-        this.max_quilometro_manutencao = max_quilometro_manutencao;
+    public int getQUILOMETRO_MANUTENCAO() {
+        return QUILOMETRO_MANUTENCAO;
     }
 
     public double getGastos(){
