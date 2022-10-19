@@ -1,9 +1,7 @@
 package business;
 
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Frota {
@@ -17,8 +15,7 @@ public class Frota {
 
     public boolean inserirVeiculo(Veiculo veiculo) {
         if(contadorVeiculos < this.veiculos.length) {
-            this.veiculos[contadorVeiculos] = veiculo;
-            contadorVeiculos++;
+            this.veiculos[contadorVeiculos++] = veiculo;
             return true;
         }
         
@@ -26,16 +23,17 @@ public class Frota {
     }
 
     public void salvar_arquivo(String filename) throws Exception {
-        String path = "codigo/app/arquivos";
-        File directory = new File("codigo/app/arquivos");
+        String path = "codigo/app/arquivos/";
+        File directory = new File("codigo/app/arquivos/");
         if(!directory.exists()) {
             directory.mkdirs();
         }
 
-        try (ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(path + filename, false))) {
+        try (ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
                 saida.writeObject(veiculo);
-                saida.writeObject(veiculo.getRota());
+                if(veiculo.getRota() != null)
+                    saida.writeObject(veiculo.getRota());
             }
             saida.flush();
 
@@ -57,6 +55,6 @@ public class Frota {
     }
 
     public void imprimir(String placa) {
-
+        System.out.println(this.veiculos[Integer.parseInt(placa)].toString());
     }
 }

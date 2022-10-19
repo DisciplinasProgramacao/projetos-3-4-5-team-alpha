@@ -88,6 +88,6 @@ abstract class Veiculo implements Serializable {
 
     @Override
     public String toString(){
-        return ("Placa: "+ this.getPlaca()+ ", " + "Proxima viagem: " +  this.getRota().getData());
+        return ("Placa: " + this.getPlaca());
     }
 }
