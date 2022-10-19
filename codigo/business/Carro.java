@@ -2,7 +2,7 @@ package business;
 
 public class Carro extends Veiculo {
     private static double VALOR_ALINHAMENTO = 80.00;
-    private static final int QUILOMETRO_ALINHAMENTO=10000;
+    private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private int qtdAlinhamentos;
 
     public int getQtdAlinhamentos() {
@@ -22,7 +22,7 @@ public class Carro extends Veiculo {
     }
 
     public double getGastos() {
-        return 0.0;
+        return 0.0F;
     }
 
     public void calcular_seguro() {
