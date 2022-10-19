@@ -11,6 +11,19 @@ abstract class Veiculo {
     private float valor_venda;
     
     
+    
+
+    public Veiculo(int tanque, float valor_ipva, float valor_seguro, float autonomia, int km_rodados, String placa, float valor_venda) {
+        this.tanque = tanque;
+        this.valor_ipva = valor_ipva;
+        this.valor_seguro = valor_seguro;
+        this.autonomia = autonomia;
+        this.km_rodados = km_rodados;
+        this.placa = placa;
+        this.valor_venda = valor_venda;
+    }
+
+
 
     public int getTanque() {
         return tanque;
@@ -46,8 +59,8 @@ abstract class Veiculo {
     
     
 
-    public void setRota(Rota rota) {
-    	this.rota = rota;
+    public void setRota(Rota rota) throws Exception{
+        this.rota = rota;
     }
     
     protected void setValorIpva(float valor) {
@@ -69,4 +82,10 @@ abstract class Veiculo {
     public abstract void calcular_ipva();
     
     public abstract void calcular_seguro();
+
+
+    @Override
+    public String toString(){
+        return ("Placa: "+ this.getPlaca()+ ", " + "Proxima viagem: " +  this.getRota().getData());
+    }
 }

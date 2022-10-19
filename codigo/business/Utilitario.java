@@ -14,6 +14,7 @@ public class Utilitario extends Veiculo{
     
     
     public Utilitario(String tipo) {
+		super(QUILOMETRO_VISTORIA, VALOR_ALINHAMENTO, PERCENTUAL_SEGURO, PERCENTUAL_IPVA, QUILOMETRO_ALINHAMENTO, tipo, VALOR_VISTORIA);
     	if(tipo.equals("Van")) {    		
     		super.setTanque(60);
     	} else if(tipo.equals("Furgão")) {    		
@@ -90,4 +91,18 @@ public class Utilitario extends Veiculo{
 			this.qtdVistoria++;
 		}
 	}
+
+
+	@Override
+    public void setRota(Rota rota) throws Exception{
+        if((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_ALINHAMENTO){
+            if((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_VISTORIA){
+                super.setRota(rota);
+            }else{
+                throw new Exception("Essa viagem excede os km necessário para o alinhamento, por favor realiza-la");
+            }
+        }else{
+            throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
+        }
+    }
 }
