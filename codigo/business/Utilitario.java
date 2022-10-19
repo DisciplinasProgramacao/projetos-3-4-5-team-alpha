@@ -1,75 +1,93 @@
 package business;
 
-public class Utilitario {
-    private String tipo_utilitario;
-    private static double VALOR_ALINHAMENTO = 120.00;
-    private static final int QUILOMETRO_ALINHAMENTO=10000;
-    private static double VALOR_VISTORIA = 1000.00;
-    private static final int QUILOMETRO_VISTORIA=10000;
+public class Utilitario extends Veiculo{
+    private static float VALOR_ALINHAMENTO = 120.0F;
+    private static final int QUILOMETRO_ALINHAMENTO = 10000;
+    private static float VALOR_VISTORIA = 1000.0F;
+    private static final int QUILOMETRO_VISTORIA = 10000;
+    private static final float PERCENTUAL_IPVA = 0.03F;
+    private static final float PERCENTUAL_SEGURO = 0.03F;
     private int qtdVistoria;
     private int qtdAlinhamento;
+    private String tipo_utilitario;
+    
+    
+    
+    public Utilitario(String tipo) {
+    	if(tipo.equals("Van")) {    		
+    		super.setTanque(60);
+    	} else if(tipo.equals("Furgão")) {    		
+    		super.setTanque(80);
+    	}
+    	
+    	this.setTipoUtilitario(tipo);
+    	this.calcular_ipva();
+    	this.calcular_seguro();
+    }
+    
+    
 
     public int getQtdAlinhamento() {
         return qtdAlinhamento;
-    }
-
-    public void setQtdAlinhamento(int qtdAlinhamento) {
-        this.qtdAlinhamento = qtdAlinhamento;
     }
 
     public String getTipo_utilitario() {
         return tipo_utilitario;
     }
 
-    public static double getVALOR_ALINHAMENTO() {
-        return VALOR_ALINHAMENTO;
+    public float getValor_alinhamento() {
+        return qtdAlinhamento * VALOR_ALINHAMENTO;
     }
 
-    public int getQUILOMETRO_VISTORIA() {
-        return QUILOMETRO_VISTORIA;
+    public float getValor_vistoria() {
+        return qtdVistoria * VALOR_VISTORIA;
     }
 
-    public static double getVALOR_VISTORIA() {
-        return VALOR_VISTORIA;
-    }
-
-    public int getQUILOMETRO_ALINHAMENTO() {
-        return QUILOMETRO_ALINHAMENTO;
-    }
-
-    public double getGastos() {
-        return 0.00;
-    }
-
-    public void calcukar_seguro() {
-
-    }
-
-    public void setTipo_utilitario(String tipo_utilitario) {
-        this.tipo_utilitario = tipo_utilitario;
-    }
-
-    public static void setVALOR_ALINHAMENTO(double vALOR_ALINHAMENTO) {
-        VALOR_ALINHAMENTO = vALOR_ALINHAMENTO;
-    }
-
-    public static int getQuilometroAlinhamento() {
-        return QUILOMETRO_ALINHAMENTO;
-    }
-
-    public static void setVALOR_VISTORIA(double vALOR_VISTORIA) {
-        VALOR_VISTORIA = vALOR_VISTORIA;
-    }
-
-    public static int getQuilometroVistoria() {
-        return QUILOMETRO_VISTORIA;
+    public float getGastos() {
+    	float gastos = 0;
+    	gastos += getValor_alinhamento();
+    	gastos += getValor_vistoria();
+    	gastos += super.getValor_ipva();
+    	gastos += super.getValor_seguro();
+    	
+    	return gastos;
     }
 
     public int getQtdVistoria() {
         return qtdVistoria;
     }
+	
+	
+	
+	public void setQtdVistoria(int qtdVistoria) {
+		this.qtdVistoria = qtdVistoria;
+	}
+	 
+	public void setTipoUtilitario(String tipo_utilitario) {
+		this.tipo_utilitario = tipo_utilitario;
+	}
 
-    public void setQtdVistoria(int qtdVistoria) {
-        this.qtdVistoria = qtdVistoria;
-    }
+	@Override
+	public void calcular_ipva() {
+		float valor_ipva = super.getValor_venda() * PERCENTUAL_IPVA;
+		super.setValorIpva(valor_ipva);
+	}
+
+	@Override
+	public void calcular_seguro() {
+		float valor_seguro = super.getValor_venda() * PERCENTUAL_SEGURO;
+		super.setValorSeguro(valor_seguro);
+	}
+	
+	private void calcularAlinhamento() {
+		if(super.getKm_rodados() == QUILOMETRO_ALINHAMENTO) {
+			this.qtdAlinhamento++;
+		}
+	}
+	
+	private void calcularVistoria() {
+		if(super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+			this.qtdVistoria++;
+		}
+	}
 }

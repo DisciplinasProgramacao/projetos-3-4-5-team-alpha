@@ -1,7 +1,7 @@
 package business;
 
-class veiculo {
-    private int taque;
+abstract class Veiculo {
+    private int tanque;
     private float valor_ipva;
     private float valor_seguro;
     private float autonomia;
@@ -9,26 +9,11 @@ class veiculo {
     private String placa;
     private Rota rota;
     private float valor_venda;
-    private final double PERCENTUAL_IPVA=0.0;
- 
-    public double getGastos(){
-        return 0.0;
-    }
+    
+    
 
-    public void setRota(Rota rota) {
-        this.rota = rota;
-    }
-
-    public void calcular_ipva(){
-       
-    }
-
-    public void calcukar_seguro(){
-        
-    }
-
-    public int getTaque() {
-        return taque;
+    public int getTanque() {
+        return tanque;
     }
 
     public float getValor_ipva() {
@@ -58,14 +43,30 @@ class veiculo {
     public float getValor_venda() {
         return valor_venda;
     }
-
-    public double getPERCENTUAL_IPVA() {
-        return PERCENTUAL_IPVA;
-    }
-
-
-
-
-
     
+    
+
+    public void setRota(Rota rota) {
+    	this.rota = rota;
+    }
+    
+    protected void setValorIpva(float valor) {
+    	this.valor_ipva = valor;
+    }
+    
+    protected void setValorSeguro(float valor) {
+    	this.valor_seguro = valor;
+    }
+    
+    protected void setTanque(int tanque) {
+    	this.tanque = tanque;
+    }
+    
+    
+    
+    public abstract float getGastos();
+
+    public abstract void calcular_ipva();
+    
+    public abstract void calcular_seguro();
 }
