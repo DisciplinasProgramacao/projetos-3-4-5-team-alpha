@@ -1,6 +1,6 @@
 package business;
 
-public class Caminhao {
+public class Caminhao extends Veiculo {
     private static double VALOR_VISTORIA = 1000.00;
     private static final int QUILOMETRO_VISTORIA=30000;
     private static double VALOR_MANUTENCAO = 1000.00;
@@ -39,5 +39,10 @@ public class Caminhao {
     }
     public void calcular_seguro(){
 
+    }
+    @Override
+    public void calcular_ipva() {
+        // TODO Auto-generated method stub
+        
     }
 }

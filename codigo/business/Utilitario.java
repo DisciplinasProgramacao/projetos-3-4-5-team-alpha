@@ -43,7 +43,7 @@ public class Utilitario extends Veiculo{
         return qtdVistoria * VALOR_VISTORIA;
     }
 
-    public float getGastos() {
+    public double getGastos() {
     	float gastos = 0;
     	gastos += getValor_alinhamento();
     	gastos += getValor_vistoria();

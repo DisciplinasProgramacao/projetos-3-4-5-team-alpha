@@ -64,7 +64,7 @@ abstract class Veiculo {
     
     
     
-    public abstract float getGastos();
+    public abstract double getGastos();
 
     public abstract void calcular_ipva();
     

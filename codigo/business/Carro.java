@@ -1,6 +1,6 @@
 package business;
 
-public class Carro extends veiculo {
+public class Carro extends Veiculo {
     private static double VALOR_ALINHAMENTO = 80.00;
     private static final int QUILOMETRO_ALINHAMENTO=10000;
     private int qtdAlinhamentos;
@@ -27,5 +27,11 @@ public class Carro extends veiculo {
 
     public void calcular_seguro() {
 
+    }
+
+    @Override
+    public void calcular_ipva() {
+        // TODO Auto-generated method stub
+        
     }
 }

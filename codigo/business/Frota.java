@@ -1,7 +1,7 @@
 package business;
 
 public class Frota {
-    private veiculo[] veiculo;
+    private Veiculo[] veiculo;
 
     public void salvar_arquivo(String nome) {
 
@@ -11,11 +11,11 @@ public class Frota {
 
     }
 
-    public veiculo localizar(String placa) {
+    public Veiculo localizar(String placa) {
         return veiculo[0];
     }
 
-    public veiculo[] localizar() {
+    public Veiculo[] localizar() {
         return veiculo;
     }
 
