@@ -1,42 +1,46 @@
 package business;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Frota {
     private Veiculo[] veiculos;
     private int contadorVeiculos;
 
     public Frota(){
-        veiculo = new Veiculo[10];
+        veiculos = new Veiculo[10];
         this.contadorVeiculos = 0;
     }
 
     public boolean inserirVeiculo(Veiculo veiculo) {
         if(contadorVeiculos < this.veiculos.length) {
-            this.veiculo[contadorVeiculos] = veiculo;
+            this.veiculos[contadorVeiculos] = veiculo;
             contadorVeiculos++;
             return true;
         }
-
+        
         return false;
     }
-    public void salvar_arquivo(String filename) throws Exception {
-        try (DataOutputStream saida = new DataOutputStream(new FileOutputStream(filename, false))) {
-            for (Veiculo veiculo : veiculos) {
-                saida.writeUTF(veiculo.getPlaca());
-                saida.writeFloat(veiculo.getAutonomia());
-                saida.writeInt(veiculo.getKm_rodados());
-                saida.writeFloat(veiculo.getValor_venda());
-                saida.writeDate(veiculo.getRota().getData());
-                saida.writeInt(veiculo.getRota().getDistancia());
 
+    public void salvar_arquivo(String filename) throws Exception {
+        String path = "codigo/app/arquivos";
+        File directory = new File("codigo/app/arquivos");
+        if(!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try (ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(path + filename, false))) {
+            for (Veiculo veiculo : veiculos) {
+                saida.writeObject(veiculo);
+                saida.writeObject(veiculo.getRota());
             }
             saida.flush();
 
         } catch (Exception e) {
             throw new Exception(e);
-            e.printStackTrace();
         }
     }
 
@@ -49,7 +53,7 @@ public class Frota {
     }
 
     public Veiculo[] localizar() {
-        return veiculo;
+        return veiculos;
     }
 
     public void imprimir(String placa) {

@@ -1,9 +1,12 @@
 package business;
 
-abstract class Veiculo {
+import java.io.Serializable;
+import java.util.Random;
+
+abstract class Veiculo implements Serializable {
 
     private final String _id;
-    private int tanque;
+    private final int tanque;
     private float valor_ipva;
     private float valor_seguro;
     private float autonomia;
@@ -13,15 +16,15 @@ abstract class Veiculo {
     private float valor_venda;
     
 
-    public Veiculo(int tanque, float valor_ipva, float valor_seguro, float autonomia, int km_rodados, String placa, float valor_venda, int tipo) {
-        this.tanque = tanque;
-        this.valor_ipva = valor_ipva;
-        this.valor_seguro = valor_seguro
+    public Veiculo(String placa, String cod_id, int tanque, float autonomia, float valor_venda) {
         this.autonomia = autonomia;
-        this.km_rodados = km_rodados;
+        this.km_rodados = 0;
         this.placa = placa;
         this.valor_venda = valor_venda;
-        this._id = tipo + "";
+        this.tanque = tanque;
+
+        Random aleatorio = new Random();
+        this._id = cod_id + Integer.toString(aleatorio.nextInt(8999) + 1000);
     }
 
 
@@ -59,8 +62,8 @@ abstract class Veiculo {
     public float getValor_venda() {
         return valor_venda;
     }
-    
-    
+
+
 
     public void setRota(Rota rota) throws Exception{
         this.rota = rota;
@@ -72,10 +75,6 @@ abstract class Veiculo {
     
     protected void setValorSeguro(float valor) {
     	this.valor_seguro = valor;
-    }
-    
-    protected void setTanque(int tanque) {
-    	this.tanque = tanque;
     }
     
     

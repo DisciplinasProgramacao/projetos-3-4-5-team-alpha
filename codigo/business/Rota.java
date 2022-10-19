@@ -1,8 +1,9 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Rota {
+public class Rota implements Serializable {
     private LocalDate data;
     private int distancia;
 
@@ -10,8 +11,8 @@ public class Rota {
         this.data = data;
         this.distancia = distancia;
     }
-    public LocalDate getData() {
-        return data;
+    public String getData() {
+        return data.toString();
     }
 
     public int getDistancia() {

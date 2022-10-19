@@ -1,8 +1,10 @@
 package business;
-
 public class Carro extends Veiculo {
-    public Carro(int tanque, float valor_ipva, float valor_seguro, float autonomia, int km_rodados, String placa, float valor_venda) {
-        super(tanque, valor_ipva, valor_seguro, autonomia, km_rodados, placa, valor_venda);
+    public Carro(String placa, int tanque, float autonomia, float valor_venda) {
+        super(placa, "1", tanque, autonomia, valor_venda);
+
+    	this.calcular_ipva();
+    	this.calcular_seguro();
     }
 
     private static double VALOR_ALINHAMENTO = 80.00;

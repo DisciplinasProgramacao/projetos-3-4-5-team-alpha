@@ -1,7 +1,5 @@
 package business;
 
-
-
 public class Caminhao extends Veiculo {
     
 
@@ -15,8 +13,8 @@ public class Caminhao extends Veiculo {
 
 
 
-    public Caminhao(int tanque, float valor_ipva, float valor_seguro, float autonomia, int km_rodados, String placa, float valor_venda) {
-        super(tanque, valor_ipva, valor_seguro, autonomia, km_rodados, placa, valor_venda);
+    public Caminhao(String placa, int tanque, float autonomia, float valor_venda) {
+        super(placa, "4", tanque, autonomia, valor_venda);
     }
     public int getQtdManutencao() {
         return qtdManutencao;

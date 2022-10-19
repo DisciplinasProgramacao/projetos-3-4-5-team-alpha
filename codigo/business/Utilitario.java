@@ -1,6 +1,6 @@
 package business;
 
-public class Utilitario extends Veiculo{
+public class Utilitario extends Veiculo {
     private static float VALOR_ALINHAMENTO = 120.0F;
     private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private static float VALOR_VISTORIA = 1000.0F;
@@ -13,15 +13,15 @@ public class Utilitario extends Veiculo{
     
     
     
-    public Utilitario(String tipo) {
-		super(QUILOMETRO_VISTORIA, VALOR_ALINHAMENTO, PERCENTUAL_SEGURO, PERCENTUAL_IPVA, QUILOMETRO_ALINHAMENTO, tipo, VALOR_VISTORIA);
-    	if(tipo.equals("Van")) {    		
-    		super.setTanque(60);
-    	} else if(tipo.equals("Furgão")) {    		
-    		super.setTanque(80);
-    	}
-    	
-    	this.setTipoUtilitario(tipo);
+    public Utilitario(String placa, String cod_tipo, String tipo, int tanque, float autonomia, float valor_venda) throws Exception {
+		super(placa, cod_tipo, tanque, autonomia, valor_venda);
+
+    	if(tipo.equals("Van") || tipo.equals("Furgão")) {    		
+			this.setTipoUtilitario(tipo);
+    	} else {
+			throw new Exception();
+		}
+
     	this.calcular_ipva();
     	this.calcular_seguro();
     }
