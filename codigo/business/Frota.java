@@ -55,20 +55,18 @@ public class Frota {
         }
     }
 
-    public Frota carregar_arquivo(String filename) throws Exception {
+    public void carregar_arquivo(String filename) throws Exception {
         String path = "codigo/app/arquivos/";
         File directory = new File(path);
         if(!directory.exists()) {
             throw new Exception();
         }
 
-        Frota newFrota = new Frota();
-
         try (FileInputStream fis = new FileInputStream(path + filename + ".bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
 
 			while (fis.available() > 0) {
 				Veiculo veiculo = (Veiculo) inputFile.readObject();
-				newFrota.inserirVeiculo(veiculo);
+				this.inserirVeiculo(veiculo);
 			}
 		} catch (Exception e) {
 			System.out.println("ERRO ao gravar dados no disco!");
@@ -79,14 +77,12 @@ public class Frota {
 
 			while (fis.available() > 0) {
 				Rota rota = (Rota) inputFile.readObject();
-				newFrota.localizar(rota.getPlaca()).setRota(rota);
+				this.localizar(rota.getPlaca()).setRota(rota);
 			}
 		} catch (Exception e) {
 			System.out.println("ERRO ao gravar dados no disco!");
 			e.printStackTrace();
 		}
-
-        return newFrota;
     }
 
     public Veiculo localizar(String placa) throws Exception {

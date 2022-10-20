@@ -41,10 +41,10 @@ public class JFrameAplication extends JFrame {
             e.printStackTrace();
         }
 
-        Frota frotaCarregada = null;
+        Frota frotaCarregada = new Frota();
 
         try {
-            frotaCarregada = frota.carregar_arquivo("teste");
+            frotaCarregada.carregar_arquivo("teste");
         } catch (Exception e) {
             e.printStackTrace();
         }

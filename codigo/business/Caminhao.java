@@ -2,59 +2,60 @@ package business;
 
 public class Caminhao extends Veiculo {
     
-
-    private static double VALOR_VISTORIA = 1000.00;
+    private static float VALOR_VISTORIA = 1000.00F;
     private static final int QUILOMETRO_VISTORIA = 30000;
-    private static double VALOR_MANUTENCAO = 1000.00;
+    private static float VALOR_MANUTENCAO = 1000.00F;
     private static final int QUILOMETRO_MANUTENCAO = 20000;
     private int qtdManutencao;
     private int qtdVistoria;
 
 
 
-
     public Caminhao(String placa, int tanque, float autonomia, float valor_venda) {
-        super(placa, "4", tanque, autonomia, valor_venda);
+        super(placa, tanque, autonomia, valor_venda, 0.01F);
     }
+
+
+
     public int getQtdManutencao() {
         return qtdManutencao;
-    }
-
-    public void setQtdManutencao(int qtdManutencao) {
-        this.qtdManutencao = qtdManutencao;
     }
 
     public int getQtdVistoria() {
         return qtdVistoria;
     }
 
-    public void setQtdVistoria(int qtdVistoria) {
-        this.qtdVistoria = qtdVistoria;
+    public float getValor_manutencao() {
+        return this.getQtdManutencao() * VALOR_MANUTENCAO;
     }
 
-    public static double getVALOR_VISTORIA() {
-        return VALOR_VISTORIA;
+    public float getValor_vistoria() {
+        return this.getQtdVistoria() * VALOR_VISTORIA;
     }
 
-    public int getQUILOMETRO_VISTORIA() {
-        return QUILOMETRO_VISTORIA;
+
+
+    @Override
+    public float getGastos() {
+        return 0.0F;
     }
 
-    public static double getVALOR_MANUTENCAO() {
-        return VALOR_MANUTENCAO;
-    }
-
-    public int getQUILOMETRO_MANUTENCAO() {
-        return QUILOMETRO_MANUTENCAO;
-    }
-
-    public double getGastos() {
-        return 0.0;
-    }
-
+    @Override
     public void calcular_seguro() {
 
     }
+
+    public void calcular_manutencao() {
+		if(super.getKm_rodados() == QUILOMETRO_MANUTENCAO) {
+			this.qtdManutencao++;
+		}
+	}
+
+	public void calcular_vistoria() {
+		if(super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+			this.qtdVistoria++;
+		}
+	}
 
     @Override
     public void setRota(Rota rota) throws Exception{
@@ -68,12 +69,4 @@ public class Caminhao extends Veiculo {
             throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
         }
     }
-
-    @Override
-    public void calcular_ipva() {
-        // TODO Auto-generated method stub
-
-    }
-
-    
 }

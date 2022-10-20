@@ -1,50 +1,51 @@
 package business;
 public class Carro extends Veiculo {
+    private static float VALOR_ALINHAMENTO = 80.00F;
+    private static final int QUILOMETRO_ALINHAMENTO = 10000;
+    private int qtdAlinhamento;
+
+
+
     public Carro(String placa, int tanque, float autonomia, float valor_venda) {
-        super(placa, "1", tanque, autonomia, valor_venda);
+        super(placa, tanque, autonomia, valor_venda, 0.04F);
 
     	this.calcular_ipva();
     	this.calcular_seguro();
     }
 
-    private static double VALOR_ALINHAMENTO = 80.00;
-    private static final int QUILOMETRO_ALINHAMENTO = 10000;
-    private int qtdAlinhamentos;
 
-    public int getQtdAlinhamentos() {
-        return qtdAlinhamentos;
+
+    public int getQtdAlinhamento() {
+        return qtdAlinhamento;
+    }
+ 
+    public float getValor_alinhamento() {
+        return this.getQtdAlinhamento() * VALOR_ALINHAMENTO;
     }
 
-    public void setQtdAlinhamentos(int qtdAlinhamentos) {
-        this.qtdAlinhamentos = qtdAlinhamentos;
-    }
 
-    public static double getVALOR_ALINHAMENTO() {
-        return VALOR_ALINHAMENTO;
-    }
 
-    public int getQUILOMETRO_ALINHAMENTO() {
-        return QUILOMETRO_ALINHAMENTO;
-    }
-
-    public double getGastos() {
+    @Override
+    public float getGastos() {
         return 0.0F;
     }
 
+    @Override
     public void calcular_seguro() {
 
     }
 
-    @Override
-    public void calcular_ipva() {
-        
-    }
+    public void calcular_alinhamento() {
+		if(super.getKm_rodados() == QUILOMETRO_ALINHAMENTO) {
+			this.qtdAlinhamento++;
+		}
+	}
 
     @Override
     public void setRota(Rota rota) throws Exception{
         if((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_ALINHAMENTO){
                 super.setRota(rota);
-        }else{
+        } else {
             throw new Exception("Essa viagem excede os km necessário para o alinhamento, por favor realiza-lo");
         }
     }

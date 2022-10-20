@@ -1,11 +1,9 @@
 package business;
 
 import java.io.Serializable;
-import java.util.Random;
 
 public abstract class Veiculo implements Serializable {
 
-    private final String _id;
     private final int tanque;
     private float valor_ipva;
     private float valor_seguro;
@@ -14,21 +12,20 @@ public abstract class Veiculo implements Serializable {
     private String placa;
     private Rota rota;
     private float valor_venda;
+    private final float PERCENTUAL_IPVA;
 
-    public Veiculo(String placa, String cod_id, int tanque, float autonomia, float valor_venda) {
+
+
+    public Veiculo(String placa, int tanque, float autonomia, float valor_venda, float percental_ipva) {
         this.autonomia = autonomia;
         this.km_rodados = 0;
         this.placa = placa;
         this.valor_venda = valor_venda;
         this.tanque = tanque;
-
-        Random aleatorio = new Random();
-        this._id = cod_id + Integer.toString(aleatorio.nextInt(8999) + 1000);
+        this.PERCENTUAL_IPVA = percental_ipva;
     }
 
-    public String getId() {
-        return this._id;
-    }
+
 
     public int getTanque() {
         return tanque;
@@ -62,6 +59,8 @@ public abstract class Veiculo implements Serializable {
         return valor_venda;
     }
 
+
+
     public void setRota(Rota rota) throws Exception {
         this.rota = rota;
     }
@@ -74,11 +73,15 @@ public abstract class Veiculo implements Serializable {
         this.valor_seguro = valor;
     }
 
-    public abstract double getGastos();
+    
 
-    public abstract void calcular_ipva();
+    public abstract float getGastos();
 
     public abstract void calcular_seguro();
+
+    public void calcular_ipva() {
+        this.setValorIpva(this.getValor_venda() * PERCENTUAL_IPVA);
+    }
 
     @Override
     public String toString() {
