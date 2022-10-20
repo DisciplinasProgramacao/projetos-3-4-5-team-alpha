@@ -14,7 +14,6 @@ abstract class Veiculo implements Serializable {
     private String placa;
     private Rota rota;
     private float valor_venda;
-    
 
     public Veiculo(String placa, String cod_id, int tanque, float autonomia, float valor_venda) {
         this.autonomia = autonomia;
@@ -27,10 +26,10 @@ abstract class Veiculo implements Serializable {
         this._id = cod_id + Integer.toString(aleatorio.nextInt(8999) + 1000);
     }
 
-
     public String getId() {
         return this._id;
     }
+
     public int getTanque() {
         return tanque;
     }
@@ -63,31 +62,26 @@ abstract class Veiculo implements Serializable {
         return valor_venda;
     }
 
-
-
-    public void setRota(Rota rota) throws Exception{
+    public void setRota(Rota rota) throws Exception {
         this.rota = rota;
     }
-    
+
     protected void setValorIpva(float valor) {
-    	this.valor_ipva = valor;
+        this.valor_ipva = valor;
     }
-    
+
     protected void setValorSeguro(float valor) {
-    	this.valor_seguro = valor;
+        this.valor_seguro = valor;
     }
-    
-    
-    
+
     public abstract double getGastos();
 
     public abstract void calcular_ipva();
-    
+
     public abstract void calcular_seguro();
 
-
     @Override
-    public String toString(){
+    public String toString() {
         return ("Placa: " + this.getPlaca());
     }
 }
