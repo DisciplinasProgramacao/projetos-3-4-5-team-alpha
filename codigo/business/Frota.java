@@ -1,57 +1,101 @@
 package business;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Frota {
     private Veiculo[] veiculos;
     private int contadorVeiculos;
 
-    public Frota() {
+    public Frota(){
         veiculos = new Veiculo[10];
         this.contadorVeiculos = 0;
     }
 
     public boolean inserirVeiculo(Veiculo veiculo) {
-        if (contadorVeiculos < this.veiculos.length) {
+        if(contadorVeiculos < this.veiculos.length) {
             this.veiculos[contadorVeiculos++] = veiculo;
             return true;
         }
-
+        
         return false;
     }
 
     public void salvar_arquivo(String filename) throws Exception {
         String path = "codigo/app/arquivos/";
-        File directory = new File("codigo/app/arquivos/");
-        if (!directory.exists()) {
+        File directory = new File(path);
+        if(!directory.exists()) {
             directory.mkdirs();
         }
 
-        try (ObjectOutputStream saida = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
+        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
-                saida.writeObject(veiculo);
-                if (veiculo.getRota() != null)
-                    saida.writeObject(veiculo.getRota());
+                saidaVeiculos.writeObject(veiculo);
             }
-            saida.flush();
+
+            saidaVeiculos.flush();
+
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+
+        try (ObjectOutputStream saidaRotas = new ObjectOutputStream(new FileOutputStream(path + filename + "-rotas.bin", false))) {
+            for (Veiculo veiculo : veiculos) {
+                if(veiculo.getRota() != null)
+                    saidaRotas.writeObject(veiculo.getRota());
+            }
+
+            saidaRotas.flush();
 
         } catch (Exception e) {
             throw new Exception(e);
         }
     }
 
-    public void carregar_arquivo(String nome) {
+    public Frota carregar_arquivo(String filename) throws Exception {
+        String path = "codigo/app/arquivos/";
+        File directory = new File(path);
+        if(!directory.exists()) {
+            throw new Exception();
+        }
 
+        Frota newFrota = new Frota();
+
+        try (FileInputStream fis = new FileInputStream(path + filename + ".bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+
+			while (fis.available() > 0) {
+				Veiculo veiculo = (Veiculo) inputFile.readObject();
+				newFrota.inserirVeiculo(veiculo);
+			}
+		} catch (Exception e) {
+			System.out.println("ERRO ao gravar dados no disco!");
+			e.printStackTrace();
+		}
+
+        try (FileInputStream fis = new FileInputStream(path + filename + "-rotas.bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+
+			while (fis.available() > 0) {
+				Rota rota = (Rota) inputFile.readObject();
+				newFrota.localizar(rota.getPlaca()).setRota(rota);
+			}
+		} catch (Exception e) {
+			System.out.println("ERRO ao gravar dados no disco!");
+			e.printStackTrace();
+		}
+
+        return newFrota;
     }
 
     public Veiculo localizar(String placa) throws Exception {
-        for (int i = 0; i < veiculos.length; i++) {
-            if ((veiculos[i].getPlaca().compareTo(placa)) == 0) {
-                return veiculos[i];
+        for(Veiculo veiculo : veiculos) {
+            if(placa.equals(veiculo.getPlaca())) {
+                return veiculo;
             }
         }
+
         throw new Exception("Não existe um veículo na frota com esta placa");
     }
 

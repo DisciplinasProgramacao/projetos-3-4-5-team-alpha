@@ -3,7 +3,7 @@ package business;
 import java.io.Serializable;
 import java.util.Random;
 
-abstract class Veiculo implements Serializable {
+public abstract class Veiculo implements Serializable {
 
     private final String _id;
     private final int tanque;
