@@ -3,16 +3,18 @@ package business;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {
-    private static float VALOR_ALINHAMENTO = 80.00F;
+    private static final float VALOR_ALINHAMENTO = 80.00F,
+        VALOR_ADICIONAL_SEGURO = 300.00F,
+        PERCENTUAL_IPVA = 0.04F,
+        PERCENTUAL_SEGURO = 0.05F;
     private static final int QUILOMETRO_ALINHAMENTO = 10000;
-    private static final float PERCENTUAL_SEGURO = 0.05F;
-    private static final float VALOR_ADICIONAL_SEGURO = 300;
     private int qtdAlinhamento;
+    private CustosCarro custos;
 
 
 
     public Carro(String placa, int tanque, float autonomia, float valor_venda) {
-        super(placa, tanque, autonomia, valor_venda, 0.04F);
+        super(placa, tanque, autonomia, valor_venda, PERCENTUAL_IPVA);
 
     	this.calcular_ipva();
     	this.calcular_seguro();
@@ -20,12 +22,8 @@ public class Carro extends Veiculo {
 
 
 
-    public int getQtdAlinhamento() {
-        return qtdAlinhamento;
-    }
- 
-    public float getValor_alinhamento() {
-        return this.getQtdAlinhamento() * VALOR_ALINHAMENTO;
+    public float getAlinhamento() {
+        return custos.getCustosAdicionais();
     }
 
 
@@ -34,20 +32,24 @@ public class Carro extends Veiculo {
     public float getGastos() {
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
-    	gastos += getValor_alinhamento();
+    	gastos += getAlinhamento();
     	
     	return gastos;
     }
 
     @Override
     public float calcular_seguro() {
-        return CustosCarro.calcularSeguro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
+        custos = new CustosCarro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
+        return custos.getSeguro();
     }
 
-    public void calcular_alinhamento() {
-		if(super.getKm_rodados() >= QUILOMETRO_ALINHAMENTO) {
-			CustosCarro.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, getKm_rodados() );
-		}
+    public void calcular_alinhamento() throws Exception {
+		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
+            custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
+            this.qtdAlinhamento++;
+		} else {
+            throw new Exception("");
+        }
 	}
 
     @Override

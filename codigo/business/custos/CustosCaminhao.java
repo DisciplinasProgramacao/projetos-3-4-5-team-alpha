@@ -1,8 +1,13 @@
 package business.custos;
 
-public final class CustosCaminhao extends Custos{
+public class CustosCaminhao extends Custos {
+    private float seguro;
 
-    public static float calcularSeguro(float porcentagem, float valorVenda, float valorAdicional){
-        return porcentagem*valorVenda+valorAdicional;
+    public CustosCaminhao(float porcentagem, float valorVenda, float valorAdicional) {
+        this.seguro = porcentagem * valorVenda + valorAdicional;
+    }
+
+    public float getSeguro() {
+        return this.seguro;
     }
 }

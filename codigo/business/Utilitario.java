@@ -3,77 +3,82 @@ package business;
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
-    private static float VALOR_ALINHAMENTO = 120.0F;
-    private static final int QUILOMETRO_ALINHAMENTO = 10000;
-    private static float VALOR_VISTORIA = 1000.0F;
-    private static final int QUILOMETRO_VISTORIA = 10000;
-    private static final float PERCENTUAL_SEGURO = 0.03F;
-    private int qtdVistoria;
-    private int qtdAlinhamento;
+    private static final float VALOR_ALINHAMENTO = 120.0F,
+        VALOR_VISTORIA = 1000.0F,
+        PERCENTUAL_IPVA = 0.03F,
+        PERCENTUAL_SEGURO = 0.03F;
+    private static final int QUILOMETRO_ALINHAMENTO = 10000, 
+        QUILOMETRO_VISTORIA = 10000;
+    private int qtdVistoria, qtdAlinhamento;
     private String tipo_utilitario;
+    private CustosUtilitario custos;
+
 
     public Utilitario(String placa, String tipo, int tanque, float autonomia, float valor_venda) throws Exception {
-        super(placa, tanque, autonomia, valor_venda, 0.03F);
+        super(placa, tanque, autonomia, valor_venda, PERCENTUAL_IPVA);
 
         if (tipo.equals("Van") || tipo.equals("Furgão")) {
             this.setTipoUtilitario(tipo);
         } else {
-            throw new Exception();
+            throw new Exception("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
         }
 
         this.calcular_ipva();
         this.calcular_seguro();
     }
 
-    public int getQtdAlinhamento() {
-        return qtdAlinhamento;
-    }
-
-    public int getQtdVistoria() {
-        return qtdVistoria;
-    }
-
     public String getTipo_utilitario() {
         return tipo_utilitario;
     }
 
-    public float getValor_alinhamento() {
-        return this.getQtdAlinhamento() * VALOR_ALINHAMENTO;
+    public float getAlinhamento() {
+        return custos.getCustosAdicionais();
     }
 
-    public float getValor_vistoria() {
-        return this.getQtdVistoria() * VALOR_VISTORIA;
+    public float getVistoria() {
+        return custos.getCustosAdicionais();
     }
+
+
 
     public void setTipoUtilitario(String tipo_utilitario) {
         this.tipo_utilitario = tipo_utilitario;
     }
 
+
+
     @Override
-    public float getGastos() {
+    public float getGastos() throws Exception {
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
-        gastos += getValor_alinhamento();
-        gastos += getValor_vistoria();
+        gastos += getAlinhamento();
+        gastos += getVistoria();
 
         return gastos;
     }
 
     @Override
     public float calcular_seguro() {
-        return CustosUtilitario.calcularSeguro(PERCENTUAL_SEGURO,super.getValor_venda() );
+        custos = new CustosUtilitario(PERCENTUAL_SEGURO,super.getValor_venda());
+        return custos.getSeguro();
     }
 
     
-    public void calcular_alinhamento() {
-		if(super.getKm_rodados() >= QUILOMETRO_ALINHAMENTO) {
-			CustosUtilitario.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, getKm_rodados() );
-		}
+    public void calcular_alinhamento() throws Exception {
+		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
+            custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
+            this.qtdAlinhamento++;
+		} else {
+            throw new Exception("");
+        }
 	}
 
-    public void calcular_vistoria() {
-        if (super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+    public void calcular_vistoria() throws Exception {
+        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
+            custos.calcular(VALOR_VISTORIA, QUILOMETRO_VISTORIA, super.getKm_rodados());
             this.qtdVistoria++;
+        } else {
+            throw new Exception();
         }
     }
 
