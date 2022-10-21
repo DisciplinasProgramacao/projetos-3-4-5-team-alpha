@@ -17,6 +17,8 @@ import java.awt.event.*;
         private static JLabel labelPercentualIPVA = new JLabel("Valor da venda: ");
         private static JTextField entradaPercentualIPVA = new JTextField(30); 
         private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
+        private static String[] tiposVeiculo = { "Caminhão", "Carro", "Utilitário"};
+        private static JComboBox tipoVeiculo = new JComboBox<String>(tiposVeiculo);
         
 
 
@@ -56,6 +58,7 @@ import java.awt.event.*;
             formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
             formulario.add(labelPlaca);
             formulario.add(entradaPlaca);
+            formulario.add(tipoVeiculo);
             formulario.add(labelTanque);
             formulario.add(entradaTanque);
             formulario.add(labelAutonomia);
@@ -65,6 +68,7 @@ import java.awt.event.*;
             formulario.add(labelPercentualIPVA);
             formulario.add(entradaPercentualIPVA);
             formulario.add(buttonEnviaVeiculoNovo);
+
 
             AddVeiculoPage.add(formulario);
 
