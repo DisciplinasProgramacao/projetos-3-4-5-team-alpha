@@ -2,11 +2,11 @@ package business;
 
 import java.io.Serializable;
 
+import business.custos.Custos;
+
 public abstract class Veiculo implements Serializable {
 
     private final int tanque;
-    private float valor_ipva;
-    private float valor_seguro;
     private float autonomia;
     private int km_rodados;
     private String placa;
@@ -31,13 +31,6 @@ public abstract class Veiculo implements Serializable {
         return tanque;
     }
 
-    public float getValor_ipva() {
-        return valor_ipva;
-    }
-
-    public float getValor_seguro() {
-        return valor_seguro;
-    }
 
     public float getAutonomia() {
         return autonomia;
@@ -65,22 +58,12 @@ public abstract class Veiculo implements Serializable {
         this.rota = rota;
     }
 
-    protected void setValorIpva(float valor) {
-        this.valor_ipva = valor;
-    }
+    public abstract float getGastos() throws Exception;
 
-    protected void setValorSeguro(float valor) {
-        this.valor_seguro = valor;
-    }
+    public abstract float calcular_seguro();
 
-    
-
-    public abstract float getGastos();
-
-    public abstract void calcular_seguro();
-
-    public void calcular_ipva() {
-        this.setValorIpva(this.getValor_venda() * PERCENTUAL_IPVA);
+    public float calcular_ipva() {
+        return Custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package business;
+
+import business.custos.CustosCarro;
+
 public class Carro extends Veiculo {
     private static float VALOR_ALINHAMENTO = 80.00F;
     private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private static final float PERCENTUAL_SEGURO = 0.05F;
+    private static final float VALOR_ADICIONAL_SEGURO = 300;
     private int qtdAlinhamento;
 
 
@@ -28,22 +32,21 @@ public class Carro extends Veiculo {
 
     @Override
     public float getGastos() {
-        float gastos = super.getValor_ipva();
-        gastos += super.getValor_seguro();
+        float gastos = super.calcular_ipva();
+        gastos += calcular_seguro();
     	gastos += getValor_alinhamento();
     	
     	return gastos;
     }
 
     @Override
-    public void calcular_seguro() {
-        float valor_seguro = super.getValor_venda() * PERCENTUAL_SEGURO + 300;
-		super.setValorSeguro(valor_seguro);
+    public float calcular_seguro() {
+        return CustosCarro.calcularSeguro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
     }
 
     public void calcular_alinhamento() {
-		if(super.getKm_rodados() == QUILOMETRO_ALINHAMENTO) {
-			this.qtdAlinhamento++;
+		if(super.getKm_rodados() >= QUILOMETRO_ALINHAMENTO) {
+			CustosCarro.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, getKm_rodados() );
 		}
 	}
 
