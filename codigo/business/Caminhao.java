@@ -62,7 +62,7 @@ public class Caminhao extends Veiculo {
 	}
 
 	public void calcular_vistoria() {
-		if(super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+		if(super.getKm_rodados() >= (QUILOMETRO_VISTORIA*qtdVistoria)) {
 			this.qtdVistoria++;
 		}
 	}
