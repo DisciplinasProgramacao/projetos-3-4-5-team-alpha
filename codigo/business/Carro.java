@@ -42,7 +42,7 @@ public class Carro extends Veiculo {
     }
 
     public void calcular_alinhamento() {
-		if(super.getKm_rodados() == QUILOMETRO_ALINHAMENTO) {
+		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO*qtdAlinhamento)) {
 			this.qtdAlinhamento++;
 		}
 	}

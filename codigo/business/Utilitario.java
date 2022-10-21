@@ -72,13 +72,13 @@ public class Utilitario extends Veiculo {
 	}
 	
 	public void calcular_alinhamento() {
-		if(super.getKm_rodados() == QUILOMETRO_ALINHAMENTO) {
+		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO*qtdAlinhamento)) {
 			this.qtdAlinhamento++;
 		}
 	}
 
 	public void calcular_vistoria() {
-		if(super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+		if(super.getKm_rodados() >= (QUILOMETRO_VISTORIA*qtdVistoria)) {
 			this.qtdVistoria++;
 		}
 	}
