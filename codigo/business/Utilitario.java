@@ -57,11 +57,10 @@ public class Utilitario extends Veiculo {
 
 	@Override
     public float getGastos() {
-    	float gastos = 0;
-    	gastos += getValor_alinhamento();
-    	gastos += getValor_vistoria();
-    	gastos += super.getValor_ipva();
+    	float gastos = super.getValor_ipva();
     	gastos += super.getValor_seguro();
+        gastos += getValor_alinhamento();
+    	gastos += getValor_vistoria();
     	
     	return gastos;
     }

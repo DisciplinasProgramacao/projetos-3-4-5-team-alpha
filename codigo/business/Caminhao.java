@@ -6,6 +6,7 @@ public class Caminhao extends Veiculo {
     private static final int QUILOMETRO_VISTORIA = 30000;
     private static float VALOR_MANUTENCAO = 1000.00F;
     private static final int QUILOMETRO_MANUTENCAO = 20000;
+    private static final float PERCENTUAL_SEGURO = 0.02F;
     private int qtdManutencao;
     private int qtdVistoria;
 
@@ -37,12 +38,18 @@ public class Caminhao extends Veiculo {
 
     @Override
     public float getGastos() {
-        return 0.0F;
+        float gastos = super.getValor_ipva();
+    	gastos += super.getValor_seguro();
+        gastos += getValor_manutencao();
+    	gastos += getValor_vistoria();
+    	
+    	return gastos;
     }
 
     @Override
     public void calcular_seguro() {
-
+        float valor_seguro = super.getValor_venda() * PERCENTUAL_SEGURO + 2000;
+		super.setValorSeguro(valor_seguro);
     }
 
     public void calcular_manutencao() {
