@@ -1,5 +1,7 @@
 package business;
 
+import business.custos.CustosCaminhao;
+
 public class Caminhao extends Veiculo {
     
     private static float VALOR_VISTORIA = 1000.00F;
@@ -7,6 +9,7 @@ public class Caminhao extends Veiculo {
     private static float VALOR_MANUTENCAO = 1000.00F;
     private static final int QUILOMETRO_MANUTENCAO = 20000;
     private static final float PERCENTUAL_SEGURO = 0.02F;
+    private static final float VALOR_ADICIONAL_SEGURO=2000;
     private int qtdManutencao;
     private int qtdVistoria;
 
@@ -37,25 +40,25 @@ public class Caminhao extends Veiculo {
 
 
     @Override
-    public float getGastos() {
-        float gastos = super.getValor_ipva();
-    	gastos += super.getValor_seguro();
-        gastos += getValor_manutencao();
+    public float getGastos() throws Exception {
+        float gastos = super.calcular_ipva();
+    	gastos += calcular_seguro();
+        gastos += calcular_manutencao();
     	gastos += getValor_vistoria();
     	
     	return gastos;
     }
 
     @Override
-    public void calcular_seguro() {
-        float valor_seguro = super.getValor_venda() * PERCENTUAL_SEGURO + 2000;
-		super.setValorSeguro(valor_seguro);
+    public float calcular_seguro() {
+        return CustosCaminhao.calcularSeguro(PERCENTUAL_SEGURO, super.getValor_venda(),VALOR_ADICIONAL_SEGURO );
     }
 
-    public void calcular_manutencao() {
-		if(super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO*qtdManutencao)) {
-			this.qtdManutencao++;
+    public float calcular_manutencao() throws Exception{
+		if(super.getKm_rodados() >= QUILOMETRO_MANUTENCAO) {
+			return CustosCaminhao.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, getKm_rodados());
 		}
+        throw new Exception("O caminhão ainda ainda não fez a manuntenção");
 	}
 
 	public void calcular_vistoria() {
