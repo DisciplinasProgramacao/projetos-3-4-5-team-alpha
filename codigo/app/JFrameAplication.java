@@ -7,9 +7,16 @@ import java.awt.event.*;
         //private static JLabel label2 = new JLabel("Outra coisa!");
         private static JButton buttonAddVeiculo = new JButton("Inserir veículo");
         private static JLabel labelPlaca = new JLabel("Placa: ");
-        private static JTextField entradaPlaca = new JTextField(25);
+        private static JTextField entradaPlaca = new JTextField(30);
         private static JLabel labelTanque = new JLabel("Tanque: ");
-        private static JTextField entradaTanque = new JTextField(25);
+        private static JTextField entradaTanque = new JTextField(30);
+        private static JLabel labelAutonomia = new JLabel("Autonomia: ");
+        private static JTextField EntradaAutonomia = new JTextField(30);
+        private static JLabel labelVenda = new JLabel("Valor da venda: ");
+        private static JTextField entradaVenda = new JTextField(30); 
+        private static JLabel labelPercentualIPVA = new JLabel("Valor da venda: ");
+        private static JTextField entradaPercentualIPVA = new JTextField(30); 
+        private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
         
 
 
@@ -51,11 +58,19 @@ import java.awt.event.*;
             formulario.add(entradaPlaca);
             formulario.add(labelTanque);
             formulario.add(entradaTanque);
+            formulario.add(labelAutonomia);
+            formulario.add(EntradaAutonomia);
+            formulario.add(labelVenda);
+            formulario.add(entradaVenda);
+            formulario.add(labelPercentualIPVA);
+            formulario.add(entradaPercentualIPVA);
+            formulario.add(buttonEnviaVeiculoNovo);
+
             AddVeiculoPage.add(formulario);
 
             
 
-
+           AddVeiculoPage.pack();
         }
     }
 
