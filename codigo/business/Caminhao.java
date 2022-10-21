@@ -53,13 +53,13 @@ public class Caminhao extends Veiculo {
     }
 
     public void calcular_manutencao() {
-		if(super.getKm_rodados() == QUILOMETRO_MANUTENCAO) {
+		if(super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO*qtdManutencao)) {
 			this.qtdManutencao++;
 		}
 	}
 
 	public void calcular_vistoria() {
-		if(super.getKm_rodados() == QUILOMETRO_VISTORIA) {
+		if(super.getKm_rodados() >= (QUILOMETRO_VISTORIA*qtdVistoria)) {
 			this.qtdVistoria++;
 		}
 	}
