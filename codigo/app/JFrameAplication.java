@@ -2,24 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-    public class JFrameAplication extends JFrame {
-        
-        //private static JLabel label2 = new JLabel("Outra coisa!");
-        private static JButton buttonAddVeiculo = new JButton("Inserir veículo");
-        private static JLabel labelPlaca = new JLabel("Placa: ");
-        private static JTextField entradaPlaca = new JTextField(30);
-        private static JLabel labelTanque = new JLabel("Tanque: ");
-        private static JTextField entradaTanque = new JTextField(30);
-        private static JLabel labelAutonomia = new JLabel("Autonomia: ");
-        private static JTextField EntradaAutonomia = new JTextField(30);
-        private static JLabel labelVenda = new JLabel("Valor da venda: ");
-        private static JTextField entradaVenda = new JTextField(30); 
-        private static JLabel labelPercentualIPVA = new JLabel("Valor da venda: ");
-        private static JTextField entradaPercentualIPVA = new JTextField(30); 
-        private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
-        private static String[] tiposVeiculo = { "Caminhão", "Carro", "Utilitário"};
-        private static JComboBox<String> tipoVeiculo = new JComboBox<String>(tiposVeiculo);
-        
+import business.*;
 
 public class JFrameAplication extends JFrame {
 
