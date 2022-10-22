@@ -18,7 +18,7 @@ import java.awt.event.*;
         private static JTextField entradaPercentualIPVA = new JTextField(30); 
         private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
         private static String[] tiposVeiculo = { "Caminhão", "Carro", "Utilitário"};
-        private static JComboBox tipoVeiculo = new JComboBox<String>(tiposVeiculo);
+        private static JComboBox<String> tipoVeiculo = new JComboBox<String>(tiposVeiculo);
         
 
 
