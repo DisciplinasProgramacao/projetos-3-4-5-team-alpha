@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import ElementosJFrame.ElementosJFrame;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -15,23 +18,25 @@ public class JFrameAplication extends JFrame {
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
-    private static JLabel labelPlaca = new JLabel("Placa: ");
+    static JButton teste = ElementosJFrame.button("Inserir veículo", new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            formVeiculo(e);
+        }
+    });
     private static JTextField entradaPlaca = new JTextField(30);
-    private static JLabel labelTanque = new JLabel("Tanque: ");
     private static JTextField entradaTanque = new JTextField(30);
-    private static JLabel labelAutonomia = new JLabel("Autonomia: ");
     private static JTextField entradaAutonomia = new JTextField(30);
-    private static JLabel labelVenda = new JLabel("Valor da venda: ");
     private static JTextField entradaVenda = new JTextField(30);
-    private static JLabel labelPercentualIPVA = new JLabel("Percentual do IPVA: ");
     private static JTextField entradaPercentualIPVA = new JTextField(30);
     private static String[] tiposVeiculo = { "Caminhao", "Carro", "Utilitario" };
     private static JComboBox tipoVeiculo = new JComboBox<String>(tiposVeiculo);
 
     // Componentes tela localizar veículo
-    private static JLabel labelPlacaLocalizar = new JLabel("Digite a placa do veículo a ser localizado: ");
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
     private static JButton buttonLocalizaVeiculo = new JButton("Localizar");
+
+    //Componentes tela inserir rota
+    private static JButton buttonInserirRota = new JButton("Localizar");
 
     public static void main(String[] args) {
 
@@ -44,16 +49,16 @@ public class JFrameAplication extends JFrame {
         window.setLayout(new FlowLayout());
 
         // Botões do Menu
-        window.getContentPane().add(buttonAddVeiculo);
+        window.getContentPane().add(ElementosJFrame.button("Inserir veículo", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                formVeiculo(e);
+            }
+        }));
         window.getContentPane().add(buttonAddLocalizar);
         window.getContentPane().add(buttonAddRota);
 
         // Funções Menu
-        buttonAddVeiculo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formVeiculo(e);
-            }
-        });
+        
 
         buttonAddLocalizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -85,16 +90,16 @@ public class JFrameAplication extends JFrame {
 
         JPanel formulario = new JPanel();
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
-        formulario.add(labelPlaca);
+        formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
-        formulario.add(labelTanque);
+        formulario.add(ElementosJFrame.label("Tanque:"));
         formulario.add(entradaTanque);
-        formulario.add(labelAutonomia);
+        formulario.add(ElementosJFrame.label("Autonomia:"));
         formulario.add(entradaAutonomia);
-        formulario.add(labelVenda);
+        formulario.add(ElementosJFrame.label("Valor de venda:"));
         formulario.add(entradaVenda);
-        formulario.add(labelPercentualIPVA);
+        formulario.add(ElementosJFrame.label("Percentual do IPVA:"));
         formulario.add(entradaPercentualIPVA);
         formulario.add(buttonEnviaVeiculoNovo);
 
@@ -104,7 +109,7 @@ public class JFrameAplication extends JFrame {
 
         buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                criarVeiculo(e);
+                criarVeiculo();
             }
         });
 
@@ -123,6 +128,12 @@ public class JFrameAplication extends JFrame {
 
         JPanel formulario = new JPanel();
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
+        formulario.add(ElementosJFrame.label("Digite o número da placa:"));
+        formulario.add(entradaPlaca);
+        formulario.add(buttonInserirRota);
+
+        AddRotaPage.add(formulario);
+        AddRotaPage.pack();
     }
 
     public static void formLocalizar(ActionEvent e) {
@@ -133,7 +144,7 @@ public class JFrameAplication extends JFrame {
 
         JPanel formulario = new JPanel();
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
-        formulario.add(labelPlacaLocalizar);
+        formulario.add(ElementosJFrame.label("Digite a placa do veículo a ser localizado: "));
         formulario.add(entradaPlacaLocalizar);
         formulario.add(buttonLocalizaVeiculo);
 
@@ -144,7 +155,7 @@ public class JFrameAplication extends JFrame {
 
     // Funções de instanciação
 
-    public static void criarVeiculo(ActionEvent e) {
+    public static void criarVeiculo() {
         String placa = entradaPlaca.getText();
         int tanque = Integer.parseInt(entradaTanque.getText());
         float autonomia = Float.parseFloat(entradaAutonomia.getText());
@@ -163,7 +174,8 @@ public class JFrameAplication extends JFrame {
     }
 
     public static void localizarVeiculo(ActionEvent e) {
-
+       
+       
     }
 
 }
