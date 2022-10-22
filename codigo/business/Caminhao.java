@@ -4,19 +4,20 @@ import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
     
-    private static float VALOR_VISTORIA = 1000.00F;
-    private static final int QUILOMETRO_VISTORIA = 30000;
-    private static float VALOR_MANUTENCAO = 1000.00F;
-    private static final int QUILOMETRO_MANUTENCAO = 20000;
-    private static final float PERCENTUAL_SEGURO = 0.02F;
-    private static final float VALOR_ADICIONAL_SEGURO=2000;
-    private int qtdManutencao;
-    private int qtdVistoria;
+    private static final float VALOR_VISTORIA = 1000.00F,
+        VALOR_MANUTENCAO = 1000.00F,
+        VALOR_ADICIONAL_SEGURO = 2000.00F,
+        PERCENTUAL_IPVA = 0.01F,
+        PERCENTUAL_SEGURO = 0.02F;
+    private static final int QUILOMETRO_VISTORIA = 30000,
+        QUILOMETRO_MANUTENCAO = 20000;
+    private int qtdManutencao, qtdVistoria;
+    private CustosCaminhao custos;
 
 
 
     public Caminhao(String placa, int tanque, float autonomia, float valor_venda) {
-        super(placa, tanque, autonomia, valor_venda, 0.01F);
+        super(placa, tanque, autonomia, valor_venda, PERCENTUAL_IPVA);
     }
 
 
@@ -51,18 +52,19 @@ public class Caminhao extends Veiculo {
 
     @Override
     public float calcular_seguro() {
-        return CustosCaminhao.calcularSeguro(PERCENTUAL_SEGURO, super.getValor_venda(),VALOR_ADICIONAL_SEGURO );
+        custos = new CustosCaminhao(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
+        return custos.getSeguro();
     }
 
     public float calcular_manutencao() throws Exception{
-		if(super.getKm_rodados() >= QUILOMETRO_MANUTENCAO) {
-			return CustosCaminhao.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, getKm_rodados());
+		if(super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO * qtdManutencao)) {
+			custos.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, super.getKm_rodados());
 		}
         throw new Exception("O caminhão ainda ainda não fez a manuntenção");
 	}
 
 	public void calcular_vistoria() {
-		if(super.getKm_rodados() >= (QUILOMETRO_VISTORIA*qtdVistoria)) {
+		if(super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
 			this.qtdVistoria++;
 		}
 	}

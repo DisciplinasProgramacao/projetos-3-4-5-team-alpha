@@ -13,6 +13,7 @@ public abstract class Veiculo implements Serializable {
     private Rota rota;
     private float valor_venda;
     private final float PERCENTUAL_IPVA;
+    Custos custos;
 
 
 
@@ -63,7 +64,8 @@ public abstract class Veiculo implements Serializable {
     public abstract float calcular_seguro();
 
     public float calcular_ipva() {
-        return Custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
+        custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
+        return custos.getIpva();
     }
 
     @Override
