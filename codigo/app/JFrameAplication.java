@@ -9,10 +9,11 @@ import business.*;
 
 public class JFrameAplication extends JFrame {
 
+    public static Frota frota = new Frota();
+
     // private static JLabel label2 = new JLabel("Outra coisa!");
 
     // Componentes Menu
-    private static JButton buttonAddVeiculo = new JButton("Inserir veículo");
     private static JButton buttonAddRota = new JButton("Incluir rota");
     private static JButton buttonAddLocalizar = new JButton("Localizar veículo");
 
@@ -35,7 +36,7 @@ public class JFrameAplication extends JFrame {
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
     private static JButton buttonLocalizaVeiculo = new JButton("Localizar");
 
-    //Componentes tela inserir rota
+    // Componentes tela inserir rota
     private static JButton buttonInserirRota = new JButton("Localizar");
 
     public static void main(String[] args) {
@@ -44,7 +45,7 @@ public class JFrameAplication extends JFrame {
         JFrameAplication window = new JFrameAplication();
         window.setSize(500, 500);
         window.setVisible(true);
-        window.setTitle("Mãos Atadas");
+        window.setTitle("Frota de veículos");
 
         window.setLayout(new FlowLayout());
 
@@ -56,9 +57,13 @@ public class JFrameAplication extends JFrame {
         }));
         window.getContentPane().add(buttonAddLocalizar);
         window.getContentPane().add(buttonAddRota);
+        window.getContentPane().add(ElementosJFrame.button("Listar veículos", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                listarVeiculos(e);
+            }
+        }));
 
         // Funções Menu
-        
 
         buttonAddLocalizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -112,12 +117,6 @@ public class JFrameAplication extends JFrame {
                 criarVeiculo();
             }
         });
-
-        buttonLocalizaVeiculo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                localizarVeiculo(e);
-            }
-        });
     }
 
     public static void formRota(ActionEvent e) {
@@ -151,6 +150,12 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.add(formulario);
 
         AddLocalizarPage.pack();
+
+        buttonLocalizaVeiculo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                localizarVeiculo(e);
+            }
+        });
     }
 
     // Funções de instanciação
@@ -166,16 +171,46 @@ public class JFrameAplication extends JFrame {
                 placa + " " + tanque + " " + autonomia + " " + valor_venda + " " + percental_ipva + " " + tipo);
         if (tipo.compareTo("Carro") == 0) {
             Carro carro = new Carro(placa, tanque, autonomia, valor_venda);
+            frota.inserirVeiculo(carro);
         } else if (tipo.compareTo("Caminhao") == 0) {
             Caminhao caminhao = new Caminhao(placa, tanque, autonomia, valor_venda);
+            frota.inserirVeiculo(caminhao);
         } else if (tipo.compareTo("Utilitario") == 0) {
 
         }
     }
 
     public static void localizarVeiculo(ActionEvent e) {
-       
-       
+        String placa = entradaPlacaLocalizar.getText();
+        System.out.println(placa);
+        try {
+            Veiculo procurado = frota.localizar(placa);
+            JLabel veiculoEncontrado = new JLabel(procurado.toString());
+            JFrameAplication FrameVeiculoLocalizado = new JFrameAplication();
+            JPanel panelVeiculoEncontrado = new JPanel();
+            FrameVeiculoLocalizado.setSize(200, 200);
+            FrameVeiculoLocalizado.setVisible(true);
+            FrameVeiculoLocalizado.setTitle("Veículo encontrado");
+            panelVeiculoEncontrado.add(veiculoEncontrado);
+
+            FrameVeiculoLocalizado.add(panelVeiculoEncontrado);
+            FrameVeiculoLocalizado.pack();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public static void listarVeiculos(ActionEvent e) {
+        JFrameAplication ListagemVeiculos = new JFrameAplication();
+        ListagemVeiculos.setSize(500, 500);
+        ListagemVeiculos.setVisible(true);
+        ListagemVeiculos.setTitle("Listagem de veículos");
+
+        /*
+         * for (int i = 0; i < frota.length; i++) {
+         * JPanel listagem = new JPanel();
+         * }
+         */
     }
 
 }
