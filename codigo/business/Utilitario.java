@@ -66,9 +66,9 @@ public class Utilitario extends Veiculo {
     }
 
     public void calcular_alinhamento() throws Exception {
-            custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
-            this.qtdAlinhamento = ((int)super.getKm_rodados()/qtdAlinhamento);
-        
+        custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
+        this.qtdAlinhamento = ((int) super.getKm_rodados() / qtdAlinhamento);
+
     }
 
     public void calcular_vistoria() throws Exception {
@@ -93,7 +93,7 @@ public class Utilitario extends Veiculo {
         }
     }
 
-    public String toString(){
+    public String toString() {
         return (super.toString() + "Gastos: " + this.getGastos());
     }
 }

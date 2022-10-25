@@ -11,6 +11,10 @@ public class JFrameAplication extends JFrame {
 
     public static Frota frota = new Frota();
 
+    // Variavéis
+    private static final int TANQUE_VAN = 60;
+    private static final int TANQUE_FURGAO = 80;
+
     // private static JLabel label2 = new JLabel("Outra coisa!");
 
     // Componentes Menu
@@ -25,17 +29,14 @@ public class JFrameAplication extends JFrame {
         }
     });
     private static JTextField entradaPlaca = new JTextField(30);
-    private static JTextField entradaTanque = new JTextField(30);
     private static JTextField entradaAutonomia = new JTextField(30);
     private static JTextField entradaVenda = new JTextField(30);
-    private static JTextField entradaPercentualIPVA = new JTextField(30);
-    private static String[] tiposVeiculo = { "Caminhao", "Carro", "Utilitario" };
+    private static String[] tiposVeiculo = { "Caminhão", "Carro", "Van", "Furgão" };
     private static JComboBox tipoVeiculo = new JComboBox<String>(tiposVeiculo);
 
     // Componentes tela localizar veículo
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
     private static JButton buttonLocalizaVeiculo = new JButton("Localizar");
-
 
     public static void main(String[] args) {
 
@@ -96,14 +97,10 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
-        formulario.add(ElementosJFrame.label("Tanque:"));
-        formulario.add(entradaTanque);
         formulario.add(ElementosJFrame.label("Autonomia:"));
         formulario.add(entradaAutonomia);
         formulario.add(ElementosJFrame.label("Valor de venda:"));
         formulario.add(entradaVenda);
-        formulario.add(ElementosJFrame.label("Percentual do IPVA:"));
-        formulario.add(entradaPercentualIPVA);
         formulario.add(buttonEnviaVeiculoNovo);
 
         AddVeiculoPage.add(formulario);
@@ -113,8 +110,10 @@ public class JFrameAplication extends JFrame {
         buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 criarVeiculo();
+                AddVeiculoPage.dispose();
             }
         });
+
     }
 
     public static void formRota(ActionEvent e) {
@@ -148,11 +147,15 @@ public class JFrameAplication extends JFrame {
                         formulario.add(entradaDistancia);
                         formulario.add(ElementosJFrame.button("Confirmar", new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                Rota rota = new Rota(placa, LocalDate.of(Integer.parseInt(entradaData.getText().split("/")[2]) , Integer.parseInt(entradaData.getText().split("/")[1]), Integer.parseInt(entradaData.getText().split("/")[0])), Integer.parseInt(entradaDistancia.getText()) );
+                                Rota rota = new Rota(placa,
+                                        LocalDate.of(Integer.parseInt(entradaData.getText().split("/")[2]),
+                                                Integer.parseInt(entradaData.getText().split("/")[1]),
+                                                Integer.parseInt(entradaData.getText().split("/")[0])),
+                                        Integer.parseInt(entradaDistancia.getText()));
                                 try {
                                     frota.localizar(entradaPlaca.getText()).setRota(rota);
+                                    AddRotaPage.dispose();
                                 } catch (Exception e1) {
-                                    // TODO Auto-generated catch block
                                     e1.printStackTrace();
                                 }
                             }
@@ -161,7 +164,6 @@ public class JFrameAplication extends JFrame {
                         AddRotaPage.pack();
                     }
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -199,21 +201,29 @@ public class JFrameAplication extends JFrame {
 
     public static void criarVeiculo() {
         String placa = entradaPlaca.getText();
-        int tanque = Integer.parseInt(entradaTanque.getText());
         float autonomia = Float.parseFloat(entradaAutonomia.getText());
         float valor_venda = Float.parseFloat(entradaVenda.getText());
-        float percental_ipva = Float.parseFloat(entradaPercentualIPVA.getText());
         String tipo = ((String) tipoVeiculo.getSelectedItem());
-        System.out.println(
-                placa + " " + tanque + " " + autonomia + " " + valor_venda + " " + percental_ipva + " " + tipo);
         if (tipo.compareTo("Carro") == 0) {
-            Carro carro = new Carro(placa, tanque, autonomia, valor_venda);
+            Carro carro = new Carro(placa, autonomia, valor_venda);
             frota.inserirVeiculo(carro);
-        } else if (tipo.compareTo("Caminhao") == 0) {
-            Caminhao caminhao = new Caminhao(placa, tanque, autonomia, valor_venda);
+        } else if (tipo.compareTo("Caminhão") == 0) {
+            Caminhao caminhao = new Caminhao(placa, autonomia, valor_venda);
             frota.inserirVeiculo(caminhao);
-        } else if (tipo.compareTo("Utilitario") == 0) {
-
+        } else if (tipo.compareTo("Van") == 0) {
+            try {
+                Utilitario van = new Utilitario(placa, tipo, TANQUE_VAN, autonomia, valor_venda);
+                frota.inserirVeiculo(van);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (tipo.compareTo("Furgão") == 0) {
+            try {
+                Utilitario furgao = new Utilitario(placa, tipo, TANQUE_FURGAO, autonomia, valor_venda);
+                frota.inserirVeiculo(furgao);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -243,18 +253,18 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
         ListagemVeiculos.setTitle("Listagem de veículos");
 
+        JPanel panel = new JPanel();
+
         for (Veiculo veiculo : frota.localizar()) {
-            if (veiculo != null)
-                System.out.println(veiculo.toString());
+            if (veiculo != null) {
+                JLabel label = new JLabel(veiculo.toString());
+                panel.add(label);
+            }
         }
 
-        /*
-         * for (int i = 0; i < frota.length; i++) {
-         * JPanel listagem = new JPanel();
-         * }
-         */
-    }
+        ListagemVeiculos.add(panel);
 
-    
+        ListagemVeiculos.pack();
+    }
 
 }
