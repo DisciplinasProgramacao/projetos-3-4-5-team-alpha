@@ -5,6 +5,7 @@ import business.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 
 public class JFrameAplication extends JFrame {
 
@@ -35,8 +36,6 @@ public class JFrameAplication extends JFrame {
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
     private static JButton buttonLocalizaVeiculo = new JButton("Localizar");
 
-    // Componentes tela inserir rota
-    private static JButton buttonInserirRota = new JButton("Localizar");
 
     public static void main(String[] args) {
 
@@ -128,9 +127,48 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Digite o número da placa:"));
         formulario.add(entradaPlaca);
-        formulario.add(buttonInserirRota);
+        formulario.add(ElementosJFrame.button("Adicionar rota", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (frota.localizar(entradaPlaca.getText()) != null) {
+                        JTextField entradaData = new JTextField(30);
+                        JTextField entradaDistancia = new JTextField(30);
+                        String placa = entradaPlaca.getText();
+                        AddRotaPage.removeAll();
+                        JFrameAplication AddRotaPage = new JFrameAplication();
+                        AddRotaPage.setSize(500, 500);
+                        AddRotaPage.setVisible(true);
+                        AddRotaPage.setTitle("Incluir Rota");
+
+                        JPanel formulario = new JPanel();
+                        formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
+                        formulario.add(ElementosJFrame.label("Data"));
+                        formulario.add(entradaData);
+                        formulario.add(ElementosJFrame.label("Distância"));
+                        formulario.add(entradaDistancia);
+                        formulario.add(ElementosJFrame.button("Confirmar", new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                Rota rota = new Rota(placa, LocalDate.of(Integer.parseInt(entradaData.getText().split("/")[2]) , Integer.parseInt(entradaData.getText().split("/")[1]), Integer.parseInt(entradaData.getText().split("/")[0])), Integer.parseInt(entradaDistancia.getText()) );
+                                try {
+                                    frota.localizar(entradaPlaca.getText()).setRota(rota);
+                                } catch (Exception e1) {
+                                    // TODO Auto-generated catch block
+                                    e1.printStackTrace();
+                                }
+                            }
+                        }));
+                        AddRotaPage.add(formulario);
+                        AddRotaPage.pack();
+                    }
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        }));
 
         AddRotaPage.add(formulario);
+
         AddRotaPage.pack();
     }
 
@@ -205,8 +243,8 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
         ListagemVeiculos.setTitle("Listagem de veículos");
 
-        for(Veiculo veiculo : frota.localizar()) {
-            if(veiculo != null)
+        for (Veiculo veiculo : frota.localizar()) {
+            if (veiculo != null)
                 System.out.println(veiculo.toString());
         }
 
@@ -216,5 +254,7 @@ public class JFrameAplication extends JFrame {
          * }
          */
     }
+
+    
 
 }

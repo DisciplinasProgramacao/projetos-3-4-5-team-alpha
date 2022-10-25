@@ -65,4 +65,8 @@ public class Carro extends Veiculo {
             throw new Exception("Essa viagem excede os km necessário para o alinhamento, por favor realiza-lo");
         }
     }
+
+    public String toString(){
+        return (super.toString() + "Gastos: " + this.getGastos());
+    }
 }

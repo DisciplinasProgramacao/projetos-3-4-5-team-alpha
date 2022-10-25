@@ -91,7 +91,6 @@ public class Frota {
                 return veiculo;
             }
         }
-
         throw new Exception("Não existe um veículo na frota com esta placa");
     }
 

@@ -1,18 +1,19 @@
 package business;
 
+import javax.sound.midi.Soundbank;
+
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
     private static final float VALOR_ALINHAMENTO = 120.0F,
-        VALOR_VISTORIA = 1000.0F,
-        PERCENTUAL_IPVA = 0.03F,
-        PERCENTUAL_SEGURO = 0.03F;
-    private static final int QUILOMETRO_ALINHAMENTO = 10000, 
-        QUILOMETRO_VISTORIA = 10000;
+            VALOR_VISTORIA = 1000.0F,
+            PERCENTUAL_IPVA = 0.03F,
+            PERCENTUAL_SEGURO = 0.03F;
+    private static final int QUILOMETRO_ALINHAMENTO = 10000,
+            QUILOMETRO_VISTORIA = 10000;
     private int qtdVistoria, qtdAlinhamento;
     private String tipo_utilitario;
     private CustosUtilitario custos;
-
 
     public Utilitario(String placa, String tipo, int tanque, float autonomia, float valor_venda) throws Exception {
         super(placa, tanque, autonomia, valor_venda, PERCENTUAL_IPVA);
@@ -39,16 +40,12 @@ public class Utilitario extends Veiculo {
         return custos.getCustosAdicionais();
     }
 
-
-
     public void setTipoUtilitario(String tipo_utilitario) {
         this.tipo_utilitario = tipo_utilitario;
     }
 
-
-
     @Override
-    public float getGastos() throws Exception {
+    public float getGastos() {
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
         gastos += getAlinhamento();
@@ -67,15 +64,12 @@ public class Utilitario extends Veiculo {
     public float getGastosAdicionais() {
         return 0;
     }
-    
+
     public void calcular_alinhamento() throws Exception {
-		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
             custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
-            this.qtdAlinhamento++;
-		} else {
-            throw new Exception("");
-        }
-	}
+            this.qtdAlinhamento = ((int)super.getKm_rodados()/qtdAlinhamento);
+        
+    }
 
     public void calcular_vistoria() throws Exception {
         if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
@@ -97,5 +91,9 @@ public class Utilitario extends Veiculo {
         } else {
             throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
         }
+    }
+
+    public String toString(){
+        return (super.toString() + "Gastos: " + this.getGastos());
     }
 }

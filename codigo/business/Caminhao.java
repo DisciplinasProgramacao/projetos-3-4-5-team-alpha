@@ -86,4 +86,6 @@ public class Caminhao extends Veiculo {
             throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
         }
     }
+
+    
 }
