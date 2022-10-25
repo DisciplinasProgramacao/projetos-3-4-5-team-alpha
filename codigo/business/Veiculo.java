@@ -23,6 +23,7 @@ public abstract class Veiculo implements Serializable {
         this.valor_venda = valor_venda;
         this.tanque = tanque;
         this.PERCENTUAL_IPVA = percental_ipva;
+        custos = new Custos();
     }
 
 

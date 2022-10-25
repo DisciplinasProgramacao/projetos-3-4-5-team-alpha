@@ -1,11 +1,10 @@
 import javax.swing.*;
 
 import ElementosJFrame.ElementosJFrame;
+import business.*;
 
 import java.awt.*;
 import java.awt.event.*;
-
-import business.*;
 
 public class JFrameAplication extends JFrame {
 
@@ -205,6 +204,11 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
         ListagemVeiculos.setTitle("Listagem de veículos");
+
+        for(Veiculo veiculo : frota.localizar()) {
+            if(veiculo != null)
+                System.out.println(veiculo.toString());
+        }
 
         /*
          * for (int i = 0; i < frota.length; i++) {

@@ -1,10 +1,8 @@
 package business.custos;
 
-public abstract class Custos {
+public class Custos {
     private float ipva;
     private float custosAdicionais;
-
-    public Custos() { }
 
     public float getIpva() {
         return this.ipva;

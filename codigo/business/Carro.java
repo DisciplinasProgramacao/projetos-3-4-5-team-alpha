@@ -16,7 +16,7 @@ public class Carro extends Veiculo {
     public Carro(String placa, int tanque, float autonomia, float valor_venda) {
         super(placa, tanque, autonomia, valor_venda, PERCENTUAL_IPVA);
 
-    	this.calcular_ipva();
+    	super.calcular_ipva();
     	this.calcular_seguro();
     }
 
