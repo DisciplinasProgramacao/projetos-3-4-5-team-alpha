@@ -31,7 +31,7 @@ public class JFrameAplication extends JFrame {
     private static JTextField entradaPlaca = new JTextField(30);
     private static JTextField entradaAutonomia = new JTextField(30);
     private static JTextField entradaVenda = new JTextField(30);
-    private static String[] tiposVeiculo = { "Caminhão", "Carro", "Van", "Furgão" };
+    private static String[] tiposVeiculo = { "Carro", "Caminhão", "Van", "Furgão" };
     private static JComboBox tipoVeiculo = new JComboBox<String>(tiposVeiculo);
 
     // Componentes tela localizar veículo
@@ -114,6 +114,7 @@ public class JFrameAplication extends JFrame {
                 entradaPlaca.setText("");
                 entradaAutonomia.setText("");
                 entradaVenda.setText("");
+                tipoVeiculo.setSelectedIndex(0);
             }
         });
 
