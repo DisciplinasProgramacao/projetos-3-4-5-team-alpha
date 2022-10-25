@@ -43,6 +43,11 @@ public class Carro extends Veiculo {
         return custos.getSeguro();
     }
 
+    @Override
+    public float getGastosAdicionais() {
+        return this.getAlinhamento();
+    }
+
     public void calcular_alinhamento() throws Exception {
 		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
             custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());

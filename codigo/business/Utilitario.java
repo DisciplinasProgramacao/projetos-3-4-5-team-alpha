@@ -59,10 +59,14 @@ public class Utilitario extends Veiculo {
 
     @Override
     public float calcular_seguro() {
-        custos = new CustosUtilitario(PERCENTUAL_SEGURO,super.getValor_venda());
+        custos = new CustosUtilitario(PERCENTUAL_SEGURO, super.getValor_venda());
         return custos.getSeguro();
     }
 
+    @Override
+    public float getGastosAdicionais() {
+        return 0;
+    }
     
     public void calcular_alinhamento() throws Exception {
 		if(super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {

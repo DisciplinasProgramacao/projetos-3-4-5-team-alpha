@@ -6,14 +6,13 @@ import business.custos.Custos;
 
 public abstract class Veiculo implements Serializable {
 
+    private final float PERCENTUAL_IPVA;
     private final int tanque;
-    private float autonomia;
+    private float autonomia, valor_venda;
     private int km_rodados;
     private String placa;
     private Rota rota;
-    private float valor_venda;
-    private final float PERCENTUAL_IPVA;
-    Custos custos;
+    private Custos custos;
 
 
 
@@ -63,10 +62,13 @@ public abstract class Veiculo implements Serializable {
 
     public abstract float calcular_seguro();
 
+    public abstract float getGastosAdicionais();
+    
     public float calcular_ipva() {
         custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
         return custos.getIpva();
     }
+
 
     @Override
     public String toString() {
