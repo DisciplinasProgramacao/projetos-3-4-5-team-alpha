@@ -128,24 +128,21 @@ public class JFrameAplication extends JFrame {
         formulario.add(entradaPlaca);
         formulario.add(ElementosJFrame.button("Adicionar rota", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 try {
                     if (frota.localizar(entradaPlaca.getText()) != null) {
+                        
+                        String placa = entradaPlaca.getText();
+                        AddRotaPage.remove(formulario);
                         JTextField entradaData = new JTextField(30);
                         JTextField entradaDistancia = new JTextField(30);
-                        String placa = entradaPlaca.getText();
-                        AddRotaPage.removeAll();
-                        JFrameAplication AddRotaPage = new JFrameAplication();
-                        AddRotaPage.setSize(500, 500);
-                        AddRotaPage.setVisible(true);
-                        AddRotaPage.setTitle("Incluir Rota");
-
-                        JPanel formulario = new JPanel();
-                        formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
-                        formulario.add(ElementosJFrame.label("Data"));
-                        formulario.add(entradaData);
-                        formulario.add(ElementosJFrame.label("Distância"));
-                        formulario.add(entradaDistancia);
-                        formulario.add(ElementosJFrame.button("Confirmar", new ActionListener() {
+                        JPanel formulario1 = new JPanel();
+                        formulario1.setLayout(new BoxLayout(formulario1, BoxLayout.Y_AXIS));
+                        formulario1.add(ElementosJFrame.label("Data"));
+                        formulario1.add(entradaData);
+                        formulario1.add(ElementosJFrame.label("Distância"));
+                        formulario1.add(entradaDistancia);
+                        formulario1.add(ElementosJFrame.button("Confirmar", new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 Rota rota = new Rota(placa,
                                         LocalDate.of(Integer.parseInt(entradaData.getText().split("/")[2]),
@@ -160,7 +157,7 @@ public class JFrameAplication extends JFrame {
                                 }
                             }
                         }));
-                        AddRotaPage.add(formulario);
+                        AddRotaPage.add(formulario1);
                         AddRotaPage.pack();
                     }
                 } catch (Exception e1) {
