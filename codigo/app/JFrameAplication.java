@@ -111,6 +111,9 @@ public class JFrameAplication extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 criarVeiculo();
                 AddVeiculoPage.dispose();
+                entradaPlaca.setText("");
+                entradaAutonomia.setText("");
+                entradaVenda.setText("");
             }
         });
 
