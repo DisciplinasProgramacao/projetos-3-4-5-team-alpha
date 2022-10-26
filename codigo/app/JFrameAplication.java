@@ -97,7 +97,7 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
-        formulario.add(ElementosJFrame.label("Autonomia:"));
+        formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
         formulario.add(entradaAutonomia);
         formulario.add(ElementosJFrame.label("Valor de venda:"));
         formulario.add(entradaVenda);
@@ -111,10 +111,6 @@ public class JFrameAplication extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 criarVeiculo();
                 AddVeiculoPage.dispose();
-                entradaPlaca.setText("");
-                entradaAutonomia.setText("");
-                entradaVenda.setText("");
-                tipoVeiculo.setSelectedIndex(0);
             }
         });
 
@@ -135,7 +131,7 @@ public class JFrameAplication extends JFrame {
 
                 try {
                     if (frota.localizar(entradaPlaca.getText()) != null) {
-                        
+
                         String placa = entradaPlaca.getText();
                         AddRotaPage.remove(formulario);
                         JTextField entradaData = new JTextField(30);
