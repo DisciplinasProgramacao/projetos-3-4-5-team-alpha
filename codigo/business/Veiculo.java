@@ -56,8 +56,6 @@ public abstract class Veiculo implements Serializable {
 
     public abstract float calcular_seguro();
 
-    public abstract float getGastosAdicionais();
-
     public float calcular_ipva() {
         custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
         return custos.getIpva();

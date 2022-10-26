@@ -60,11 +60,6 @@ public class Utilitario extends Veiculo {
         return custos.getSeguro();
     }
 
-    @Override
-    public float getGastosAdicionais() {
-        return 0;
-    }
-
     public void calcular_alinhamento() throws Exception {
         custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
         this.qtdAlinhamento = ((int) super.getKm_rodados() / qtdAlinhamento);

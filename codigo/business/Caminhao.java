@@ -65,11 +65,6 @@ public class Caminhao extends Veiculo {
     }
 
     @Override
-    public float getGastosAdicionais() {
-        return this.getValor_manutencao();
-    }
-
-    @Override
     public void setRota(Rota rota) throws Exception {
         if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_VISTORIA) {
             if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_MANUTENCAO) {
