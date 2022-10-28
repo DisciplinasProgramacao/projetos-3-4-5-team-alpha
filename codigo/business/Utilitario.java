@@ -60,35 +60,22 @@ public class Utilitario extends Veiculo {
         return custos.getSeguro();
     }
 
-    public void calcular_alinhamento() throws Exception {
+    public void calcular_alinhamento() {
         custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
         this.qtdAlinhamento = ((int) super.getKm_rodados() / qtdAlinhamento);
 
     }
 
-    public void calcular_vistoria() throws Exception {
-        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
+    public void calcular_vistoria() {
             custos.calcular(VALOR_VISTORIA, QUILOMETRO_VISTORIA, super.getKm_rodados());
             this.qtdVistoria++;
-        } else {
-            throw new Exception();
-        }
+       
     }
 
     @Override
-    public void setRota(Rota rota) throws Exception {
-        if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_ALINHAMENTO) {
-            if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_VISTORIA) {
+    public void setRota(Rota rota) {
                 super.setRota(rota);
-            } else {
-                throw new Exception("Essa viagem excede os km necessário para o alinhamento, por favor realiza-la");
-            }
-        } else {
-            throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
-        }
+           
     }
 
-    public String toString() {
-        return (super.toString() + "Gastos: " + this.getGastos());
-    }
 }

@@ -25,6 +25,7 @@ public class Carro extends Veiculo {
 
     @Override
     public float getGastos() {
+        this.calcular_alinhamento();
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
         gastos += getAlinhamento();
@@ -38,25 +39,14 @@ public class Carro extends Veiculo {
         return custos.getSeguro();
     }
 
-    public void calcular_alinhamento() throws Exception {
-        if (super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
+    public void calcular_alinhamento() {
             custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
             this.qtdAlinhamento++;
-        } else {
-            throw new Exception("");
-        }
     }
 
     @Override
-    public void setRota(Rota rota) throws Exception {
-        if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_ALINHAMENTO) {
+    public void setRota(Rota rota)  {
             super.setRota(rota);
-        } else {
-            throw new Exception("Essa viagem excede os km necessário para o alinhamento, por favor realiza-lo");
-        }
     }
 
-    public String toString() {
-        return (super.toString() + " - Gastos: " + this.getGastos());
-    }
 }

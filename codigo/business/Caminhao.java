@@ -36,7 +36,7 @@ public class Caminhao extends Veiculo {
     }
 
     @Override
-    public float getGastos() throws Exception {
+    public float getGastos(){
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
         gastos += calcular_manutencao();
@@ -51,11 +51,10 @@ public class Caminhao extends Veiculo {
         return custos.getSeguro();
     }
 
-    public float calcular_manutencao() throws Exception {
-        if (super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO * qtdManutencao)) {
-            custos.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, super.getKm_rodados());
-        }
-        throw new Exception("O caminhão ainda ainda não fez a manuntenção");
+    public float calcular_manutencao() {
+       
+            return custos.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, super.getKm_rodados());
+        
     }
 
     public void calcular_vistoria() {
@@ -65,16 +64,11 @@ public class Caminhao extends Veiculo {
     }
 
     @Override
-    public void setRota(Rota rota) throws Exception {
-        if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_VISTORIA) {
-            if ((this.getKm_rodados() + rota.getDistancia()) < QUILOMETRO_MANUTENCAO) {
-                super.setRota(rota);
-            } else {
-                throw new Exception("Essa viagem excede os km necessário para a manutenção, por favor realiza-la");
-            }
-        } else {
-            throw new Exception("Essa viagem excede os km necessário para a vistoria, por favor realiza-la");
+    public void setRota(Rota rota)  {
+        if(rota.getDistancia() < this.getAutonomia()){
+            super.setRota(rota);
         }
+        
     }
 
 }

@@ -258,7 +258,6 @@ public class JFrameAplication extends JFrame {
                 panel.add(label);
             }
         }
-
         ListagemVeiculos.add(panel);
 
         ListagemVeiculos.pack();

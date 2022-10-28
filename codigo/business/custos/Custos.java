@@ -12,11 +12,12 @@ public class Custos {
         return this.custosAdicionais;
     }
 
-    public void calcular(float valor, int quilometragem, int km_rodados) {
-        this.custosAdicionais = valor * (quilometragem / km_rodados);
+    public float calcular(float valor, int quilometragem, int km_rodados) {
+         this.custosAdicionais = valor * (km_rodados/quilometragem);
+         return this.custosAdicionais;
     }
 
-    public void calcularIpva(float porcentagem, float valorVenda) {
-        this.ipva = porcentagem * valorVenda;
+    public float calcularIpva(float porcentagem, float valorVenda) {
+        return this.ipva = porcentagem * valorVenda;
     }
 }

@@ -48,11 +48,14 @@ public abstract class Veiculo implements Serializable {
         return valor_venda;
     }
 
-    public void setRota(Rota rota) throws Exception {
+    public void setRota(Rota rota) {
+        //Autonomia
+        this.km_rodados += rota.getDistancia();
+        System.out.println(km_rodados);
         this.rota = rota;
     }
 
-    public abstract float getGastos() throws Exception;
+    public abstract float getGastos();
 
     public abstract float calcular_seguro();
 
@@ -65,8 +68,8 @@ public abstract class Veiculo implements Serializable {
     public String toString() {
         if (rota != null) {
             return ("Placa: " + this.getPlaca() + " - Rota: " + rota.getDistancia() + "km" + " no dia: "
-                    + rota.getData());
+                    + rota.getData() + " Custo: " + getGastos());
         }
-        return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque());
+        return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " Custo: " + getGastos());
     }
 }
