@@ -19,16 +19,15 @@ public class Carro extends Veiculo {
         this.calcular_seguro();
     }
 
-    public float getAlinhamento() {
-        return custos.getCustosAdicionais();
+    public float getValor_Alinhamento() {
+        return this.qtdAlinhamento * VALOR_ALINHAMENTO;
     }
 
     @Override
     public float getGastos() {
-        this.calcular_alinhamento();
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
-        gastos += getAlinhamento();
+        gastos += getValor_Alinhamento();
 
         return gastos;
     }
@@ -39,14 +38,19 @@ public class Carro extends Veiculo {
         return custos.getSeguro();
     }
 
-    public void calcular_alinhamento() {
-        custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
-        this.qtdAlinhamento++;
+    public void calcular_alinhamento(int distancia) {
+        if (super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
+            int manutencao = distancia / QUILOMETRO_ALINHAMENTO;
+            this.qtdAlinhamento += manutencao;
+        }
     }
 
     @Override
     public void setRota(Rota rota)  {
-        super.setRota(rota);
+        if(rota.getDistancia() < this.getAutonomia()){
+            super.setRota(rota);
+            calcular_alinhamento(rota.getDistancia());
+        }
     }
 
 }
