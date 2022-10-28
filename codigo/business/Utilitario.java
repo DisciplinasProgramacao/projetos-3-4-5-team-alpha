@@ -32,12 +32,12 @@ public class Utilitario extends Veiculo {
         return tipo_utilitario;
     }
 
-    public float getAlinhamento() {
-        return custos.getCustosAdicionais();
+    public float getValor_Alinhamento() {
+        return this.qtdAlinhamento * VALOR_ALINHAMENTO;
     }
 
-    public float getVistoria() {
-        return custos.getCustosAdicionais();
+    public float getValor_vistoria() {
+        return this.qtdVistoria * VALOR_VISTORIA;
     }
 
     public void setTipoUtilitario(String tipo_utilitario) {
@@ -48,8 +48,8 @@ public class Utilitario extends Veiculo {
     public float getGastos() {
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
-        gastos += getAlinhamento();
-        gastos += getVistoria();
+        gastos += getValor_Alinhamento();
+        gastos += getValor_vistoria();
 
         return gastos;
     }
@@ -60,22 +60,27 @@ public class Utilitario extends Veiculo {
         return custos.getSeguro();
     }
 
-    public void calcular_alinhamento() {
-        custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
-        this.qtdAlinhamento = ((int) super.getKm_rodados() / qtdAlinhamento);
-
+    public void calcular_alinhamento(int distancia) {
+        if (super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
+            int manutencao = distancia / QUILOMETRO_ALINHAMENTO;
+            this.qtdAlinhamento += manutencao;
+        }
     }
 
-    public void calcular_vistoria() {
-            custos.calcular(VALOR_VISTORIA, QUILOMETRO_VISTORIA, super.getKm_rodados());
-            this.qtdVistoria++;
-       
-    }
+    public void calcular_vistoria(int distancia) {
+        int vistoria = distancia / QUILOMETRO_VISTORIA;
+        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
+            this.qtdVistoria += vistoria;
+        }
+}
 
     @Override
-    public void setRota(Rota rota) {
-                super.setRota(rota);
-           
+    public void setRota(Rota rota)  {
+        if(rota.getDistancia() < this.getAutonomia()){
+            super.setRota(rota);
+            calcular_alinhamento(rota.getDistancia());
+            calcular_vistoria(rota.getDistancia());
+        }
     }
 
 }

@@ -40,13 +40,13 @@ public class Carro extends Veiculo {
     }
 
     public void calcular_alinhamento() {
-            custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
-            this.qtdAlinhamento++;
+        custos.calcular(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados());
+        this.qtdAlinhamento++;
     }
 
     @Override
     public void setRota(Rota rota)  {
-            super.setRota(rota);
+        super.setRota(rota);
     }
 
 }

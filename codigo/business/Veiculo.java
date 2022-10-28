@@ -15,7 +15,7 @@ public abstract class Veiculo implements Serializable {
     private Custos custos;
 
     public Veiculo(String placa, int tanque, float autonomia, float valor_venda, float percental_ipva) {
-        this.autonomia = autonomia;
+        this.autonomia = autonomia * tanque;
         this.km_rodados = 0;
         this.placa = placa;
         this.valor_venda = valor_venda;
@@ -51,7 +51,6 @@ public abstract class Veiculo implements Serializable {
     public void setRota(Rota rota) {
         //Autonomia
         this.km_rodados += rota.getDistancia();
-        System.out.println(km_rodados);
         this.rota = rota;
     }
 

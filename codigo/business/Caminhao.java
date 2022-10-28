@@ -28,18 +28,18 @@ public class Caminhao extends Veiculo {
     }
 
     public float getValor_manutencao() {
-        return this.getQtdManutencao() * VALOR_MANUTENCAO;
+        return this.qtdManutencao * VALOR_MANUTENCAO;
     }
 
     public float getValor_vistoria() {
-        return this.getQtdVistoria() * VALOR_VISTORIA;
+        return this.qtdVistoria * VALOR_VISTORIA;
     }
 
     @Override
     public float getGastos(){
         float gastos = super.calcular_ipva();
         gastos += calcular_seguro();
-        gastos += calcular_manutencao();
+        gastos += getValor_manutencao();
         gastos += getValor_vistoria();
 
         return gastos;
@@ -51,24 +51,26 @@ public class Caminhao extends Veiculo {
         return custos.getSeguro();
     }
 
-    public float calcular_manutencao() {
-       
-            return custos.calcular(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, super.getKm_rodados());
-        
-    }
-
-    public void calcular_vistoria() {
-        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
-            this.qtdVistoria++;
+    public void calcular_manutencao(int distancia) {
+        if (super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO * qtdManutencao)) {
+            int manutencao = distancia / QUILOMETRO_MANUTENCAO;
+            this.qtdManutencao += manutencao;
         }
     }
+
+    public void calcular_vistoria(int distancia) {
+        int vistoria = distancia / QUILOMETRO_VISTORIA;
+        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
+            this.qtdVistoria += vistoria;
+        }
+}
 
     @Override
     public void setRota(Rota rota)  {
         if(rota.getDistancia() < this.getAutonomia()){
             super.setRota(rota);
+            calcular_vistoria(rota.getDistancia());
+            calcular_manutencao(rota.getDistancia());
         }
-        
     }
-
 }
