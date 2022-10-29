@@ -20,6 +20,8 @@ public class JFrameAplication extends JFrame {
     // Componentes Menu
     private static JButton buttonAddRota = new JButton("Incluir rota");
     private static JButton buttonAddLocalizar = new JButton("Localizar veículo");
+    private static JButton buttonSalvarArquivo = new JButton("Salvar no arquivo");
+    private static JButton buttonCarregarArquivo = new JButton("Carregar arquivo");
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
@@ -37,6 +39,14 @@ public class JFrameAplication extends JFrame {
     // Componentes tela localizar veículo
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
     private static JButton buttonLocalizaVeiculo = new JButton("Localizar");
+
+    // Componentes tela carregar arquivo
+    private static JButton buttonEnviaArquivoCarregar = new JButton("Carregar");
+    private static JTextField entradaCarregarArquivo = new JTextField(30);
+
+    // Componentes tela salvar arquivo
+    private static JButton buttonEnviaArquivoSalvar = new JButton("Salvar");
+    private static JTextField entradaSalvarArquivo = new JTextField(30);
 
     public static void main(String[] args) {
 
@@ -61,6 +71,8 @@ public class JFrameAplication extends JFrame {
                 listarVeiculos(e);
             }
         }));
+        window.getContentPane().add(buttonSalvarArquivo);
+        window.getContentPane().add(buttonCarregarArquivo);
 
         // Funções Menu
 
@@ -73,6 +85,18 @@ public class JFrameAplication extends JFrame {
         buttonAddRota.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 formRota(e);
+            }
+        });
+
+        buttonSalvarArquivo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                formSalvarArquivo(e);
+            }
+        });
+
+        buttonCarregarArquivo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                formCarregarArquivo(e);
             }
         });
 
@@ -194,6 +218,54 @@ public class JFrameAplication extends JFrame {
         });
     }
 
+    public static void formCarregarArquivo(ActionEvent e) {
+        JFrameAplication AddCarregarArquivo = new JFrameAplication();
+        AddCarregarArquivo.setSize(500, 500);
+        AddCarregarArquivo.setVisible(true);
+        AddCarregarArquivo.setTitle("Carregar frota de arquivo");
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(ElementosJFrame.label("Digite o nome do arquivo para carregar os dados: "));
+        panel.add(entradaCarregarArquivo);
+        panel.add(buttonEnviaArquivoCarregar);
+
+        AddCarregarArquivo.add(panel);
+
+        AddCarregarArquivo.pack();
+
+        buttonEnviaArquivoCarregar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                carregarArquivo(e);
+                AddCarregarArquivo.dispose();
+            }
+        });
+    }
+
+    public static void formSalvarArquivo(ActionEvent e) {
+        JFrameAplication AddSalvarArquivo = new JFrameAplication();
+        AddSalvarArquivo.setSize(500, 500);
+        AddSalvarArquivo.setVisible(true);
+        AddSalvarArquivo.setTitle("Salvar frota em arquivo");
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(ElementosJFrame.label("Digite o nome do arquivo para salvar os dados: "));
+        panel.add(entradaSalvarArquivo);
+        panel.add(buttonEnviaArquivoSalvar);
+
+        AddSalvarArquivo.add(panel);
+
+        AddSalvarArquivo.pack();
+
+        buttonEnviaArquivoSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                salvarArquivo(e);
+                AddSalvarArquivo.dispose();
+            }
+        });
+    }
+
     // Funções de instanciação
 
     public static void criarVeiculo() {
@@ -201,7 +273,7 @@ public class JFrameAplication extends JFrame {
         float autonomia = Float.parseFloat(entradaAutonomia.getText());
         float valor_venda = Float.parseFloat(entradaVenda.getText());
         String tipo = ((String) tipoVeiculo.getSelectedItem());
-        
+
         if (tipo.equals("Carro")) {
             Carro carro = new Carro(placa, autonomia, valor_venda);
             frota.inserirVeiculo(carro);
@@ -262,6 +334,26 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.add(panel);
 
         ListagemVeiculos.pack();
+    }
+
+    public static void carregarArquivo(ActionEvent e) {
+        String entradaNomeArquivo = entradaCarregarArquivo.getText();
+
+        try {
+            frota.carregar_arquivo(entradaNomeArquivo);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public static void salvarArquivo(ActionEvent e) {
+        String entradaNomeArquivo = entradaSalvarArquivo.getText();
+
+        try {
+            frota.salvar_arquivo(entradaNomeArquivo);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
 }
