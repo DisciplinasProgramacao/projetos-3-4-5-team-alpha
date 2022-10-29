@@ -25,7 +25,7 @@ public class Frota {
     }
 
     public void salvar_arquivo(String filename) throws Exception {
-        String path = "codigo/app/arquivos/";
+        String path = "src/codigo/app/arquivos/";
         File directory = new File(path);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -34,7 +34,9 @@ public class Frota {
         try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(
                 new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
-                saidaVeiculos.writeObject(veiculo);
+                if(veiculo != null) {
+                    saidaVeiculos.writeObject(veiculo);
+                }
             }
 
             saidaVeiculos.flush();
@@ -46,8 +48,9 @@ public class Frota {
         try (ObjectOutputStream saidaRotas = new ObjectOutputStream(
                 new FileOutputStream(path + filename + "-rotas.bin", false))) {
             for (Veiculo veiculo : veiculos) {
-                if (veiculo.getRota() != null)
+                if(veiculo != null && veiculo.getRota() != null) {
                     saidaRotas.writeObject(veiculo.getRota());
+                }
             }
 
             saidaRotas.flush();
@@ -59,7 +62,7 @@ public class Frota {
     }
 
     public void carregar_arquivo(String filename) throws Exception {
-        String path = "codigo/app/arquivos/";
+        String path = "src/codigo/app/arquivos/";
         File directory = new File(path);
         if (!directory.exists()) {
             throw new Exception();
