@@ -45,20 +45,6 @@ public class Frota {
             throw new Exception(e);
         }
 
-        try (ObjectOutputStream saidaRotas = new ObjectOutputStream(
-                new FileOutputStream(path + filename + "-rotas.bin", false))) {
-            for (Veiculo veiculo : veiculos) {
-                if(veiculo != null && veiculo.getRota() != null) {
-                    saidaRotas.writeObject(veiculo.getRota());
-                }
-            }
-
-            saidaRotas.flush();
-
-        } catch (Exception e) {
-            throw new Exception(e);
-        }
-
     }
 
     public void carregar_arquivo(String filename) throws Exception {
@@ -74,18 +60,6 @@ public class Frota {
             while (fis.available() > 0) {
                 Veiculo veiculo = (Veiculo) inputFile.readObject();
                 this.inserirVeiculo(veiculo);
-            }
-        } catch (Exception e) {
-            System.out.println("ERRO ao gravar dados no disco!");
-            e.printStackTrace();
-        }
-
-        try (FileInputStream fis = new FileInputStream(path + filename + "-rotas.bin");
-                ObjectInputStream inputFile = new ObjectInputStream(fis)) {
-
-            while (fis.available() > 0) {
-                Rota rota = (Rota) inputFile.readObject();
-                this.localizar(rota.getPlaca()).setRota(rota);
             }
         } catch (Exception e) {
             System.out.println("ERRO ao gravar dados no disco!");
