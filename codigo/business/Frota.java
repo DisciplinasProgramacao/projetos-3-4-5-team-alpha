@@ -1,10 +1,6 @@
 package business;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class Frota {
     private Veiculo[] veiculos;
@@ -31,8 +27,7 @@ public class Frota {
             directory.mkdirs();
         }
 
-        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(
-                new FileOutputStream(path + filename + ".bin", false))) {
+        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
                 if(veiculo != null) {
                     saidaVeiculos.writeObject(veiculo);
@@ -40,9 +35,9 @@ public class Frota {
             }
 
             saidaVeiculos.flush();
-
         } catch (Exception e) {
-            throw new Exception(e);
+            System.out.println("ERRO ao gravar dados no disco!");
+            e.printStackTrace();
         }
 
     }
@@ -54,15 +49,14 @@ public class Frota {
             throw new Exception();
         }
 
-        try (FileInputStream fis = new FileInputStream(path + filename + ".bin");
-                ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+        try (FileInputStream fis = new FileInputStream(path + filename + ".bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
 
             while (fis.available() > 0) {
                 Veiculo veiculo = (Veiculo) inputFile.readObject();
                 this.inserirVeiculo(veiculo);
             }
         } catch (Exception e) {
-            System.out.println("ERRO ao gravar dados no disco!");
+            System.out.println("ERRO ao carregar '" + filename + "' do disco!");
             e.printStackTrace();
         }
     }

@@ -2,9 +2,9 @@ package business;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Rota implements Serializable {
-
     private LocalDate data;
     private int distancia;
     private String placa;
@@ -16,7 +16,7 @@ public class Rota implements Serializable {
     }
 
     public String getData() {
-        return this.data.toString();
+        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public int getDistancia() {

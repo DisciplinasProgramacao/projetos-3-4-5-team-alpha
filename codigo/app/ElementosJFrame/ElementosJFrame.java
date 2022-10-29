@@ -2,11 +2,7 @@ package ElementosJFrame;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.function.Function;
 
 public class ElementosJFrame {
     

@@ -1,8 +1,8 @@
 package business;
 
 import java.io.Serializable;
-
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public abstract class Veiculo implements Serializable {
 
     private final int tanque;
@@ -56,6 +56,7 @@ public abstract class Veiculo implements Serializable {
 
     @Override
     public String toString() {
+
         if (rota != null) {
             return ("Placa: " + this.getPlaca() + " - Rota: " + rota.getDistancia() + "km" + " no dia: "
                     + rota.getData() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
