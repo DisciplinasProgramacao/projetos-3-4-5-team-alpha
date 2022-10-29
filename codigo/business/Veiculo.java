@@ -48,17 +48,21 @@ public abstract class Veiculo implements Serializable {
         return valor_venda;
     }
 
-    public void setRota(Rota rota) {
-        //Autonomia
-        this.km_rodados += rota.getDistancia();
-        this.rota = rota;
+    public boolean setRota(Rota rota) {
+        if(rota.getDistancia() <= this.getAutonomia()) {
+            this.km_rodados += rota.getDistancia();
+            this.rota = rota;
+            return true;
+        }
+
+        return false;
     }
 
     public abstract float getGastos();
 
-    public abstract float calcular_seguro();
+    public abstract float calcular_Seguro();
 
-    public float calcular_ipva() {
+    public float calcular_Ipva() {
         custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
         return custos.getIpva();
     }

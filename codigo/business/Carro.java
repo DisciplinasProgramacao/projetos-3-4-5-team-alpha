@@ -10,47 +10,28 @@ public class Carro extends Veiculo {
     private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private static final int TANQUE = 50;
     private int qtdAlinhamento;
-    private CustosCarro custos;
+    private CustosCarro custosCarro;
 
     public Carro(String placa, float autonomia, float valor_venda) {
         super(placa, TANQUE, autonomia, valor_venda, PERCENTUAL_IPVA);
-
-        super.calcular_ipva();
-        this.calcular_seguro();
-    }
-
-    public float getValor_Alinhamento() {
-        return this.qtdAlinhamento * VALOR_ALINHAMENTO;
     }
 
     @Override
     public float getGastos() {
-        float gastos = super.calcular_ipva();
-        gastos += calcular_seguro();
-        gastos += getValor_Alinhamento();
+        float gastos = super.calcular_Ipva();
+        gastos += calcular_Seguro();
+        gastos += calcular_Alinhamento();
 
         return gastos;
     }
 
     @Override
-    public float calcular_seguro() {
-        custos = new CustosCarro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
-        return custos.getSeguro();
+    public float calcular_Seguro() {
+        custosCarro = new CustosCarro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
+        return custosCarro.getSeguro();
     }
 
-    public void calcular_alinhamento(int distancia) {
-        if (super.getKm_rodados() >= (QUILOMETRO_ALINHAMENTO * qtdAlinhamento)) {
-            int manutencao = distancia / QUILOMETRO_ALINHAMENTO;
-            this.qtdAlinhamento += manutencao;
-        }
+    public float calcular_Alinhamento() {
+        return custosCarro.calcularCusto(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados(), qtdAlinhamento++);
     }
-
-    @Override
-    public void setRota(Rota rota)  {
-        if(rota.getDistancia() < this.getAutonomia()){
-            super.setRota(rota);
-            calcular_alinhamento(rota.getDistancia());
-        }
-    }
-
 }

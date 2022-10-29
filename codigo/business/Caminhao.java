@@ -13,64 +13,33 @@ public class Caminhao extends Veiculo {
             QUILOMETRO_MANUTENCAO = 20000;
     private static final int TANQUE = 250;
     private int qtdManutencao, qtdVistoria;
-    private CustosCaminhao custos;
+    private CustosCaminhao custosCaminhao;
 
     public Caminhao(String placa, float autonomia, float valor_venda) {
         super(placa, TANQUE, autonomia, valor_venda, PERCENTUAL_IPVA);
     }
 
-    public int getQtdManutencao() {
-        return qtdManutencao;
-    }
-
-    public int getQtdVistoria() {
-        return qtdVistoria;
-    }
-
-    public float getValor_manutencao() {
-        return this.qtdManutencao * VALOR_MANUTENCAO;
-    }
-
-    public float getValor_vistoria() {
-        return this.qtdVistoria * VALOR_VISTORIA;
-    }
-
     @Override
-    public float getGastos(){
-        float gastos = super.calcular_ipva();
-        gastos += calcular_seguro();
-        gastos += getValor_manutencao();
-        gastos += getValor_vistoria();
+    public float getGastos() {
+        float gastos = super.calcular_Ipva();
+        gastos += calcular_Seguro();
+        gastos += calcular_Manutencao();
+        gastos += calcular_Vistoria();
 
         return gastos;
     }
 
     @Override
-    public float calcular_seguro() {
-        custos = new CustosCaminhao(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
-        return custos.getSeguro();
+    public float calcular_Seguro() {
+        custosCaminhao = new CustosCaminhao(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
+        return custosCaminhao.getSeguro();
     }
 
-    public void calcular_manutencao(int distancia) {
-        if (super.getKm_rodados() >= (QUILOMETRO_MANUTENCAO * qtdManutencao)) {
-            int manutencao = distancia / QUILOMETRO_MANUTENCAO;
-            this.qtdManutencao += manutencao;
-        }
+    public float calcular_Manutencao() {
+        return custosCaminhao.calcularCusto(VALOR_MANUTENCAO, QUILOMETRO_MANUTENCAO, super.getKm_rodados(), qtdManutencao++);
     }
 
-    public void calcular_vistoria(int distancia) {
-        int vistoria = distancia / QUILOMETRO_VISTORIA;
-        if (super.getKm_rodados() >= (QUILOMETRO_VISTORIA * qtdVistoria)) {
-            this.qtdVistoria += vistoria;
-        }
-}
-
-    @Override
-    public void setRota(Rota rota)  {
-        if(rota.getDistancia() < this.getAutonomia()){
-            super.setRota(rota);
-            calcular_vistoria(rota.getDistancia());
-            calcular_manutencao(rota.getDistancia());
-        }
+    public float calcular_Vistoria() {
+        return custosCaminhao.calcularCusto(VALOR_VISTORIA, QUILOMETRO_VISTORIA, super.getKm_rodados(), qtdVistoria++);
     }
 }

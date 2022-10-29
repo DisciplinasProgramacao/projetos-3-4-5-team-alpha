@@ -201,20 +201,21 @@ public class JFrameAplication extends JFrame {
         float autonomia = Float.parseFloat(entradaAutonomia.getText());
         float valor_venda = Float.parseFloat(entradaVenda.getText());
         String tipo = ((String) tipoVeiculo.getSelectedItem());
-        if (tipo.compareTo("Carro") == 0) {
+        
+        if (tipo.equals("Carro")) {
             Carro carro = new Carro(placa, autonomia, valor_venda);
             frota.inserirVeiculo(carro);
-        } else if (tipo.compareTo("Caminhão") == 0) {
+        } else if (tipo.equals("Caminhão")) {
             Caminhao caminhao = new Caminhao(placa, autonomia, valor_venda);
             frota.inserirVeiculo(caminhao);
-        } else if (tipo.compareTo("Van") == 0) {
+        } else if (tipo.equals("Van")) {
             try {
                 Utilitario van = new Utilitario(placa, tipo, TANQUE_VAN, autonomia, valor_venda);
                 frota.inserirVeiculo(van);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (tipo.compareTo("Furgão") == 0) {
+        } else if (tipo.equals("Furgão")) {
             try {
                 Utilitario furgao = new Utilitario(placa, tipo, TANQUE_FURGAO, autonomia, valor_venda);
                 frota.inserirVeiculo(furgao);

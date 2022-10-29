@@ -7,14 +7,13 @@ public class Custos {
     public float getIpva() {
         return this.ipva;
     }
+    
+    public float calcularCusto(float valor, int quilometragem, int km_rodados, int qtdManutencao) {
+        if (km_rodados >= (quilometragem * qtdManutencao)) {
+            this.custosAdicionais = valor * (km_rodados/quilometragem);
+        }
 
-    public float getCustosAdicionais() {
         return this.custosAdicionais;
-    }
-
-    public float calcular(float valor, int quilometragem, int km_rodados) {
-         this.custosAdicionais = valor * (km_rodados/quilometragem);
-         return this.custosAdicionais;
     }
 
     public float calcularIpva(float porcentagem, float valorVenda) {
