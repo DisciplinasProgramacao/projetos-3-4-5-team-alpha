@@ -134,7 +134,6 @@ public class JFrameAplication extends JFrame {
         buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 criarVeiculo();
-                AddVeiculoPage.dispose();
             }
         });
 
@@ -299,7 +298,6 @@ public class JFrameAplication extends JFrame {
 
     public static void localizarVeiculo(ActionEvent e) {
         String placa = entradaPlacaLocalizar.getText();
-        System.out.println(placa);
         try {
             Veiculo procurado = frota.localizar(placa);
             JLabel veiculoEncontrado = new JLabel(procurado.toString());
@@ -324,7 +322,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setTitle("Listagem de veículos");
 
         JPanel panel = new JPanel();
-
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         for (Veiculo veiculo : frota.localizar()) {
             if (veiculo != null) {
                 JLabel label = new JLabel(veiculo.toString());

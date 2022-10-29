@@ -39,7 +39,7 @@ public abstract class Veiculo implements Serializable {
     }
 
     public boolean setRota(Rota rota) {
-        if(rota.getDistancia() <= this.getAutonomia()) {
+        if (rota.getDistancia() <= this.getAutonomia()) {
             this.km_rodados += rota.getDistancia();
             this.rota = rota;
             return true;
@@ -58,8 +58,9 @@ public abstract class Veiculo implements Serializable {
     public String toString() {
         if (rota != null) {
             return ("Placa: " + this.getPlaca() + " - Rota: " + rota.getDistancia() + "km" + " no dia: "
-                    + rota.getData() + " Custo: " + getGastos());
+                    + rota.getData() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
         }
-        return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " Custo: " + getGastos());
+        return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: " + this.getGastos()
+                + " - Km rodados: " + this.getKm_rodados());
     }
 }
