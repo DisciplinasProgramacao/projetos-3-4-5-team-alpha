@@ -3,22 +3,23 @@ package business;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {
-    private static final float VALOR_ALINHAMENTO = 80.00F,
-            VALOR_ADICIONAL_SEGURO = 300.00F,
-            PERCENTUAL_IPVA = 0.04F,
-            PERCENTUAL_SEGURO = 0.05F;
-    private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private static final int TANQUE = 50;
-    private int qtdAlinhamento;
+    private final float valorVenda;
     private CustosCarro custosCarro;
 
-    public Carro(String placa, float autonomia, float valor_venda) {
-        super(placa, TANQUE, autonomia, valor_venda, PERCENTUAL_IPVA);
+    public Carro(String placa, float autonomia, float valorVenda) {
+        super(placa, TANQUE, autonomia);
+        custosCarro = new CustosCarro(valorVenda);
+        this.valorVenda = valorVenda;
+    }
+
+    public float getValorVenda() {
+        return this.valorVenda;
     }
 
     @Override
     public float getGastos() {
-        float gastos = super.calcular_Ipva();
+        float gastos = calcular_Ipva();
         gastos += calcular_Seguro();
         gastos += calcular_Alinhamento();
 
@@ -27,11 +28,15 @@ public class Carro extends Veiculo {
 
     @Override
     public float calcular_Seguro() {
-        custosCarro = new CustosCarro(PERCENTUAL_SEGURO, super.getValor_venda(), VALOR_ADICIONAL_SEGURO);
-        return custosCarro.getSeguro();
+        return custosCarro.calcular_seguro();
+    }
+
+    @Override
+    public float calcular_Ipva() {
+        return custosCarro.calcular_Ipva();
     }
 
     public float calcular_Alinhamento() {
-        return custosCarro.calcularCusto(VALOR_ALINHAMENTO, QUILOMETRO_ALINHAMENTO, super.getKm_rodados(), qtdAlinhamento++);
+        return custosCarro.calcular_Alinhamento(super.getKm_rodados());
     }
 }

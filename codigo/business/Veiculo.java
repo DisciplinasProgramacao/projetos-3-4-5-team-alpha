@@ -2,26 +2,20 @@ package business;
 
 import java.io.Serializable;
 
-import business.custos.Custos;
 
 public abstract class Veiculo implements Serializable {
 
-    private final float PERCENTUAL_IPVA;
     private final int tanque;
-    private float autonomia, valor_venda;
+    private float autonomia;
     private int km_rodados;
     private String placa;
     private Rota rota;
-    private Custos custos;
 
-    public Veiculo(String placa, int tanque, float autonomia, float valor_venda, float percental_ipva) {
+    public Veiculo(String placa, int tanque, float autonomia) {
         this.autonomia = autonomia * tanque;
         this.km_rodados = 0;
         this.placa = placa;
-        this.valor_venda = valor_venda;
         this.tanque = tanque;
-        this.PERCENTUAL_IPVA = percental_ipva;
-        custos = new Custos();
     }
 
     public int getTanque() {
@@ -44,10 +38,6 @@ public abstract class Veiculo implements Serializable {
         return rota;
     }
 
-    public float getValor_venda() {
-        return valor_venda;
-    }
-
     public boolean setRota(Rota rota) {
         if(rota.getDistancia() <= this.getAutonomia()) {
             this.km_rodados += rota.getDistancia();
@@ -62,10 +52,7 @@ public abstract class Veiculo implements Serializable {
 
     public abstract float calcular_Seguro();
 
-    public float calcular_Ipva() {
-        custos.calcularIpva(this.getValor_venda(), PERCENTUAL_IPVA);
-        return custos.getIpva();
-    }
+    public abstract float calcular_Ipva();
 
     @Override
     public String toString() {
