@@ -1,6 +1,8 @@
 package business.custos;
 
-public class Custos {
+import java.io.Serializable;
+
+public class Custos implements Serializable {
     private float ipva;
 
     public float getIpva() {
