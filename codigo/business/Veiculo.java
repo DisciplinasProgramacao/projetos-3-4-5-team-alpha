@@ -1,8 +1,6 @@
 package business;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 public abstract class Veiculo implements Serializable {
 
     private final int tanque;
