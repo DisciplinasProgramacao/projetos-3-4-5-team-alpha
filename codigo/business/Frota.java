@@ -25,7 +25,7 @@ public class Frota {
     }
 
     public void salvar_arquivo(String filename) throws Exception {
-        String path = "src/codigo/app/arquivos/";
+        String path = "app/arquivos/";
         File directory = new File(path);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -62,7 +62,7 @@ public class Frota {
     }
 
     public void carregar_arquivo(String filename) throws Exception {
-        String path = "src/codigo/app/arquivos/";
+        String path = "app/arquivos/";
         File directory = new File(path);
         if (!directory.exists()) {
             throw new Exception();
