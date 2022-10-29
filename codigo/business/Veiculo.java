@@ -68,7 +68,6 @@ public abstract class Veiculo implements Serializable {
         for(Rota esp: rotas){
             stringRotas += " " + esp.getData();
         }
-        System.out.println(stringRotas);
         return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: " + this.getGastos()
                 + " - Km rodados: " + this.getKm_rodados()  + " - Rotas: " + stringRotas);
             
