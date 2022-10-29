@@ -46,6 +46,7 @@ public abstract class Veiculo implements Serializable {
     public boolean setRota(Rota rota) {
         if (rota.getDistancia() <= this.getAutonomia()) {
             rotas.add(rota);
+            km_rodados += rota.getDistancia();
             return true;
         }
 
