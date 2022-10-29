@@ -1,13 +1,17 @@
 package business;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 public abstract class Veiculo implements Serializable {
 
     private final int tanque;
     private float autonomia;
     private int km_rodados;
     private String placa;
-    private Rota rota;
+    private List<Rota> rotas= new ArrayList<Rota>();
 
     public Veiculo(String placa, int tanque, float autonomia) {
         this.autonomia = autonomia * tanque;
@@ -31,15 +35,17 @@ public abstract class Veiculo implements Serializable {
     public String getPlaca() {
         return placa;
     }
-
-    public Rota getRota() {
-        return rota;
+    public Rota getLastRota() {
+        return rotas.get(rotas.size());
+    }
+    public Rota[] getRota() {
+        Rota[] array = (Rota[])rotas.toArray();  
+        return array;
     }
 
     public boolean setRota(Rota rota) {
         if (rota.getDistancia() <= this.getAutonomia()) {
-            this.km_rodados += rota.getDistancia();
-            this.rota = rota;
+            rotas.add(rota);
             return true;
         }
 
@@ -54,12 +60,19 @@ public abstract class Veiculo implements Serializable {
 
     @Override
     public String toString() {
-
-        if (rota != null) {
-            return ("Placa: " + this.getPlaca() + " - Rota: " + rota.getDistancia() + "km" + " no dia: "
-                    + rota.getData() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
+        
+        
+        
+        if (rotas.size() > 0) {
+            String stringRotas = new String();
+        for(Rota esp: rotas){
+            stringRotas += " " + esp.getData();
         }
+        System.out.println(stringRotas);
         return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: " + this.getGastos()
-                + " - Km rodados: " + this.getKm_rodados());
+                + " - Km rodados: " + this.getKm_rodados()  + " - Rotas: " + stringRotas);
+            
+        }
+        return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
     }
 }
