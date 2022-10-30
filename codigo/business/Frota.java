@@ -1,23 +1,19 @@
 package business;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Frota {
-    private Veiculo[] veiculos;
-    private int contadorVeiculos;
+    private Set<Veiculo> veiculos= new HashSet<Veiculo>();
 
     public Frota() {
-        veiculos = new Veiculo[10];
-        this.contadorVeiculos = 0;
+
     }
 
-    public boolean inserirVeiculo(Veiculo veiculo) {
-        if (contadorVeiculos < this.veiculos.length) {
-            this.veiculos[contadorVeiculos++] = veiculo;
+    public boolean inserirVeiculo(Veiculo veiculo) {   
+            veiculos.add(veiculo);
             return true;
-        }
-
-        return false;
     }
 
     public void salvar_arquivo(String filename) throws Exception {
@@ -70,11 +66,9 @@ public class Frota {
         throw new Exception("Não existe um veículo na frota com esta placa");
     }
 
-    public Veiculo[] localizar() {
-        return veiculos;
-    }
+    public Veiculo[] toArray() {
+         Veiculo[] array = new Veiculo[veiculos.size()];
 
-    public void imprimir(String placa) {
-        System.out.println(this.veiculos[Integer.parseInt(placa)].toString());
+         return veiculos.toArray(array);
     }
 }

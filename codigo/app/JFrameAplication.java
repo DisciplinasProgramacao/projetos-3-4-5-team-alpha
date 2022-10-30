@@ -323,11 +323,11 @@ public class JFrameAplication extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (Veiculo veiculo : frota.localizar()) {
-            if (veiculo != null) {
-                JLabel label = new JLabel(veiculo.toString());
+        for (Veiculo selecionado : frota.toArray()) {
+                System.out.println(selecionado.toString());
+                JLabel label = new JLabel(selecionado.toString());
                 panel.add(label);
-            }
+            
         }
         ListagemVeiculos.add(panel);
 

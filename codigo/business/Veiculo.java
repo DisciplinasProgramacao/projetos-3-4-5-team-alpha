@@ -61,9 +61,6 @@ public abstract class Veiculo implements Serializable {
 
     @Override
     public String toString() {
-        
-        
-        
         if (rotas.size() > 0) {
             String stringRotas = new String();
         for(Rota esp: rotas){
