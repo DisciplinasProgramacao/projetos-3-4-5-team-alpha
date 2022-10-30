@@ -3,9 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-public abstract class Veiculo implements Serializable {
+public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
     private final int tanque;
     private float autonomia;
@@ -77,5 +75,10 @@ public abstract class Veiculo implements Serializable {
         }
 
         return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
+    }
+
+    @Override
+    public int compareTo(Veiculo veiculo) {
+        return this.getPlaca().compareToIgnoreCase(veiculo.getPlaca());
     }
 }

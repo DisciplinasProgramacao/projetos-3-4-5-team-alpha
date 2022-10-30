@@ -3,13 +3,12 @@ package business;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Frota {
     private Set<Veiculo> veiculos= new HashSet<Veiculo>();
 
-    public Frota() {
-
-    }
+    public Frota() { }
 
     public boolean inserirVeiculo(Veiculo veiculo) {   
             veiculos.add(veiculo);
@@ -67,8 +66,10 @@ public class Frota {
     }
 
     public Veiculo[] toArray() {
-         Veiculo[] array = new Veiculo[veiculos.size()];
+        Set<Veiculo> conjuntoOrdenado = new TreeSet<Veiculo>(veiculos);
 
-         return veiculos.toArray(array);
+        Veiculo[] array = new Veiculo[conjuntoOrdenado.size()];
+
+        return conjuntoOrdenado.toArray(array);
     }
 }
