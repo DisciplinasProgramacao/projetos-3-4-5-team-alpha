@@ -13,10 +13,6 @@ public class Carro extends Veiculo {
         this.valorVenda = valorVenda;
     }
 
-    public float getValorVenda() {
-        return this.valorVenda;
-    }
-
     @Override
     public float getGastos() {
         float gastos = calcular_Ipva();

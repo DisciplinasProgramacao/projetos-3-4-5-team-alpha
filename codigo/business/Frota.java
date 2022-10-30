@@ -6,9 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Frota {
-    private Set<Veiculo> veiculos= new HashSet<Veiculo>();
-
-    public Frota() { }
+    private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 
     public boolean inserirVeiculo(Veiculo veiculo) {   
             veiculos.add(veiculo);

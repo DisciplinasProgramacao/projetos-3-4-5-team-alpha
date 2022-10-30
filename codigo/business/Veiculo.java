@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
-    private final int tanque;
+    private final int TANQUE;
     private float autonomia;
     private int km_rodados;
     private String placa;
@@ -15,11 +15,11 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         this.autonomia = autonomia * tanque;
         this.km_rodados = 0;
         this.placa = placa;
-        this.tanque = tanque;
+        this.TANQUE = tanque;
     }
 
     public int getTanque() {
-        return tanque;
+        return TANQUE;
     }
 
     public float getAutonomia() {
@@ -33,9 +33,11 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public String getPlaca() {
         return placa;
     }
+    
     public Rota getLastRota() {
         return rotas.get(rotas.size());
     }
+
     public Rota[] getRota() {
         Rota[] array = (Rota[])rotas.toArray();  
         return array;

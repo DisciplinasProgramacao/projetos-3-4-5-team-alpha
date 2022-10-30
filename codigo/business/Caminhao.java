@@ -12,10 +12,6 @@ public class Caminhao extends Veiculo {
         this.valorVenda = valor_venda;
         custosCaminhao = new CustosCaminhao(valor_venda);
     }
-
-    public float getValorVenda() {
-        return this.valorVenda;
-    }
     
     @Override
     public float getGastos() {

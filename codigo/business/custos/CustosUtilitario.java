@@ -2,7 +2,7 @@ package business.custos;
 
 public class CustosUtilitario extends Custos {
     private static final float VALOR_ALINHAMENTO = 120.0F,
-            VALOR_VISTORIA = 1000.0F,
+            VALOR_VISTORIA = 500.0F,
             PERCENTUAL_IPVA = 0.03F,
             PERCENTUAL_SEGURO = 0.03F;
     private static final int QUILOMETRO_ALINHAMENTO = 10000,
