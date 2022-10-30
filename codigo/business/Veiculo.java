@@ -63,13 +63,19 @@ public abstract class Veiculo implements Serializable {
     public String toString() {
         if (rotas.size() > 0) {
             String stringRotas = new String();
-        for(Rota esp: rotas){
-            stringRotas += " " + esp.getData();
+
+            int i = 0;
+            for(Rota rota : rotas){
+                stringRotas += rota.getData() + " - " + rota.getDistancia() + "km";
+                if(i++ < rotas.size() - 1) {
+                    stringRotas += " | ";
+                }
+            }
+
+            return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: R$" + this.getGastos()
+                    + " - Km rodados: " + this.getKm_rodados()  + "km - Rotas (" + rotas.size() + "): " + stringRotas);
         }
-        return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: " + this.getGastos()
-                + " - Km rodados: " + this.getKm_rodados()  + " - Rotas: " + stringRotas);
-            
-        }
+
         return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
     }
 }

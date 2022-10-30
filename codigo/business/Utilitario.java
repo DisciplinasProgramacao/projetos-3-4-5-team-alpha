@@ -54,4 +54,9 @@ public class Utilitario extends Veiculo {
     public float calcular_Vistoria() {
         return custosUtilitario.calcular_Vistoria(super.getKm_rodados());
     }
+
+    @Override
+    public String toString() {
+        return this.getTipo_utilitario() + " - " + super.toString();
+    }
 }

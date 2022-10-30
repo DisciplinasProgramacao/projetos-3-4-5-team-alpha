@@ -44,4 +44,9 @@ public class Caminhao extends Veiculo {
     public float calcular_Vistoria() {
         return custosCaminhao.calcular_Vistoria(super.getKm_rodados());
     }
+
+    @Override
+    public String toString() {
+        return "Caminhão - " + super.toString();
+    }
 }

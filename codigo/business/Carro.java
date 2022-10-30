@@ -39,4 +39,9 @@ public class Carro extends Veiculo {
     public float calcular_Alinhamento() {
         return custosCarro.calcular_Alinhamento(super.getKm_rodados());
     }
+
+    @Override
+    public String toString() {
+        return "Carro - " + super.toString();
+    }
 }

@@ -52,7 +52,7 @@ public class JFrameAplication extends JFrame {
 
         // Config janela
         JFrameAplication window = new JFrameAplication();
-        window.setSize(500, 500);
+        window.setSize(1000, 500);
         window.setVisible(true);
         window.setTitle("Frota de veículos");
 
@@ -273,26 +273,34 @@ public class JFrameAplication extends JFrame {
         float valor_venda = Float.parseFloat(entradaVenda.getText());
         String tipo = ((String) tipoVeiculo.getSelectedItem());
 
-        if (tipo.equals("Carro")) {
-            Carro carro = new Carro(placa, autonomia, valor_venda);
-            frota.inserirVeiculo(carro);
-        } else if (tipo.equals("Caminhão")) {
-            Caminhao caminhao = new Caminhao(placa, autonomia, valor_venda);
-            frota.inserirVeiculo(caminhao);
-        } else if (tipo.equals("Van")) {
-            try {
-                Utilitario van = new Utilitario(placa, tipo, TANQUE_VAN, autonomia, valor_venda);
-                frota.inserirVeiculo(van);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (tipo.equals("Furgão")) {
-            try {
-                Utilitario furgao = new Utilitario(placa, tipo, TANQUE_FURGAO, autonomia, valor_venda);
-                frota.inserirVeiculo(furgao);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        switch (tipo) {
+            case "Carro":
+                Carro carro = new Carro(placa, autonomia, valor_venda);
+                frota.inserirVeiculo(carro);
+                break;
+
+            case "Caminhão":
+                Caminhao caminhao = new Caminhao(placa, autonomia, valor_venda);
+                frota.inserirVeiculo(caminhao);
+                break;
+
+            case "Van":
+                try {
+                    Utilitario van = new Utilitario(placa, tipo, TANQUE_VAN, autonomia, valor_venda);
+                    frota.inserirVeiculo(van);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "Furgão":
+                try {
+                    Utilitario furgao = new Utilitario(placa, tipo, TANQUE_FURGAO, autonomia, valor_venda);
+                    frota.inserirVeiculo(furgao);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
@@ -323,14 +331,13 @@ public class JFrameAplication extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        int i = 1;
         for (Veiculo selecionado : frota.toArray()) {
-                System.out.println(selecionado.toString());
-                JLabel label = new JLabel(selecionado.toString());
-                panel.add(label);
-            
+            JLabel label = new JLabel(i++ + ". " + selecionado.toString());
+            panel.add(label);
         }
-        ListagemVeiculos.add(panel);
 
+        ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
     }
 
