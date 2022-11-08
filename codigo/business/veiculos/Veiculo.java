@@ -1,7 +1,9 @@
-package business;
+package business.veiculos;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import business.Rota;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 

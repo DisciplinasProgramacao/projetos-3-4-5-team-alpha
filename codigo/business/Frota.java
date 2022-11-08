@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import business.veiculos.Veiculo;
+
 public class Frota {
     private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 

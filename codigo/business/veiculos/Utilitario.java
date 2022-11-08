@@ -1,4 +1,4 @@
-package business;
+package business.veiculos;
 
 import business.custos.CustosUtilitario;
 

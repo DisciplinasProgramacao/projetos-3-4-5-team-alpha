@@ -2,6 +2,10 @@ import javax.swing.*;
 
 import ElementosJFrame.ElementosJFrame;
 import business.*;
+import business.veiculos.Caminhao;
+import business.veiculos.Carro;
+import business.veiculos.Utilitario;
+import business.veiculos.Veiculo;
 
 import java.awt.*;
 import java.awt.event.*;
