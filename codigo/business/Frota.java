@@ -1,18 +1,16 @@
 package business;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import business.veiculos.Veiculo;
 
 public class Frota {
     private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 
-    public boolean inserirVeiculo(Veiculo veiculo) {   
-            veiculos.add(veiculo);
-            return true;
+    public boolean inserirVeiculo(Veiculo veiculo) {
+        veiculos.add(veiculo);
+        return true;
     }
 
     public void salvar_arquivo(String filename) throws Exception {
@@ -22,9 +20,10 @@ public class Frota {
             directory.mkdirs();
         }
 
-        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
+        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(
+                new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
-                if(veiculo != null) {
+                if (veiculo != null) {
                     saidaVeiculos.writeObject(veiculo);
                 }
             }
@@ -44,7 +43,8 @@ public class Frota {
             throw new Exception();
         }
 
-        try (FileInputStream fis = new FileInputStream(path + filename + ".bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+        try (FileInputStream fis = new FileInputStream(path + filename + ".bin");
+                ObjectInputStream inputFile = new ObjectInputStream(fis)) {
 
             while (fis.available() > 0) {
                 Veiculo veiculo = (Veiculo) inputFile.readObject();
@@ -72,4 +72,24 @@ public class Frota {
 
         return conjuntoOrdenado.toArray(array);
     }
+
+    public List<Veiculo> ordenarCustosDecrescentes() {
+        List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
+        Comparator<Veiculo> comparator = new Comparator<Veiculo>() {
+            @Override
+            public int compare(Veiculo veiculo1, Veiculo veiculo2) {
+                if (veiculo1.getGastos() > veiculo2.getGastos()) {
+                    return -1;
+                }
+                if (veiculo1.getGastos() < veiculo2.getGastos()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+
+        Collections.sort(list, comparator);
+        return list;
+    }
+
 }

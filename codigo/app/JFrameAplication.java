@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 
+import java.util.*;
+import java.util.List;
+
 public class JFrameAplication extends JFrame {
 
     public static Frota frota = new Frota();
@@ -26,6 +29,7 @@ public class JFrameAplication extends JFrame {
     private static JButton buttonAddLocalizar = new JButton("Localizar veículo");
     private static JButton buttonSalvarArquivo = new JButton("Salvar no arquivo");
     private static JButton buttonCarregarArquivo = new JButton("Carregar arquivo");
+    private static JButton buttonOrdenarCustos = new JButton("Ordenar veículos por custo decrescente");
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
@@ -77,6 +81,7 @@ public class JFrameAplication extends JFrame {
         }));
         window.getContentPane().add(buttonSalvarArquivo);
         window.getContentPane().add(buttonCarregarArquivo);
+        window.getContentPane().add(buttonOrdenarCustos);
 
         // Funções Menu
 
@@ -101,6 +106,12 @@ public class JFrameAplication extends JFrame {
         buttonCarregarArquivo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 formCarregarArquivo(e);
+            }
+        });
+
+        buttonOrdenarCustos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ordenarCustosDecrescente(e);
             }
         });
 
@@ -363,6 +374,27 @@ public class JFrameAplication extends JFrame {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public static void ordenarCustosDecrescente(ActionEvent e) {
+        JFrameAplication ListagemVeiculos = new JFrameAplication();
+        ListagemVeiculos.setSize(500, 500);
+        ListagemVeiculos.setVisible(true);
+        ListagemVeiculos.setTitle("Veículos em ordem decrescente de custo");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        List<Veiculo> veiculos = new ArrayList<Veiculo>();
+        int i = 1;
+        veiculos = frota.ordenarCustosDecrescentes();
+        for (Veiculo veiculo : veiculos) {
+            JLabel label = new JLabel(i++ + ". " + veiculo.toString());
+            panel.add(label);
+        }
+
+        ListagemVeiculos.add(panel);
+        ListagemVeiculos.pack();
     }
 
 }
