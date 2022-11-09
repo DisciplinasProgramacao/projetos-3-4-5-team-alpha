@@ -75,21 +75,18 @@ public class Frota {
 
     public List<Veiculo> ordenarCustosDecrescentes() {
         List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
-        Comparator<Veiculo> comparator = new Comparator<Veiculo>() {
-            @Override
-            public int compare(Veiculo veiculo1, Veiculo veiculo2) {
-                if (veiculo1.getGastos() > veiculo2.getGastos()) {
-                    return -1;
-                }
-                if (veiculo1.getGastos() < veiculo2.getGastos()) {
-                    return 1;
-                }
-                return 0;
-            }
-        };
 
-        Collections.sort(list, comparator);
+        list.sort((veiculo1, veiculo2) -> veiculo2.compareTo(veiculo1));
+        
         return list;
+    }
+    
+    public List<Veiculo> veiculosComMaisRotas() {
+    	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
+    	
+    	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
+    	
+    	return list.subList(0, 3);
     }
 
 }

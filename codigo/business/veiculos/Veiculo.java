@@ -92,4 +92,14 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         }
         return 0;
     }
+    
+    public int compararRotas(Veiculo outroVeiculo) {
+        if (this.rotas.size() < outroVeiculo.rotas.size()) {
+            return -1;
+        }
+        if (this.rotas.size() > outroVeiculo.rotas.size()) {
+            return 1;
+        }
+        return 0;
+    }
 }
