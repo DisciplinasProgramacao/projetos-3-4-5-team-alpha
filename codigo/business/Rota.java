@@ -15,15 +15,18 @@ public class Rota implements Serializable {
         this.distancia = distancia;
     }
 
-    public String getData() {
-        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    public LocalDate getData() {
+        return data;
     }
-
     public int getDistancia() {
         return this.distancia;
     }
 
     public String getPlaca() {
         return this.placa;
+    }
+
+    public String toString(){
+        return (data + ": " + ", " + distancia + ", " + placa);
     }
 }

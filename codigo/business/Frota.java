@@ -1,6 +1,8 @@
 package business;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -71,5 +73,15 @@ public class Frota {
         Veiculo[] array = new Veiculo[conjuntoOrdenado.size()];
 
         return conjuntoOrdenado.toArray(array);
+    }
+
+    public ArrayList<Rota> localizarRotasPorData(LocalDate data){
+        ArrayList<Rota> aux1 = new ArrayList<Rota>();
+        for(Veiculo veiculo:veiculos){
+            veiculo.getRota().stream()
+            .filter(rote -> rote.getData().equals(data))
+            .forEach(rote -> aux1.add(rote));
+        }
+        return aux1;
     }
 }

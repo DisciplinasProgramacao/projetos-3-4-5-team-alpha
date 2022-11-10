@@ -1,5 +1,6 @@
 package business.veiculos;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +41,9 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         return rotas.get(rotas.size());
     }
 
-    public Rota[] getRota() {
-        Rota[] array = (Rota[])rotas.toArray();  
-        return array;
+    public ArrayList<Rota> getRota() { 
+        
+        return (ArrayList<Rota>) rotas;
     }
 
     public boolean setRota(Rota rota) {

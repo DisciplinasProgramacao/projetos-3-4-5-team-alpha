@@ -10,6 +10,7 @@ import business.veiculos.Veiculo;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class JFrameAplication extends JFrame {
 
@@ -52,6 +53,9 @@ public class JFrameAplication extends JFrame {
     private static JButton buttonEnviaArquivoSalvar = new JButton("Salvar");
     private static JTextField entradaSalvarArquivo = new JTextField(30);
 
+    //Componentes tela procurarRota
+
+    private static JTextField entradaProcurarRota = new JTextField(10);
     public static void main(String[] args) {
 
         // Config janela
@@ -77,6 +81,12 @@ public class JFrameAplication extends JFrame {
         }));
         window.getContentPane().add(buttonSalvarArquivo);
         window.getContentPane().add(buttonCarregarArquivo);
+
+        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                formLocalizarRotasPorData(e);
+            }
+        }));
 
         // Funções Menu
 
@@ -198,6 +208,26 @@ public class JFrameAplication extends JFrame {
         AddRotaPage.pack();
     }
 
+    public static void formLocalizarRotasPorData(ActionEvent e) {
+        JFrameAplication AddLocalizarRotaPage = new JFrameAplication();
+        AddLocalizarRotaPage.setSize(500, 500);
+        AddLocalizarRotaPage.setVisible(true);
+        AddLocalizarRotaPage.setTitle("Procurar rota");
+
+        JPanel formulario = new JPanel();
+        formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
+        formulario.add(ElementosJFrame.label("Digite a data:"));
+        formulario.add(entradaProcurarRota);
+        formulario.add(ElementosJFrame.button("Procurar rotas:", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListarRotasPorData(e);
+            }
+        }));
+
+        AddLocalizarRotaPage.add(formulario);
+
+        AddLocalizarRotaPage.pack();
+    }
     public static void formLocalizar(ActionEvent e) {
         JFrameAplication AddLocalizarPage = new JFrameAplication();
         AddLocalizarPage.setSize(500, 500);
@@ -344,7 +374,27 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
     }
+    public static void ListarRotasPorData (ActionEvent e){
+        JFrameAplication ListagemRotas = new JFrameAplication();
+        ListagemRotas.setSize(500, 500);
+        ListagemRotas.setVisible(true);
+        ListagemRotas.setTitle("Listagem de rotas");
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        int i = 1;
+        LocalDate data = LocalDate.of(Integer.parseInt(entradaProcurarRota.getText().split("/")[2]),
+                Integer.parseInt(entradaProcurarRota.getText().split("/")[1]),
+                Integer.parseInt(entradaProcurarRota.getText().split("/")[0]));
+                ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
+        for (Rota selecionado : datasLocalizadas) {
+            JLabel label = new JLabel(i++ + ". " + selecionado.toString());
+            panel.add(label);
+        }
+
+        ListagemRotas.add(panel);
+        ListagemRotas.pack();
+    }
     public static void carregarArquivo(ActionEvent e) {
         String entradaNomeArquivo = entradaCarregarArquivo.getText();
 
