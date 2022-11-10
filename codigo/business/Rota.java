@@ -27,6 +27,8 @@ public class Rota implements Serializable {
     }
 
     public String toString(){
-        return (data + ": " + ", " + distancia + ", " + placa);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = data.format(formatter);
+        return (dataFormatada + ": " + ", " + distancia + ", " + placa);
     }
 }
