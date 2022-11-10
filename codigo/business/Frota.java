@@ -88,5 +88,15 @@ public class Frota {
     	
     	return list.subList(0, 3);
     }
+    
+    public double quilometragemMedia() {
+    	double media = veiculos.stream()
+    			.mapToInt(Veiculo::getKm_rodados)
+    			.sum();
+    			
+    	return media / veiculos.stream()
+    			.mapToInt(Veiculo::getQuantRotas)
+    			.sum();
+    }
 
 }

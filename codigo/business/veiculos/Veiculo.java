@@ -8,7 +8,8 @@ import business.Rota;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
-    private final int TANQUE;
+	private static final long serialVersionUID = 1L;
+	private final int TANQUE;
     private float autonomia;
     private int km_rodados;
     private String placa;
@@ -54,6 +55,14 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         }
 
         return false;
+    }
+    
+    public List<Rota> getRotas() {
+    	return this.rotas;
+    }
+    
+    public int getQuantRotas() {
+    	return this.rotas.size();
     }
 
     public abstract float getGastos();
