@@ -12,9 +12,14 @@ import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import java.util.*;
+import java.util.List;
+
 public class JFrameAplication extends JFrame {
 
-    public static Frota frota = new Frota();
+	private static final long serialVersionUID = 2L;
+
+	public static Frota frota = new Frota();
 
     // Variavéis
     private static final int TANQUE_VAN = 60;
@@ -27,6 +32,9 @@ public class JFrameAplication extends JFrame {
     private static JButton buttonAddLocalizar = new JButton("Localizar veículo");
     private static JButton buttonSalvarArquivo = new JButton("Salvar no arquivo");
     private static JButton buttonCarregarArquivo = new JButton("Carregar arquivo");
+    private static JButton buttonOrdenarCustos = new JButton("Ordenar veículos por custo decrescente");
+    private static JButton buttonListarVeiculosComMaisRotas = new JButton("Veiculos com mais rotas");
+    private static JButton buttonQuilometragemMediaRotas = new JButton("Media da quilometragem das rotas");
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
@@ -81,6 +89,9 @@ public class JFrameAplication extends JFrame {
         }));
         window.getContentPane().add(buttonSalvarArquivo);
         window.getContentPane().add(buttonCarregarArquivo);
+        window.getContentPane().add(buttonOrdenarCustos);
+        window.getContentPane().add(buttonListarVeiculosComMaisRotas);
+        window.getContentPane().add(buttonQuilometragemMediaRotas);
 
         window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -111,6 +122,24 @@ public class JFrameAplication extends JFrame {
         buttonCarregarArquivo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 formCarregarArquivo(e);
+            }
+        });
+
+        buttonOrdenarCustos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ordenarCustosDecrescente(e);
+            }
+        });
+        
+        buttonListarVeiculosComMaisRotas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	listarVeiculosComMaisRotas(e);
+            }
+        });
+        
+        buttonQuilometragemMediaRotas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mediaQuilometragemRotas(e);
             }
         });
 
@@ -413,6 +442,65 @@ public class JFrameAplication extends JFrame {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public static void ordenarCustosDecrescente(ActionEvent e) {
+        JFrameAplication ListagemVeiculos = new JFrameAplication();
+        ListagemVeiculos.setSize(500, 500);
+        ListagemVeiculos.setVisible(true);
+        ListagemVeiculos.setTitle("Veículos em ordem decrescente de custo");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        List<Veiculo> veiculos = new ArrayList<Veiculo>();
+        int i = 1;
+        veiculos = frota.ordenarCustosDecrescentes();
+        for (Veiculo veiculo : veiculos) {
+            JLabel label = new JLabel(i++ + ". " + veiculo.toString());
+            panel.add(label);
+        }
+
+        ListagemVeiculos.add(panel);
+        ListagemVeiculos.pack();
+    }
+    
+    public static void listarVeiculosComMaisRotas(ActionEvent e) {
+        JFrameAplication ListagemVeiculos = new JFrameAplication();
+        ListagemVeiculos.setSize(500, 500);
+        ListagemVeiculos.setVisible(true);
+        ListagemVeiculos.setTitle("Veículos em ordem decrescente de custo");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        List<Veiculo> veiculos = new ArrayList<Veiculo>();
+        int i = 1;
+        veiculos = frota.veiculosComMaisRotas();
+        for (Veiculo veiculo : veiculos) {
+            JLabel label = new JLabel(i++ + ". " + veiculo.toString());
+            panel.add(label);
+        }
+
+        ListagemVeiculos.add(panel);
+        ListagemVeiculos.pack();
+    }
+    
+    public static void mediaQuilometragemRotas(ActionEvent e) {
+        JFrameAplication ListagemVeiculos = new JFrameAplication();
+        ListagemVeiculos.setSize(500, 500);
+        ListagemVeiculos.setVisible(true);
+        ListagemVeiculos.setTitle("Veículos em ordem decrescente de custo");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        double mediaQuilometragem = frota.quilometragemMedia();
+        JLabel label = new JLabel("A quilometragem média das rotas é: " + mediaQuilometragem + " km");
+        panel.add(label);
+
+        ListagemVeiculos.add(panel);
+        ListagemVeiculos.pack();
     }
 
 }

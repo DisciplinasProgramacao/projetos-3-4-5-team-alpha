@@ -1,4 +1,5 @@
 package business.veiculos;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,11 +9,12 @@ import business.Rota;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
-    private final int TANQUE;
+	private static final long serialVersionUID = 1L;
+	private final int TANQUE;
     private float autonomia;
     private int km_rodados;
     private String placa;
-    private List<Rota> rotas= new ArrayList<Rota>();
+    private List<Rota> rotas = new ArrayList<Rota>();
 
     public Veiculo(String placa, int tanque, float autonomia) {
         this.autonomia = autonomia * tanque;
@@ -36,7 +38,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public String getPlaca() {
         return placa;
     }
-    
+
     public Rota getLastRota() {
         return rotas.get(rotas.size());
     }
@@ -55,6 +57,14 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
         return false;
     }
+    
+    public List<Rota> getRotas() {
+    	return this.rotas;
+    }
+    
+    public int getQuantRotas() {
+    	return this.rotas.size();
+    }
 
     public abstract float getGastos();
 
@@ -68,22 +78,38 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
             String stringRotas = new String();
 
             int i = 0;
-            for(Rota rota : rotas){
+            for (Rota rota : rotas) {
                 stringRotas += rota.getData() + " - " + rota.getDistancia() + "km";
-                if(i++ < rotas.size() - 1) {
+                if (i++ < rotas.size() - 1) {
                     stringRotas += " | ";
                 }
             }
 
             return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: R$" + this.getGastos()
-                    + " - Km rodados: " + this.getKm_rodados()  + "km - Rotas (" + rotas.size() + "): " + stringRotas);
+                    + " - Km rodados: " + this.getKm_rodados() + "km - Rotas (" + rotas.size() + "): " + stringRotas);
         }
 
         return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
     }
 
     @Override
-    public int compareTo(Veiculo veiculo) {
-        return this.getPlaca().compareToIgnoreCase(veiculo.getPlaca());
+    public int compareTo(Veiculo outroVeiculo) {
+        if (this.getGastos() < outroVeiculo.getGastos()) {
+            return -1;
+        }
+        if (this.getGastos() > outroVeiculo.getGastos()) {
+            return 1;
+        }
+        return 0;
+    }
+    
+    public int compararRotas(Veiculo outroVeiculo) {
+        if (this.rotas.size() < outroVeiculo.rotas.size()) {
+            return -1;
+        }
+        if (this.rotas.size() > outroVeiculo.rotas.size()) {
+            return 1;
+        }
+        return 0;
     }
 }

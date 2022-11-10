@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.*;
 
 import business.veiculos.Veiculo;
 
 public class Frota {
     private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 
-    public boolean inserirVeiculo(Veiculo veiculo) {   
-            veiculos.add(veiculo);
-            return true;
+    public boolean inserirVeiculo(Veiculo veiculo) {
+        veiculos.add(veiculo);
+        return true;
     }
 
     public void salvar_arquivo(String filename) throws Exception {
@@ -24,9 +25,10 @@ public class Frota {
             directory.mkdirs();
         }
 
-        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(new FileOutputStream(path + filename + ".bin", false))) {
+        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(
+                new FileOutputStream(path + filename + ".bin", false))) {
             for (Veiculo veiculo : veiculos) {
-                if(veiculo != null) {
+                if (veiculo != null) {
                     saidaVeiculos.writeObject(veiculo);
                 }
             }
@@ -46,7 +48,8 @@ public class Frota {
             throw new Exception();
         }
 
-        try (FileInputStream fis = new FileInputStream(path + filename + ".bin"); ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+        try (FileInputStream fis = new FileInputStream(path + filename + ".bin");
+                ObjectInputStream inputFile = new ObjectInputStream(fis)) {
 
             while (fis.available() > 0) {
                 Veiculo veiculo = (Veiculo) inputFile.readObject();
@@ -84,4 +87,30 @@ public class Frota {
         }
         return aux1;
     }
+    public List<Veiculo> ordenarCustosDecrescentes() {
+        List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
+
+        list.sort((veiculo1, veiculo2) -> veiculo2.compareTo(veiculo1));
+        
+        return list;
+    }
+    
+    public List<Veiculo> veiculosComMaisRotas() {
+    	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
+    	
+    	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
+    	
+    	return list.subList(0, 3);
+    }
+    
+    public double quilometragemMedia() {
+    	double media = veiculos.stream()
+    			.mapToInt(Veiculo::getKm_rodados)
+    			.sum();
+    			
+    	return media / veiculos.stream()
+    			.mapToInt(Veiculo::getQuantRotas)
+    			.sum();
+    }
+
 }
