@@ -146,6 +146,8 @@ public class JFrameAplication extends JFrame {
         // Objetos swing
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.revalidate();
+        window.repaint();
 
     }// Fim da main
 

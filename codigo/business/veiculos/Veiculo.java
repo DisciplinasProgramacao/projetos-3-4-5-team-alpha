@@ -42,9 +42,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         return rotas.get(rotas.size());
     }
 
-    public ArrayList<Rota> getRota() { 
-        
-        return (ArrayList<Rota>) rotas;
+    public List<Rota> getRota() {
+        return rotas;
     }
 
     public boolean setRota(Rota rota) {
@@ -65,7 +64,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     	return this.rotas.size();
     }
 
-    public abstract float getGastos();
+    public abstract double getGastos();
 
     public abstract float calcular_Seguro();
 
