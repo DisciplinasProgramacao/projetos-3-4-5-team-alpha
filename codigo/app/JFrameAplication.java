@@ -71,6 +71,8 @@ public class JFrameAplication extends JFrame {
         window.setSize(1000, 500);
         window.setVisible(true);
         window.setTitle("Frota de veículos");
+        
+        
 
         window.setLayout(new FlowLayout());
 
@@ -144,8 +146,11 @@ public class JFrameAplication extends JFrame {
         });
 
         // Objetos swing
-
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.revalidate();
+        window.repaint();
 
     }// Fim da main
 
@@ -173,6 +178,8 @@ public class JFrameAplication extends JFrame {
         AddVeiculoPage.add(formulario);
 
         AddVeiculoPage.pack();
+        AddVeiculoPage.setLocationRelativeTo(null);
+        AddVeiculoPage.setVisible(true);
 
         buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -256,6 +263,8 @@ public class JFrameAplication extends JFrame {
         AddLocalizarRotaPage.add(formulario);
 
         AddLocalizarRotaPage.pack();
+        AddLocalizarRotaPage.setLocationRelativeTo(null);
+        AddLocalizarRotaPage.setVisible(true);
     }
     public static void formLocalizar(ActionEvent e) {
         JFrameAplication AddLocalizarPage = new JFrameAplication();
@@ -272,6 +281,9 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.add(formulario);
 
         AddLocalizarPage.pack();
+        AddLocalizarPage.setLocationRelativeTo(null);
+        AddLocalizarPage.setVisible(true);
+        
 
         buttonLocalizaVeiculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -295,6 +307,8 @@ public class JFrameAplication extends JFrame {
         AddCarregarArquivo.add(panel);
 
         AddCarregarArquivo.pack();
+        AddCarregarArquivo.setLocationRelativeTo(null);
+        AddCarregarArquivo.setVisible(true);
 
         buttonEnviaArquivoCarregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -319,6 +333,8 @@ public class JFrameAplication extends JFrame {
         AddSalvarArquivo.add(panel);
 
         AddSalvarArquivo.pack();
+        AddSalvarArquivo.setLocationRelativeTo(null);
+        AddSalvarArquivo.setVisible(true);
 
         buttonEnviaArquivoSalvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -402,6 +418,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
     public static void ListarRotasPorData (ActionEvent e){
         JFrameAplication ListagemRotas = new JFrameAplication();
@@ -463,6 +481,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
     
     public static void listarVeiculosComMaisRotas(ActionEvent e) {
@@ -484,6 +504,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
     
     public static void mediaQuilometragemRotas(ActionEvent e) {
@@ -501,6 +523,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
 
 }
