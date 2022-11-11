@@ -96,11 +96,11 @@ public class Frota {
     	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
     	
     	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
-    	if(list.size() >=3)
-        {return list.subList(0, 3);}
-        return list;
+    	if(list.size() >= 3) {
+            return list.subList(0, 3);
+        }
 
-    	
+        return list;
     }
     
     public double quilometragemMedia() {
