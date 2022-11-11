@@ -71,11 +71,9 @@ public class Frota {
     }
 
     public Veiculo[] toArray() {
-        Set<Veiculo> conjuntoOrdenado = new TreeSet<Veiculo>(veiculos);
-
-        Veiculo[] array = new Veiculo[conjuntoOrdenado.size()];
-
-        return conjuntoOrdenado.toArray(array);
+        
+        Veiculo[] array = new Veiculo[veiculos.size()];
+        return veiculos.toArray(array);
     }
 
     public ArrayList<Rota> localizarRotasPorData(LocalDate data){
@@ -99,8 +97,11 @@ public class Frota {
     	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
     	
     	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
+    	if(list.size() >=3)
+        {return list.subList(0, 3);}
+        return list;
+
     	
-    	return list.subList(0, 3);
     }
     
     public double quilometragemMedia() {
