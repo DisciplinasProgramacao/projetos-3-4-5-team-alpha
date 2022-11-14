@@ -13,12 +13,8 @@ public class Carro extends Veiculo {
     }
 
     @Override
-    public float getGastos() {
-        float gastos = calcular_Ipva();
-        gastos += calcular_Seguro();
-        gastos += calcular_Alinhamento();
-
-        return gastos;
+    public double getGastos() {
+        return calcular_Ipva() + calcular_Seguro() + calcular_Alinhamento();
     }
 
     @Override
