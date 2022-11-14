@@ -45,9 +45,11 @@ public class JFrameAplication extends JFrame {
     });
     private static JTextField entradaPlaca = new JTextField(30);
     private static JTextField entradaAutonomia = new JTextField(30);
+    private static JTextField entradaCombustivelAtual = new JTextField(30);
     private static JTextField entradaVenda = new JTextField(30);
     private static String[] tiposVeiculo = { "Carro", "Caminhão", "Van", "Furgão" };
     private static JComboBox<String> tipoVeiculo = new JComboBox<String>(tiposVeiculo);
+    static JComboBox<String> tipoCombustivel;
 
     // Componentes tela localizar veículo
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
@@ -164,8 +166,13 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
+        String[] tiposVeiculoCombo = new String[]{"Gasolina", "Etanol", "Diesel"};
+        tipoCombustivel = new JComboBox<String>(tiposVeiculoCombo);
+        formulario.add(tipoCombustivel);
         formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
         formulario.add(entradaAutonomia);
+        formulario.add(ElementosJFrame.label("Combustivel atual:"));
+        formulario.add(entradaCombustivelAtual);
         formulario.add(ElementosJFrame.label("Valor de venda:"));
         formulario.add(entradaVenda);
         formulario.add(buttonEnviaVeiculoNovo);
@@ -179,7 +186,6 @@ public class JFrameAplication extends JFrame {
                 criarVeiculo();
             }
         });
-
     }
 
     public static void formRota(ActionEvent e) {
@@ -331,25 +337,89 @@ public class JFrameAplication extends JFrame {
     // Funções de instanciação
 
     public static void criarVeiculo() {
-        String placa = entradaPlaca.getText();
-        float autonomia = Float.parseFloat(entradaAutonomia.getText());
+        int controle = 1;
+        if(tipoVeiculo.getSelectedIndex() == 0 && tipoCombustivel.getSelectedIndex() == 2){
+            JFrameAplication errorPage = new JFrameAplication();
+            errorPage.setSize(100, 100);
+            errorPage.setVisible(true);
+            errorPage.setTitle("ERROR");
+
+            JLabel msgError = ElementosJFrame.label("Erro");
+            msgError.setBackground(Color.RED);
+            errorPage.add(msgError);
+             controle = 0;
+        }else{
+            if(tipoVeiculo.getSelectedIndex() == 1 && tipoCombustivel.getSelectedIndex() != 2){
+                JFrameAplication errorPage = new JFrameAplication();
+                errorPage.setSize(100, 100);
+                errorPage.setVisible(true);
+                errorPage.setTitle("ERROR");
+    
+                JLabel msgError = ElementosJFrame.label("Erro");
+                msgError.setBackground(Color.RED);
+                errorPage.add(msgError);
+                 controle = 0;
+                controle = 0;
+            }else{
+                if(tipoVeiculo.getSelectedIndex() == 2 && tipoCombustivel.getSelectedIndex() ==1){
+                    JFrameAplication errorPage = new JFrameAplication();
+                    errorPage.setSize(100, 100);
+                    errorPage.setVisible(true);
+                    errorPage.setTitle("ERROR");
+        
+                    JLabel msgError = ElementosJFrame.label("Erro");
+                    msgError.setBackground(Color.RED);
+                    errorPage.add(msgError);
+                     controle = 0;
+                    controle = 0;
+                }else{
+                    if(tipoVeiculo.getSelectedIndex() == 3 && tipoCombustivel.getSelectedIndex() != 0){
+                        JFrameAplication errorPage = new JFrameAplication();
+                        errorPage.setSize(100, 100);
+                        errorPage.setVisible(true);
+                        errorPage.setTitle("ERROR");
+            
+                        JLabel msgError = ElementosJFrame.label("Erro");
+                        msgError.setBackground(Color.RED);
+                        errorPage.add(msgError);
+                         controle = 0;
+                        controle = 0;
+                    }
+                }
+            }}
+        
+        
+        if(controle == 1){
+            String placa = entradaPlaca.getText();
+        float capacidadeMaxima = Float.parseFloat(entradaAutonomia.getText());
         float valor_venda = Float.parseFloat(entradaVenda.getText());
         String tipo = ((String) tipoVeiculo.getSelectedItem());
-
+        float litragemAtual = Float.parseFloat(entradaCombustivelAtual.getText());
+        Combustivel selecionado = Combustivel.DIESEL;
+        if(tipoCombustivel.getSelectedIndex() == 0){
+             selecionado = Combustivel.GASOLINA;
+        }
+        if(tipoCombustivel.getSelectedIndex() == 1){
+             selecionado = Combustivel.ETANOL;
+        }
+        if(tipoCombustivel.getSelectedIndex() == 2){
+             selecionado = Combustivel.GASOLINA;
+        }
+        
         switch (tipo) {
             case "Carro":
-                Carro carro = new Carro(placa, autonomia, valor_venda);
+                Carro carro = new Carro(placa, litragemAtual, capacidadeMaxima, selecionado, valor_venda);
                 frota.inserirVeiculo(carro);
                 break;
 
             case "Caminhão":
-                Caminhao caminhao = new Caminhao(placa, autonomia, valor_venda);
+                Caminhao caminhao = new Caminhao(placa,  litragemAtual,  capacidadeMaxima, selecionado, valor_venda);
                 frota.inserirVeiculo(caminhao);
                 break;
 
             case "Van":
                 try {
-                    Utilitario van = new Utilitario(placa, tipo, TANQUE_VAN, autonomia, valor_venda);
+                    Utilitario van = new Utilitario(placa,tipo, litragemAtual, capacidadeMaxima, selecionado ,valor_venda);
                     frota.inserirVeiculo(van);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -358,12 +428,13 @@ public class JFrameAplication extends JFrame {
 
             case "Furgão":
                 try {
-                    Utilitario furgao = new Utilitario(placa, tipo, TANQUE_FURGAO, autonomia, valor_venda);
+                    Utilitario furgao = new Utilitario(placa,tipo, litragemAtual, capacidadeMaxima, selecionado ,valor_venda);
                     frota.inserirVeiculo(furgao);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
+        }
         }
     }
 
@@ -503,4 +574,6 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.pack();
     }
 
+   
+    
 }

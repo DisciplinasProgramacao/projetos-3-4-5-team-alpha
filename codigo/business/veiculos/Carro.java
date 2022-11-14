@@ -1,16 +1,15 @@
 package business.veiculos;
 
+import business.Combustivel;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {
-    private static final int TANQUE = 50;
-    private final float valorVenda;
+
     private CustosCarro custosCarro;
 
-    public Carro(String placa, float autonomia, float valorVenda) {
-        super(placa, TANQUE, autonomia);
-        custosCarro = new CustosCarro(valorVenda);
-        this.valorVenda = valorVenda;
+    public Carro(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) {
+        super(placa, litragemAtual, capacidadeMaxima, combustivel);
+        custosCarro = new CustosCarro(valor_venda);
     }
 
     @Override

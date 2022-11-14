@@ -4,30 +4,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.Combustivel;
 import business.Rota;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
 
 	private static final long serialVersionUID = 1L;
-	private final int TANQUE;
-    private float autonomia;
     private int km_rodados;
     private String placa;
     private List<Rota> rotas = new ArrayList<Rota>();
+    private Tanque tanque;
 
-    public Veiculo(String placa, int tanque, float autonomia) {
-        this.autonomia = autonomia * tanque;
+    public Veiculo(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel) {
         this.km_rodados = 0;
         this.placa = placa;
-        this.TANQUE = tanque;
+        this.tanque = new Tanque(litragemAtual, capacidadeMaxima, combustivel);
     }
 
-    public int getTanque() {
-        return TANQUE;
-    }
+    
 
-    public float getAutonomia() {
-        return autonomia;
+    public Combustivel getAutonomia() {
+        return tanque.getCombustivel();
     }
 
     public int getKm_rodados() {
@@ -48,12 +45,11 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     }
 
     public boolean setRota(Rota rota) {
-        if (rota.getDistancia() <= this.getAutonomia()) {
+        if (tanque.consumirCombustivel(rota.getDistancia())) {
             rotas.add(rota);
             km_rodados += rota.getDistancia();
             return true;
         }
-
         return false;
     }
     
@@ -64,7 +60,9 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public int getQuantRotas() {
     	return this.rotas.size();
     }
-
+    public void reabastecer(float litro){
+        tanque.reabastecer(litro);
+    }
     public abstract float getGastos();
 
     public abstract float calcular_Seguro();
@@ -84,11 +82,11 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
                 }
             }
 
-            return ("Placa: " + this.getPlaca() + " - Tanque: " + this.getTanque() + " - Custo: R$" + this.getGastos()
-                    + " - Km rodados: " + this.getKm_rodados() + "km - Rotas (" + rotas.size() + "): " + stringRotas);
+            return ("Placa: " + this.getPlaca() + " - Tanque: " +  " - Custo: R$" + this.getGastos()
+                    + " - Km rodados: " + this.getKm_rodados() + "km - Rotas (" + rotas.size() + "): " + stringRotas + " Tanque: " + tanque.getCombustivel() + " Litragem: " + String.format("%.02f", tanque.getLitragemAtual()) );
         }
 
-        return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados());
+        return ("Placa: " + this.getPlaca() + " - Custo: " + getGastos() + " - Km rodados: " + this.getKm_rodados() + " Tanque: " + tanque.getCombustivel() + " Litragem: " + String.format("%.02f", tanque.getLitragemAtual()));
     }
 
     @Override

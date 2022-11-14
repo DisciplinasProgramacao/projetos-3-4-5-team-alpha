@@ -1,13 +1,15 @@
 package business.veiculos;
 
+import business.Combustivel;
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
     private String tipo_utilitario;
     private CustosUtilitario custosUtilitario;
+    
 
-    public Utilitario(String placa, String tipo, int tanque, float autonomia, float valor_venda) throws Exception {
-        super(placa, tanque, autonomia);
+    public Utilitario(String placa, String tipo, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) throws Exception {
+        super(placa, litragemAtual, capacidadeMaxima, combustivel);
 
         custosUtilitario = new CustosUtilitario(valor_venda);
 

@@ -1,15 +1,13 @@
 package business.veiculos;
 
+import business.Combustivel;
 import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
-    private static final int TANQUE = 250;
-    private final float valorVenda;
     private CustosCaminhao custosCaminhao;
 
-    public Caminhao(String placa, float autonomia, float valor_venda) {
-        super(placa, TANQUE, autonomia);
-        this.valorVenda = valor_venda;
+    public Caminhao(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) {
+        super(placa, litragemAtual, capacidadeMaxima, combustivel);
         custosCaminhao = new CustosCaminhao(valor_venda);
     }
     
