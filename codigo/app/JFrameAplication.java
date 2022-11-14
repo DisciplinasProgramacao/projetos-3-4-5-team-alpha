@@ -10,8 +10,9 @@ import business.veiculos.Veiculo;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-import java.util.*;
+
 import java.util.List;
 
 public class JFrameAplication extends JFrame {
@@ -60,6 +61,9 @@ public class JFrameAplication extends JFrame {
     private static JButton buttonEnviaArquivoSalvar = new JButton("Salvar");
     private static JTextField entradaSalvarArquivo = new JTextField(30);
 
+    //Componentes tela procurarRota
+
+    private static JTextField entradaProcurarRota = new JTextField(10);
     public static void main(String[] args) {
 
         // Config janela
@@ -67,6 +71,8 @@ public class JFrameAplication extends JFrame {
         window.setSize(1000, 500);
         window.setVisible(true);
         window.setTitle("Frota de veículos");
+        
+        
 
         window.setLayout(new FlowLayout());
 
@@ -88,6 +94,12 @@ public class JFrameAplication extends JFrame {
         window.getContentPane().add(buttonOrdenarCustos);
         window.getContentPane().add(buttonListarVeiculosComMaisRotas);
         window.getContentPane().add(buttonQuilometragemMediaRotas);
+
+        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                formLocalizarRotasPorData(e);
+            }
+        }));
 
         // Funções Menu
 
@@ -134,8 +146,11 @@ public class JFrameAplication extends JFrame {
         });
 
         // Objetos swing
-
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.revalidate();
+        window.repaint();
 
     }// Fim da main
 
@@ -163,6 +178,8 @@ public class JFrameAplication extends JFrame {
         AddVeiculoPage.add(formulario);
 
         AddVeiculoPage.pack();
+        AddVeiculoPage.setLocationRelativeTo(null);
+        AddVeiculoPage.setVisible(true);
 
         buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -227,6 +244,28 @@ public class JFrameAplication extends JFrame {
         AddRotaPage.pack();
     }
 
+    public static void formLocalizarRotasPorData(ActionEvent e) {
+        JFrameAplication AddLocalizarRotaPage = new JFrameAplication();
+        AddLocalizarRotaPage.setSize(500, 500);
+        AddLocalizarRotaPage.setVisible(true);
+        AddLocalizarRotaPage.setTitle("Procurar rota");
+
+        JPanel formulario = new JPanel();
+        formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
+        formulario.add(ElementosJFrame.label("Digite a data:"));
+        formulario.add(entradaProcurarRota);
+        formulario.add(ElementosJFrame.button("Procurar rotas:", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ListarRotasPorData(e);
+            }
+        }));
+
+        AddLocalizarRotaPage.add(formulario);
+
+        AddLocalizarRotaPage.pack();
+        AddLocalizarRotaPage.setLocationRelativeTo(null);
+        AddLocalizarRotaPage.setVisible(true);
+    }
     public static void formLocalizar(ActionEvent e) {
         JFrameAplication AddLocalizarPage = new JFrameAplication();
         AddLocalizarPage.setSize(500, 500);
@@ -242,6 +281,9 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.add(formulario);
 
         AddLocalizarPage.pack();
+        AddLocalizarPage.setLocationRelativeTo(null);
+        AddLocalizarPage.setVisible(true);
+        
 
         buttonLocalizaVeiculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -265,6 +307,8 @@ public class JFrameAplication extends JFrame {
         AddCarregarArquivo.add(panel);
 
         AddCarregarArquivo.pack();
+        AddCarregarArquivo.setLocationRelativeTo(null);
+        AddCarregarArquivo.setVisible(true);
 
         buttonEnviaArquivoCarregar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -289,6 +333,8 @@ public class JFrameAplication extends JFrame {
         AddSalvarArquivo.add(panel);
 
         AddSalvarArquivo.pack();
+        AddSalvarArquivo.setLocationRelativeTo(null);
+        AddSalvarArquivo.setVisible(true);
 
         buttonEnviaArquivoSalvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -372,8 +418,30 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
+    public static void ListarRotasPorData (ActionEvent e){
+        JFrameAplication ListagemRotas = new JFrameAplication();
+        ListagemRotas.setSize(500, 500);
+        ListagemRotas.setVisible(true);
+        ListagemRotas.setTitle("Listagem de rotas");
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        int i = 1;
+        LocalDate data = LocalDate.of(Integer.parseInt(entradaProcurarRota.getText().split("/")[2]),
+                Integer.parseInt(entradaProcurarRota.getText().split("/")[1]),
+                Integer.parseInt(entradaProcurarRota.getText().split("/")[0]));
+                ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
+        for (Rota selecionado : datasLocalizadas) {
+            JLabel label = new JLabel(i++ + ". " + selecionado.toString());
+            panel.add(label);
+        }
+
+        ListagemRotas.add(panel);
+        ListagemRotas.pack();
+    }
     public static void carregarArquivo(ActionEvent e) {
         String entradaNomeArquivo = entradaCarregarArquivo.getText();
 
@@ -413,6 +481,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
     
     public static void listarVeiculosComMaisRotas(ActionEvent e) {
@@ -434,6 +504,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
     
     public static void mediaQuilometragemRotas(ActionEvent e) {
@@ -451,6 +523,8 @@ public class JFrameAplication extends JFrame {
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
+        ListagemVeiculos.setLocationRelativeTo(null);
+        ListagemVeiculos.setVisible(true);
     }
 
 }

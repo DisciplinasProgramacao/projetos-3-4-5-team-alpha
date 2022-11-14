@@ -1,6 +1,10 @@
 package business;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.*;
 
 import business.veiculos.Veiculo;
@@ -66,13 +70,20 @@ public class Frota {
     }
 
     public Veiculo[] toArray() {
-        Set<Veiculo> conjuntoOrdenado = new TreeSet<Veiculo>(veiculos);
-
-        Veiculo[] array = new Veiculo[conjuntoOrdenado.size()];
-
-        return conjuntoOrdenado.toArray(array);
+        
+        Veiculo[] array = new Veiculo[veiculos.size()];
+        return veiculos.toArray(array);
     }
 
+    public ArrayList<Rota> localizarRotasPorData(LocalDate data){
+        ArrayList<Rota> aux1 = new ArrayList<Rota>();
+        for(Veiculo veiculo:veiculos){
+            veiculo.getRota().stream()
+            .filter(rote -> rote.getData().equals(data))
+            .forEach(rote -> aux1.add(rote));
+        }
+        return aux1;
+    }
     public List<Veiculo> ordenarCustosDecrescentes() {
         List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
 
@@ -85,8 +96,11 @@ public class Frota {
     	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
     	
     	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
-    	
-    	return list.subList(0, 3);
+    	if(list.size() >= 3) {
+            return list.subList(0, 3);
+        }
+
+        return list;
     }
     
     public double quilometragemMedia() {
