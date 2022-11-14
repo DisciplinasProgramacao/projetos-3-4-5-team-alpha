@@ -49,6 +49,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
             km_rodados += rota.getDistancia();
             return true;
         }
+        else{this.reabastecer();}
         return false;
     }
     
@@ -59,8 +60,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public int getQuantRotas() {
     	return this.rotas.size();
     }
-    public void reabastecer(float litro){
-        tanque.reabastecer(litro);
+    public void reabastecer(){
+        tanque.reabastecer();
     }
     public abstract double getGastos();
 

@@ -21,10 +21,9 @@ public class Tanque {
         }
         return false;
     }
-    public void reabastecer(float litro){
-        if((litro+litragemAtual) < capacidadeMaxima){
-            litragemAtual =+ litro;
-        }
+    public float reabastecer(){
+        litragemAtual = capacidadeMaxima;
+        return ((capacidadeMaxima - litragemAtual)*combustivel.getPrecoMedio());
     }
     public float getLitragemAtual(){
         return litragemAtual;
