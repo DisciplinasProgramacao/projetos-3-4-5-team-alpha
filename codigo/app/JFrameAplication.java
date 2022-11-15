@@ -16,32 +16,34 @@ import java.util.List;
 import java.util.Map;
 
 public class JFrameAplication extends JFrame {
-    private static Map<String, String> tiposCombustiveis = new HashMap<String, String>();
-    private static void carregarTiposVeiculos() {
-        tiposCombustiveis.put("Carro", "Gasolina-Etanol");
-        tiposCombustiveis.put("Van", "Gasolina-Diesel");
-        tiposCombustiveis.put("Furgão", "Gasolina");
-        tiposCombustiveis.put("Caminhão", "Diesel");
+    private static Map<String, String[]> tiposCombustiveis = new HashMap<String, String[]>();
+
+    private static void carregarTiposCombustivelPorVeiculos() {
+        String combustivelCarro[] = { "Gasolina", "Etanol" },
+                combustivelVan[] = { "Gasolina", "Diesel" },
+                combustivelCaminhao[] = { "Diesel" },
+                combustivelFurgao[] = { "Gasolina" };
+
+        tiposCombustiveis.put("Carro", combustivelCarro);
+        tiposCombustiveis.put("Van", combustivelVan);
+        tiposCombustiveis.put("Furgão", combustivelFurgao);
+        tiposCombustiveis.put("Caminhão", combustivelCaminhao);
     }
 
     private static String[] carregarTiposCombustivel(String tipoVeiculo) {
-        carregarTiposVeiculos();
         List<String> listaTiposCombustivel = new ArrayList<String>();
-        String[] tipos = tiposCombustiveis.get(tipoVeiculo).split("-");
 
-        for(String tipo : tipos) {
+        for (String tipo : tiposCombustiveis.get(tipoVeiculo)) {
             listaTiposCombustivel.add(tipo);
         }
+        String[] arrayListCombustiveis = new String[listaTiposCombustivel.size()];
 
-        String[] tiposVeiculosArray = new String[listaTiposCombustivel.size()];
-        return listaTiposCombustivel.toArray(tiposVeiculosArray);
+        return listaTiposCombustivel.toArray(arrayListCombustiveis);
     }
 
-    
+    private static final long serialVersionUID = 2L;
 
-	private static final long serialVersionUID = 2L;
-
-	public static Frota frota = new Frota();
+    public static Frota frota = new Frota();
 
     // Variavéis
 
@@ -83,9 +85,10 @@ public class JFrameAplication extends JFrame {
     private static JButton buttonEnviaArquivoSalvar = new JButton("Salvar");
     private static JTextField entradaSalvarArquivo = new JTextField(30);
 
-    //Componentes tela procurarRota
+    // Componentes tela procurarRota
 
     private static JTextField entradaProcurarRota = new JTextField(10);
+
     public static void main(String[] args) {
 
         // Config janela
@@ -93,8 +96,7 @@ public class JFrameAplication extends JFrame {
         window.setSize(1000, 500);
         window.setVisible(true);
         window.setTitle("Frota de veículos");
-        
-        
+        carregarTiposCombustivelPorVeiculos();
 
         window.setLayout(new FlowLayout());
 
@@ -117,8 +119,8 @@ public class JFrameAplication extends JFrame {
         window.getContentPane().add(buttonListarVeiculosComMaisRotas);
         window.getContentPane().add(buttonQuilometragemMediaRotas);
 
-        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 formLocalizarRotasPorData(e);
             }
         }));
@@ -154,16 +156,16 @@ public class JFrameAplication extends JFrame {
                 ordenarCustosDecrescente(e);
             }
         });
-        
+
         buttonListarVeiculosComMaisRotas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	listarVeiculosComMaisRotas(e);
+                listarVeiculosComMaisRotas(e);
             }
         });
-        
+
         buttonQuilometragemMediaRotas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	mediaQuilometragemRotas(e);
+                mediaQuilometragemRotas(e);
             }
         });
 
@@ -191,20 +193,20 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
-        tipoCombustivel = new JComboBox<String>(carregarTiposCombustivel((String) tipoVeiculo.getSelectedItem()));
-        formulario.add(tipoCombustivel);
+        tipoCombustivel = new JComboBox<String>(carregarTiposCombustivel(tipoVeiculo.getSelectedItem().toString()));
         tipoVeiculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tipoCombustivel.removeAllItems();
-                
-                for(String combustivel : carregarTiposCombustivel((String) tipoVeiculo.getSelectedItem())) {
+
+                for (String combustivel : carregarTiposCombustivel(tipoVeiculo.getSelectedItem().toString())) {
                     tipoCombustivel.addItem(combustivel);
                 }
-                
+
                 tipoCombustivel.repaint();
             }
         });
 
+        formulario.add(tipoCombustivel);
         formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
         formulario.add(entradaAutonomia);
         formulario.add(ElementosJFrame.label("Combustivel atual:"));
@@ -303,6 +305,7 @@ public class JFrameAplication extends JFrame {
         AddLocalizarRotaPage.setLocationRelativeTo(null);
         AddLocalizarRotaPage.setVisible(true);
     }
+
     public static void formLocalizar(ActionEvent e) {
         JFrameAplication AddLocalizarPage = new JFrameAplication();
         AddLocalizarPage.setSize(500, 500);
@@ -320,7 +323,6 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.pack();
         AddLocalizarPage.setLocationRelativeTo(null);
         AddLocalizarPage.setVisible(true);
-        
 
         buttonLocalizaVeiculo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -384,89 +386,37 @@ public class JFrameAplication extends JFrame {
     // Funções de instanciação
 
     public static void criarVeiculo() {
-        int controle = 1;
-        if(tipoVeiculo.getSelectedIndex() == 0 && tipoCombustivel.getSelectedIndex() == 2){
-            JFrameAplication errorPage = new JFrameAplication();
-            errorPage.setSize(100, 100);
-            errorPage.setVisible(true);
-            errorPage.setTitle("ERROR");
+        String placa = entradaPlaca.getText(),
+            veiculoSelecionado = tipoVeiculo.getSelectedItem().toString(),
+            combustivelSelecionado = tipoCombustivel.getSelectedItem().toString();
 
-            JLabel msgError = ElementosJFrame.label("Erro");
-            msgError.setBackground(Color.RED);
-            errorPage.add(msgError);
-             controle = 0;
-        }else{
-            if(tipoVeiculo.getSelectedIndex() == 1 && tipoCombustivel.getSelectedIndex() != 2){
-                JFrameAplication errorPage = new JFrameAplication();
-                errorPage.setSize(100, 100);
-                errorPage.setVisible(true);
-                errorPage.setTitle("ERROR");
-    
-                JLabel msgError = ElementosJFrame.label("Erro");
-                msgError.setBackground(Color.RED);
-                errorPage.add(msgError);
-                 controle = 0;
-                controle = 0;
-            }else{
-                if(tipoVeiculo.getSelectedIndex() == 2 && tipoCombustivel.getSelectedIndex() ==1){
-                    JFrameAplication errorPage = new JFrameAplication();
-                    errorPage.setSize(100, 100);
-                    errorPage.setVisible(true);
-                    errorPage.setTitle("ERROR");
-        
-                    JLabel msgError = ElementosJFrame.label("Erro");
-                    msgError.setBackground(Color.RED);
-                    errorPage.add(msgError);
-                     controle = 0;
-                    controle = 0;
-                }else{
-                    if(tipoVeiculo.getSelectedIndex() == 3 && tipoCombustivel.getSelectedIndex() != 0){
-                        JFrameAplication errorPage = new JFrameAplication();
-                        errorPage.setSize(100, 100);
-                        errorPage.setVisible(true);
-                        errorPage.setTitle("ERROR");
-            
-                        JLabel msgError = ElementosJFrame.label("Erro");
-                        msgError.setBackground(Color.RED);
-                        errorPage.add(msgError);
-                         controle = 0;
-                        controle = 0;
-                    }
-                }
-            }}
-        
-        
-        if(controle == 1){
-            String placa = entradaPlaca.getText();
-        float capacidadeMaxima = Float.parseFloat(entradaAutonomia.getText());
-        float valor_venda = Float.parseFloat(entradaVenda.getText());
-        String tipo = ((String) tipoVeiculo.getSelectedItem());
-        float litragemAtual = Float.parseFloat(entradaCombustivelAtual.getText());
-        Combustivel selecionado = Combustivel.DIESEL;
-        if(tipoCombustivel.getSelectedIndex() == 0){
-             selecionado = Combustivel.GASOLINA;
+        float capacidadeMaxima = Float.parseFloat(entradaAutonomia.getText()),
+            valor_venda = Float.parseFloat(entradaVenda.getText()),
+            litragemAtual = Float.parseFloat(entradaCombustivelAtual.getText());
+
+        Combustivel selecionado = Combustivel.GASOLINA;
+
+        if (combustivelSelecionado.equals("Etanol")) {
+            selecionado = Combustivel.ETANOL;
+        } else if (combustivelSelecionado.equals("Diesel")) {
+            selecionado = Combustivel.DIESEL;
         }
-        if(tipoCombustivel.getSelectedIndex() == 1){
-             selecionado = Combustivel.ETANOL;
-        }
-        if(tipoCombustivel.getSelectedIndex() == 2){
-             selecionado = Combustivel.GASOLINA;
-        }
-        
-        switch (tipo) {
+
+        switch (veiculoSelecionado) {
             case "Carro":
                 Carro carro = new Carro(placa, litragemAtual, capacidadeMaxima, selecionado, valor_venda);
                 frota.inserirVeiculo(carro);
                 break;
 
             case "Caminhão":
-                Caminhao caminhao = new Caminhao(placa,  litragemAtual,  capacidadeMaxima, selecionado, valor_venda);
+                Caminhao caminhao = new Caminhao(placa, litragemAtual, capacidadeMaxima, selecionado, valor_venda);
                 frota.inserirVeiculo(caminhao);
                 break;
 
             case "Van":
                 try {
-                    Utilitario van = new Utilitario(placa,tipo, litragemAtual, capacidadeMaxima, selecionado ,valor_venda);
+                    Utilitario van = new Utilitario(placa, veiculoSelecionado, litragemAtual, capacidadeMaxima, selecionado,
+                            valor_venda);
                     frota.inserirVeiculo(van);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -475,13 +425,13 @@ public class JFrameAplication extends JFrame {
 
             case "Furgão":
                 try {
-                    Utilitario furgao = new Utilitario(placa,tipo, litragemAtual, capacidadeMaxima, selecionado ,valor_venda);
+                    Utilitario furgao = new Utilitario(placa, veiculoSelecionado, litragemAtual, capacidadeMaxima, selecionado,
+                            valor_venda);
                     frota.inserirVeiculo(furgao);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-        }
         }
     }
 
@@ -523,7 +473,8 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);
     }
-    public static void ListarRotasPorData (ActionEvent e){
+
+    public static void ListarRotasPorData(ActionEvent e) {
         JFrameAplication ListagemRotas = new JFrameAplication();
         ListagemRotas.setSize(500, 500);
         ListagemRotas.setVisible(true);
@@ -535,7 +486,7 @@ public class JFrameAplication extends JFrame {
         LocalDate data = LocalDate.of(Integer.parseInt(entradaProcurarRota.getText().split("/")[2]),
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[1]),
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[0]));
-                ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
+        ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
         for (Rota selecionado : datasLocalizadas) {
             JLabel label = new JLabel(i++ + ". " + selecionado.toString());
             panel.add(label);
@@ -544,6 +495,7 @@ public class JFrameAplication extends JFrame {
         ListagemRotas.add(panel);
         ListagemRotas.pack();
     }
+
     public static void carregarArquivo(ActionEvent e) {
         String entradaNomeArquivo = entradaCarregarArquivo.getText();
 
@@ -586,7 +538,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);
     }
-    
+
     public static void listarVeiculosComMaisRotas(ActionEvent e) {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
@@ -609,7 +561,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);
     }
-    
+
     public static void mediaQuilometragemRotas(ActionEvent e) {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
@@ -629,6 +581,4 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
     }
 
-   
-    
 }
