@@ -19,4 +19,10 @@ public enum Combustivel {
     public float getPrecoMedio() {
         return this.precoMedio;
     }
+
+    @Override
+    public String toString() {
+        String str = this.name();
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
 }

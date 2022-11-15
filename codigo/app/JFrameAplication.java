@@ -395,10 +395,10 @@ public class JFrameAplication extends JFrame {
             litragemAtual = Float.parseFloat(entradaCombustivelAtual.getText());
 
         Combustivel selecionado = Combustivel.GASOLINA;
-
-        if (combustivelSelecionado.equals("Etanol")) {
+        
+        if (combustivelSelecionado.equals(Combustivel.ETANOL.toString())) {
             selecionado = Combustivel.ETANOL;
-        } else if (combustivelSelecionado.equals("Diesel")) {
+        } else if (combustivelSelecionado.equals(Combustivel.DIESEL.toString())) {
             selecionado = Combustivel.DIESEL;
         }
 
