@@ -2,18 +2,12 @@ import javax.swing.*;
 
 import ElementosJFrame.ElementosJFrame;
 import business.*;
-import business.veiculos.Caminhao;
-import business.veiculos.Carro;
-import business.veiculos.Utilitario;
-import business.veiculos.Veiculo;
-
+import business.veiculos.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
 
 public class JFrameAplication extends JFrame {
     private static Map<String, String[]> tiposCombustiveis = new HashMap<String, String[]>();
@@ -30,12 +24,13 @@ public class JFrameAplication extends JFrame {
         tiposCombustiveis.put("Caminhão", combustivelCaminhao);
     }
 
-    private static String[] carregarTiposCombustivel(String tipoVeiculo) {
+    private static String[] carregarTiposCombustivel(String selectVeiculo) {
         List<String> listaTiposCombustivel = new ArrayList<String>();
 
-        for (String tipo : tiposCombustiveis.get(tipoVeiculo)) {
+        for (String tipo : tiposCombustiveis.get(selectVeiculo)) {
             listaTiposCombustivel.add(tipo);
         }
+        
         String[] arrayListCombustiveis = new String[listaTiposCombustivel.size()];
 
         return listaTiposCombustivel.toArray(arrayListCombustiveis);
@@ -60,18 +55,14 @@ public class JFrameAplication extends JFrame {
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
-    static JButton teste = ElementosJFrame.button("Inserir veículo", new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            formVeiculo(e);
-        }
-    });
-    private static JTextField entradaPlaca = new JTextField(30);
-    private static JTextField entradaAutonomia = new JTextField(30);
-    private static JTextField entradaCombustivelAtual = new JTextField(30);
-    private static JTextField entradaVenda = new JTextField(30);
+    private static JButton teste = ElementosJFrame.button("Inserir veículo", (e) -> formVeiculo());
+    private static JTextField entradaPlaca = new JTextField(30),
+        entradaAutonomia = new JTextField(30),
+        entradaCombustivelAtual = new JTextField(30),
+        entradaVenda = new JTextField(30);
     private static String[] tiposVeiculo = { "Carro", "Caminhão", "Van", "Furgão" };
-    private static JComboBox<String> tipoVeiculo = new JComboBox<String>(tiposVeiculo);
-    static JComboBox<String> tipoCombustivel;
+    private static JComboBox<String> selectVeiculo = new JComboBox<String>(tiposVeiculo),
+        selectCombustivel;
 
     // Componentes tela localizar veículo
     private static JTextField entradaPlacaLocalizar = new JTextField(30);
@@ -86,11 +77,12 @@ public class JFrameAplication extends JFrame {
     private static JTextField entradaSalvarArquivo = new JTextField(30);
 
     // Componentes tela procurarRota
-
     private static JTextField entradaProcurarRota = new JTextField(10);
 
-    public static void main(String[] args) {
+    // Componente tela addCustoImprevisto
+    private static JTextField entradaAddCustoImprevisto = new JTextField(30);
 
+    public static void main(String[] args) {
         // Config janela
         JFrameAplication window = new JFrameAplication();
         window.setSize(1000, 500);
@@ -101,73 +93,26 @@ public class JFrameAplication extends JFrame {
         window.setLayout(new FlowLayout());
 
         // Botões do Menu
-        window.getContentPane().add(ElementosJFrame.button("Inserir veículo", new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formVeiculo(e);
-            }
-        }));
+        window.getContentPane().add(ElementosJFrame.button("Inserir veículo", (e) -> formVeiculo()));
         window.getContentPane().add(buttonAddLocalizar);
         window.getContentPane().add(buttonAddRota);
-        window.getContentPane().add(ElementosJFrame.button("Listar veículos", new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                listarVeiculos(e);
-            }
-        }));
+        window.getContentPane().add(ElementosJFrame.button("Listar veículos", (e) -> listarVeiculos()));
         window.getContentPane().add(buttonSalvarArquivo);
         window.getContentPane().add(buttonCarregarArquivo);
         window.getContentPane().add(buttonOrdenarCustos);
         window.getContentPane().add(buttonListarVeiculosComMaisRotas);
         window.getContentPane().add(buttonQuilometragemMediaRotas);
-
-        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formLocalizarRotasPorData(e);
-            }
-        }));
+        window.getContentPane().add(ElementosJFrame.button("Procurar rotas", (e) -> formLocalizarRotasPorData()));
+        window.getContentPane().add(ElementosJFrame.button("Adicionar custo", (e) -> formCustoInprevisto()));
 
         // Funções Menu
-
-        buttonAddLocalizar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formLocalizar(e);
-            }
-        });
-
-        buttonAddRota.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formRota(e);
-            }
-        });
-
-        buttonSalvarArquivo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formSalvarArquivo(e);
-            }
-        });
-
-        buttonCarregarArquivo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formCarregarArquivo(e);
-            }
-        });
-
-        buttonOrdenarCustos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ordenarCustosDecrescente(e);
-            }
-        });
-
-        buttonListarVeiculosComMaisRotas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                listarVeiculosComMaisRotas(e);
-            }
-        });
-
-        buttonQuilometragemMediaRotas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mediaQuilometragemRotas(e);
-            }
-        });
+        buttonAddLocalizar.addActionListener((e) -> formLocalizar());
+        buttonAddRota.addActionListener((e) -> formRota());
+        buttonSalvarArquivo.addActionListener((e) -> formSalvarArquivo());
+        buttonCarregarArquivo.addActionListener((e) -> formCarregarArquivo());
+        buttonOrdenarCustos.addActionListener((e) -> ordenarCustosDecrescente() );
+        buttonListarVeiculosComMaisRotas.addActionListener((e) -> listarVeiculosComMaisRotas());
+        buttonQuilometragemMediaRotas.addActionListener((e) -> mediaQuilometragemRotas());
 
         // Objetos swing
         window.setLocationRelativeTo(null);
@@ -175,12 +120,11 @@ public class JFrameAplication extends JFrame {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.revalidate();
         window.repaint();
-
     }// Fim da main
 
     // Funções de formulário
 
-    public static void formVeiculo(ActionEvent e) {
+    public static void formVeiculo() {
         // JOptionPane.showMessageDialog(null, "Botão funciona", "teste",
         // JOptionPane.INFORMATION_MESSAGE);
         JFrameAplication AddVeiculoPage = new JFrameAplication();
@@ -192,21 +136,19 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
-        formulario.add(tipoVeiculo);
-        tipoCombustivel = new JComboBox<String>(carregarTiposCombustivel(tipoVeiculo.getSelectedItem().toString()));
-        tipoVeiculo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tipoCombustivel.removeAllItems();
+        formulario.add(selectVeiculo);
+        selectCombustivel = new JComboBox<String>(carregarTiposCombustivel(selectVeiculo.getSelectedItem().toString()));
+        selectVeiculo.addActionListener((e) -> {
+            selectCombustivel.removeAllItems();
 
-                for (String combustivel : carregarTiposCombustivel(tipoVeiculo.getSelectedItem().toString())) {
-                    tipoCombustivel.addItem(combustivel);
-                }
-
-                tipoCombustivel.repaint();
+            for (String combustivel : carregarTiposCombustivel(selectVeiculo.getSelectedItem().toString())) {
+                selectCombustivel.addItem(combustivel);
             }
+
+            selectCombustivel.repaint();
         });
 
-        formulario.add(tipoCombustivel);
+        formulario.add(selectCombustivel);
         formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
         formulario.add(entradaAutonomia);
         formulario.add(ElementosJFrame.label("Combustivel atual:"));
@@ -221,14 +163,10 @@ public class JFrameAplication extends JFrame {
         AddVeiculoPage.setLocationRelativeTo(null);
         AddVeiculoPage.setVisible(true);
 
-        buttonEnviaVeiculoNovo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                criarVeiculo();
-            }
-        });
+        buttonEnviaVeiculoNovo.addActionListener((e) -> criarVeiculo());
     }
 
-    public static void formRota(ActionEvent e) {
+    public static void formRota() {
         JFrameAplication AddRotaPage = new JFrameAplication();
         AddRotaPage.setSize(500, 500);
         AddRotaPage.setVisible(true);
@@ -238,43 +176,41 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Digite o número da placa:"));
         formulario.add(entradaPlaca);
-        formulario.add(ElementosJFrame.button("Adicionar rota", new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        formulario.add(ElementosJFrame.button("Adicionar rota", (ev) -> {
+            try {
+                if (frota.localizar(entradaPlaca.getText()) != null) {
 
-                try {
-                    if (frota.localizar(entradaPlaca.getText()) != null) {
-
-                        String placa = entradaPlaca.getText();
-                        AddRotaPage.remove(formulario);
-                        JTextField entradaData = new JTextField(30);
-                        JTextField entradaDistancia = new JTextField(30);
-                        JPanel formulario1 = new JPanel();
-                        formulario1.setLayout(new BoxLayout(formulario1, BoxLayout.Y_AXIS));
-                        formulario1.add(ElementosJFrame.label("Data"));
-                        formulario1.add(entradaData);
-                        formulario1.add(ElementosJFrame.label("Distância"));
-                        formulario1.add(entradaDistancia);
-                        formulario1.add(ElementosJFrame.button("Confirmar", new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                Rota rota = new Rota(placa,
-                                        LocalDate.of(Integer.parseInt(entradaData.getText().split("/")[2]),
-                                                Integer.parseInt(entradaData.getText().split("/")[1]),
-                                                Integer.parseInt(entradaData.getText().split("/")[0])),
-                                        Integer.parseInt(entradaDistancia.getText()));
-                                try {
-                                    frota.localizar(entradaPlaca.getText()).setRota(rota);
-                                    AddRotaPage.dispose();
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-                            }
-                        }));
-                        AddRotaPage.add(formulario1);
-                        AddRotaPage.pack();
-                    }
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                    String placa = entradaPlaca.getText();
+                    AddRotaPage.remove(formulario);
+                    JTextField entradaData = new JTextField(30);
+                    JTextField entradaDistancia = new JTextField(30);
+                    JPanel formulario1 = new JPanel();
+                    formulario1.setLayout(new BoxLayout(formulario1, BoxLayout.Y_AXIS));
+                    formulario1.add(ElementosJFrame.label("Data"));
+                    formulario1.add(entradaData);
+                    formulario1.add(ElementosJFrame.label("Distância"));
+                    formulario1.add(entradaDistancia);
+                    formulario1.add(ElementosJFrame.button("Confirmar", (e) -> {
+                        String entrada = entradaData.getText();
+                        int dia = Integer.parseInt(entrada.split("/")[0]),
+                            mes = Integer.parseInt(entrada.split("/")[1]),
+                            ano = Integer.parseInt(entrada.split("/")[2]);
+                            
+                        Rota rota = new Rota(placa,
+                                LocalDate.of(ano, mes, dia),
+                                Integer.parseInt(entradaDistancia.getText()));
+                        try {
+                            frota.localizar(entradaPlaca.getText()).setRota(rota);
+                            AddRotaPage.dispose();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }));
+                    AddRotaPage.add(formulario1);
+                    AddRotaPage.pack();
                 }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         }));
 
@@ -283,7 +219,7 @@ public class JFrameAplication extends JFrame {
         AddRotaPage.pack();
     }
 
-    public static void formLocalizarRotasPorData(ActionEvent e) {
+    public static void formLocalizarRotasPorData() {
         JFrameAplication AddLocalizarRotaPage = new JFrameAplication();
         AddLocalizarRotaPage.setSize(500, 500);
         AddLocalizarRotaPage.setVisible(true);
@@ -293,11 +229,7 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Digite a data:"));
         formulario.add(entradaProcurarRota);
-        formulario.add(ElementosJFrame.button("Procurar rotas:", new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ListarRotasPorData(e);
-            }
-        }));
+        formulario.add(ElementosJFrame.button("Procurar rotas:", (e) -> ListarRotasPorData()));
 
         AddLocalizarRotaPage.add(formulario);
 
@@ -306,7 +238,7 @@ public class JFrameAplication extends JFrame {
         AddLocalizarRotaPage.setVisible(true);
     }
 
-    public static void formLocalizar(ActionEvent e) {
+    public static void formLocalizar() {
         JFrameAplication AddLocalizarPage = new JFrameAplication();
         AddLocalizarPage.setSize(500, 500);
         AddLocalizarPage.setVisible(true);
@@ -324,14 +256,10 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.setLocationRelativeTo(null);
         AddLocalizarPage.setVisible(true);
 
-        buttonLocalizaVeiculo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                localizarVeiculo(e);
-            }
-        });
+        buttonLocalizaVeiculo.addActionListener((e) -> localizarVeiculo());
     }
 
-    public static void formCarregarArquivo(ActionEvent e) {
+    public static void formCarregarArquivo() {
         JFrameAplication AddCarregarArquivo = new JFrameAplication();
         AddCarregarArquivo.setSize(500, 500);
         AddCarregarArquivo.setVisible(true);
@@ -349,15 +277,13 @@ public class JFrameAplication extends JFrame {
         AddCarregarArquivo.setLocationRelativeTo(null);
         AddCarregarArquivo.setVisible(true);
 
-        buttonEnviaArquivoCarregar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                carregarArquivo(e);
-                AddCarregarArquivo.dispose();
-            }
+        buttonEnviaArquivoCarregar.addActionListener((e) -> {
+            carregarArquivo();
+            AddCarregarArquivo.dispose();
         });
     }
 
-    public static void formSalvarArquivo(ActionEvent e) {
+    public static void formSalvarArquivo() {
         JFrameAplication AddSalvarArquivo = new JFrameAplication();
         AddSalvarArquivo.setSize(500, 500);
         AddSalvarArquivo.setVisible(true);
@@ -375,20 +301,45 @@ public class JFrameAplication extends JFrame {
         AddSalvarArquivo.setLocationRelativeTo(null);
         AddSalvarArquivo.setVisible(true);
 
-        buttonEnviaArquivoSalvar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                salvarArquivo(e);
-                AddSalvarArquivo.dispose();
-            }
+        buttonEnviaArquivoSalvar.addActionListener((e) -> { 
+            salvarArquivo();
+            AddSalvarArquivo.dispose();
         });
+    }
+
+    // Form para adição de custo não previsto
+    public static void formCustoInprevisto() {
+        JFrameAplication AddCustoInprevisto = new JFrameAplication();
+        AddCustoInprevisto.setSize(500, 500);
+        AddCustoInprevisto.setTitle("Adicionar custo imprevisto");
+
+        JPanel formulario = new JPanel();
+        formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
+        formulario.add(ElementosJFrame.label("Digite a placa do veículo:"));
+        formulario.add(entradaPlacaLocalizar);
+        formulario.add(ElementosJFrame.label("Digite o valor:"));
+        formulario.add(entradaAddCustoImprevisto);
+
+        try {
+            Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
+            formulario.add(ElementosJFrame.button("Adicionar", (e) -> veiculo.addNovoCustoVariavel(Float.parseFloat(entradaAddCustoImprevisto.getText()))));
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        AddCustoInprevisto.add(formulario);
+
+        AddCustoInprevisto.pack();
+        AddCustoInprevisto.setLocationRelativeTo(null);
+        AddCustoInprevisto.setVisible(true);
     }
 
     // Funções de instanciação
 
     public static void criarVeiculo() {
         String placa = entradaPlaca.getText(),
-            veiculoSelecionado = tipoVeiculo.getSelectedItem().toString(),
-            combustivelSelecionado = tipoCombustivel.getSelectedItem().toString();
+            veiculoSelecionado = selectVeiculo.getSelectedItem().toString(),
+            combustivelSelecionado = selectCombustivel.getSelectedItem().toString();
 
         float capacidadeMaxima = Float.parseFloat(entradaAutonomia.getText()),
             valor_venda = Float.parseFloat(entradaVenda.getText()),
@@ -435,7 +386,7 @@ public class JFrameAplication extends JFrame {
         }
     }
 
-    public static void localizarVeiculo(ActionEvent e) {
+    public static void localizarVeiculo() {
         String placa = entradaPlacaLocalizar.getText();
         try {
             Veiculo procurado = frota.localizar(placa);
@@ -454,7 +405,7 @@ public class JFrameAplication extends JFrame {
         }
     }
 
-    public static void listarVeiculos(ActionEvent e) {
+    public static void listarVeiculos() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
@@ -474,7 +425,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
     }
 
-    public static void ListarRotasPorData(ActionEvent e) {
+    public static void ListarRotasPorData() {
         JFrameAplication ListagemRotas = new JFrameAplication();
         ListagemRotas.setSize(500, 500);
         ListagemRotas.setVisible(true);
@@ -496,27 +447,27 @@ public class JFrameAplication extends JFrame {
         ListagemRotas.pack();
     }
 
-    public static void carregarArquivo(ActionEvent e) {
+    public static void carregarArquivo() {
         String entradaNomeArquivo = entradaCarregarArquivo.getText();
 
         try {
-            frota.carregar_arquivo(entradaNomeArquivo);
+            frota = carregar_arquivo(entradaNomeArquivo);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    public static void salvarArquivo(ActionEvent e) {
+    public static void salvarArquivo() {
         String entradaNomeArquivo = entradaSalvarArquivo.getText();
 
         try {
-            frota.salvar_arquivo(entradaNomeArquivo);
+            salvar_arquivo(entradaNomeArquivo);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    public static void ordenarCustosDecrescente(ActionEvent e) {
+    public static void ordenarCustosDecrescente() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
@@ -539,7 +490,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
     }
 
-    public static void listarVeiculosComMaisRotas(ActionEvent e) {
+    public static void listarVeiculosComMaisRotas() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
@@ -562,7 +513,7 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
     }
 
-    public static void mediaQuilometragemRotas(ActionEvent e) {
+    public static void mediaQuilometragemRotas() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
         ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
@@ -581,4 +532,41 @@ public class JFrameAplication extends JFrame {
         ListagemVeiculos.setVisible(true);
     }
 
+    public static void salvar_arquivo(String filename) throws Exception {
+        String path = "app/arquivos/";
+        File directory = new File(path);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try (ObjectOutputStream saidaVeiculos = new ObjectOutputStream(
+                new FileOutputStream(path + filename + ".bin", false))) {
+            
+            saidaVeiculos.writeObject(frota);
+
+            saidaVeiculos.flush();
+        } catch (Exception e) {
+            System.out.println("ERRO ao gravar dados no disco!");
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Frota carregar_arquivo(String filename) throws Exception {
+        String path = "app/arquivos/";
+        File directory = new File(path);
+        if (!directory.exists()) {
+            throw new Exception();
+        }
+
+        try (FileInputStream fis = new FileInputStream(path + filename + ".bin");
+            ObjectInputStream inputFile = new ObjectInputStream(fis)) {
+
+            return  (Frota) inputFile.readObject();
+        } catch (Exception e) {
+            System.out.println("ERRO ao carregar '" + filename + "' do disco!");
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

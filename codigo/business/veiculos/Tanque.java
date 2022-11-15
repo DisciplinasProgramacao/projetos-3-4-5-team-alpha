@@ -1,8 +1,9 @@
 package business.veiculos;
 
+import java.io.Serializable;
 import business.Combustivel;
 
-public class Tanque {
+public class Tanque implements Serializable{
     private float litragemAtual;
     private final float CAPACIDADE_MAXIMA;
     private Combustivel combustivel;
