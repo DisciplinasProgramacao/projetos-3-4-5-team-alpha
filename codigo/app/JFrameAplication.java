@@ -319,13 +319,17 @@ public class JFrameAplication extends JFrame {
         formulario.add(entradaPlacaLocalizar);
         formulario.add(ElementosJFrame.label("Digite o valor:"));
         formulario.add(entradaAddCustoImprevisto);
-
-        try {
-            Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
-            formulario.add(ElementosJFrame.button("Adicionar", (e) -> veiculo.addNovoCustoVariavel(Float.parseFloat(entradaAddCustoImprevisto.getText()))));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        
+        formulario.add(ElementosJFrame.button("Adicionar", (e) -> {
+            try {
+                entradaPlacaLocalizar.repaint();
+                Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
+                veiculo.addNovoCustoVariavel(Float.parseFloat(entradaAddCustoImprevisto.getText()));
+                AddCustoInprevisto.dispose();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }));
 
         AddCustoInprevisto.add(formulario);
 
