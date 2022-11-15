@@ -65,9 +65,9 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     }
     public abstract double getGastos();
 
-    public abstract float calcular_Seguro();
+    public abstract float calcularSeguro();
 
-    public abstract float calcular_Ipva();
+    public abstract float calcularIpva();
 
     @Override
     public String toString() {

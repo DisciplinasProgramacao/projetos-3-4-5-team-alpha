@@ -13,25 +13,25 @@ public class Caminhao extends Veiculo {
     
     @Override
     public double getGastos() {
-        return calcular_Ipva() + calcular_Seguro() + calcular_Manutencao() + calcular_Vistoria();
+        return custosCaminhao.calcularCustoTotal();
     }
 
     @Override
-    public float calcular_Seguro() {
-        return custosCaminhao.calcular_seguro();
+    public float calcularSeguro() {
+        return custosCaminhao.calcularSeguro();
     }
 
     @Override
-    public float calcular_Ipva() {
-        return custosCaminhao.calcular_Ipva();
+    public float calcularIpva() {
+        return custosCaminhao.calcularIpva();
     }
 
-    public float calcular_Manutencao() {
-        return custosCaminhao.calcular_Manutencao(super.getKm_rodados());
+    public float calcularManutencao() {
+        return custosCaminhao.calcularManutencao(super.getKm_rodados());
     }
 
-    public float calcular_Vistoria() {
-        return custosCaminhao.calcular_Vistoria(super.getKm_rodados());
+    public float calcularVistoria() {
+        return custosCaminhao.calcularVistoria(super.getKm_rodados());
     }
 
     @Override

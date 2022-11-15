@@ -31,25 +31,25 @@ public class Utilitario extends Veiculo {
 
     @Override
     public double getGastos() {
-        return calcular_Ipva() + calcular_Seguro() + calcular_Alinhamento() + calcular_Vistoria();
+        return custosUtilitario.calcularCustoTotal();
     }
 
     @Override
-    public float calcular_Seguro() {
-        return custosUtilitario.calcular_seguro();
+    public float calcularSeguro() {
+        return custosUtilitario.calcularSeguro();
     }
 
     @Override
-    public float calcular_Ipva() {
-        return custosUtilitario.calcular_Ipva();
+    public float calcularIpva() {
+        return custosUtilitario.calcularIpva();
     }
 
-    public float calcular_Alinhamento() {
-        return custosUtilitario.calcular_Alinhamento(super.getKm_rodados());
+    public float calcularAlinhamento() {
+        return custosUtilitario.calcularAlinhamento(super.getKm_rodados());
     }
 
-    public float calcular_Vistoria() {
-        return custosUtilitario.calcular_Vistoria(super.getKm_rodados());
+    public float calcularVistoria() {
+        return custosUtilitario.calcularVistoria(super.getKm_rodados());
     }
 
     @Override

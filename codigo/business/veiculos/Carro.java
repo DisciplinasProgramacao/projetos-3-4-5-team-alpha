@@ -4,7 +4,6 @@ import business.Combustivel;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {
-
     private CustosCarro custosCarro;
 
     public Carro(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) {
@@ -14,21 +13,21 @@ public class Carro extends Veiculo {
 
     @Override
     public double getGastos() {
-        return calcular_Ipva() + calcular_Seguro() + calcular_Alinhamento();
+        return custosCarro.calcularCustoTotal();
     }
 
     @Override
-    public float calcular_Seguro() {
-        return custosCarro.calcular_seguro();
+    public float calcularSeguro() {
+        return custosCarro.calcularSeguro();
     }
 
     @Override
-    public float calcular_Ipva() {
-        return custosCarro.calcular_Ipva();
+    public float calcularIpva() {
+        return custosCarro.calcularIpva();
     }
 
-    public float calcular_Alinhamento() {
-        return custosCarro.calcular_Alinhamento(super.getKm_rodados());
+    public float calcularAlinhamento() {
+        return custosCarro.calcularAlinhamento(super.getKm_rodados());
     }
 
     @Override
