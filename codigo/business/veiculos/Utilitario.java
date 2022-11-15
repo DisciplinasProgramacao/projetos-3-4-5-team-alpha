@@ -5,13 +5,11 @@ import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
     private String tipo_utilitario;
-    private CustosUtilitario custosUtilitario;
     
-
     public Utilitario(String placa, String tipo, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) throws Exception {
         super(placa, litragemAtual, capacidadeMaxima, combustivel);
 
-        custosUtilitario = new CustosUtilitario(valor_venda);
+        super.custosFixo = new CustosUtilitario(valor_venda);
 
         if (tipo.equals("Van") || tipo.equals("Furgão")) {
             this.setTipoUtilitario(tipo);
@@ -30,26 +28,21 @@ public class Utilitario extends Veiculo {
     }
 
     @Override
-    public double getGastos() {
-        return custosUtilitario.calcularCustoTotal();
-    }
-
-    @Override
     public float calcularSeguro() {
-        return custosUtilitario.calcularSeguro();
+        return ((CustosUtilitario) this.custosFixo).calcularSeguro();
     }
 
     @Override
     public float calcularIpva() {
-        return custosUtilitario.calcularIpva();
+        return ((CustosUtilitario) this.custosFixo).calcularIpva();
     }
 
     public float calcularAlinhamento() {
-        return custosUtilitario.calcularAlinhamento(super.getKm_rodados());
+        return ((CustosUtilitario) this.custosFixo).calcularAlinhamento(super.getKm_rodados());
     }
 
     public float calcularVistoria() {
-        return custosUtilitario.calcularVistoria(super.getKm_rodados());
+        return ((CustosUtilitario) this.custosFixo).calcularVistoria(super.getKm_rodados());
     }
 
     @Override

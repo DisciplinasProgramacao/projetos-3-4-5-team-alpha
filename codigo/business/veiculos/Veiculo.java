@@ -6,50 +6,54 @@ import java.util.List;
 
 import business.Combustivel;
 import business.Rota;
+import business.custos.Custos;
+import business.custos.CustosVariaveis;
 
 public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
-
 	private static final long serialVersionUID = 1L;
     private int km_rodados;
-    private String placa;
+    private final String PLACA;
     private List<Rota> rotas = new ArrayList<Rota>();
     private Tanque tanque;
+    protected Custos custosFixo, custosVariaveis;
 
     public Veiculo(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel) {
         this.km_rodados = 0;
-        this.placa = placa;
+        this.PLACA = placa;
         this.tanque = new Tanque(litragemAtual, capacidadeMaxima, combustivel);
+        custosVariaveis = new CustosVariaveis();
     }
 
-    
-
     public Combustivel getAutonomia() {
-        return tanque.getCombustivel();
+        return this.tanque.getCombustivel();
     }
 
     public int getKm_rodados() {
-        return km_rodados;
+        return this.km_rodados;
     }
 
     public String getPlaca() {
-        return placa;
+        return this.PLACA;
     }
 
     public Rota getLastRota() {
-        return rotas.get(rotas.size());
+        return this.rotas.get(rotas.size());
     }
 
     public List<Rota> getRota() {
-        return rotas;
+        return this.rotas;
     }
 
     public boolean setRota(Rota rota) {
-        if (tanque.consumirCombustivel(rota.getDistancia())) {
-            rotas.add(rota);
-            km_rodados += rota.getDistancia();
+        if (this.tanque.consumirCombustivel(rota.getDistancia())) {
+            this.rotas.add(rota);
+            this.km_rodados += rota.getDistancia();
+
             return true;
+        } else {
+            this.reabastecer();
         }
-        else{this.reabastecer();}
+
         return false;
     }
     
@@ -60,10 +64,18 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public int getQuantRotas() {
     	return this.rotas.size();
     }
+
     public void reabastecer(){
-        tanque.reabastecer();
+        this.tanque.reabastecer();
     }
-    public abstract double getGastos();
+
+    public void addNovoCustoVariavel(float preco) {
+        ((CustosVariaveis) this.custosVariaveis).addNovoCustoVariavel(preco);
+    }
+
+    public float getGastos() {
+        return this.custosFixo.calcularCustoTotal() + this.custosVariaveis.calcularCustoTotal();
+    }
 
     public abstract float calcularSeguro();
 
@@ -93,20 +105,20 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     public int compareTo(Veiculo outroVeiculo) {
         if (this.getGastos() < outroVeiculo.getGastos()) {
             return -1;
-        }
-        if (this.getGastos() > outroVeiculo.getGastos()) {
+        } else if (this.getGastos() > outroVeiculo.getGastos()) {
             return 1;
         }
+
         return 0;
     }
     
     public int compararRotas(Veiculo outroVeiculo) {
         if (this.rotas.size() < outroVeiculo.rotas.size()) {
             return -1;
-        }
-        if (this.rotas.size() > outroVeiculo.rotas.size()) {
+        } else if (this.rotas.size() > outroVeiculo.rotas.size()) {
             return 1;
         }
+
         return 0;
     }
 }

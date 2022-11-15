@@ -11,19 +11,39 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JFrameAplication extends JFrame {
+    private static Map<String, String> tiposCombustiveis = new HashMap<String, String>();
+    private static void carregarTiposVeiculos() {
+        tiposCombustiveis.put("Carro", "Gasolina-Etanol");
+        tiposCombustiveis.put("Van", "Gasolina-Diesel");
+        tiposCombustiveis.put("Furgão", "Gasolina");
+        tiposCombustiveis.put("Caminhão", "Diesel");
+    }
+
+    private static String[] carregarTiposCombustivel(String tipoVeiculo) {
+        carregarTiposVeiculos();
+        List<String> listaTiposCombustivel = new ArrayList<String>();
+        String[] tipos = tiposCombustiveis.get(tipoVeiculo).split("-");
+
+        for(String tipo : tipos) {
+            listaTiposCombustivel.add(tipo);
+        }
+
+        String[] tiposVeiculosArray = new String[listaTiposCombustivel.size()];
+        return listaTiposCombustivel.toArray(tiposVeiculosArray);
+    }
+
+    
 
 	private static final long serialVersionUID = 2L;
 
 	public static Frota frota = new Frota();
 
     // Variavéis
-    private static final int TANQUE_VAN = 60;
-    private static final int TANQUE_FURGAO = 80;
 
     // private static JLabel label2 = new JLabel("Outra coisa!");
 
@@ -171,9 +191,20 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(tipoVeiculo);
-        String[] tiposVeiculoCombo = new String[]{"Gasolina", "Etanol", "Diesel"};
-        tipoCombustivel = new JComboBox<String>(tiposVeiculoCombo);
+        tipoCombustivel = new JComboBox<String>(carregarTiposCombustivel((String) tipoVeiculo.getSelectedItem()));
         formulario.add(tipoCombustivel);
+        tipoVeiculo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tipoCombustivel.removeAllItems();
+                
+                for(String combustivel : carregarTiposCombustivel((String) tipoVeiculo.getSelectedItem())) {
+                    tipoCombustivel.addItem(combustivel);
+                }
+                
+                tipoCombustivel.repaint();
+            }
+        });
+
         formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
         formulario.add(entradaAutonomia);
         formulario.add(ElementosJFrame.label("Combustivel atual:"));
