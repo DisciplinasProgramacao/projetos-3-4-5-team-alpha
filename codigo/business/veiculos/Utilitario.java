@@ -1,19 +1,20 @@
 package business.veiculos;
 
+import business.Capacidades;
 import business.Combustivel;
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
     private String tipo_utilitario;
     
-    public Utilitario(String placa, String tipo, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) throws Exception {
-        super(placa, litragemAtual, capacidadeMaxima, combustivel);
+    public Utilitario(String placa, String tipo, Combustivel combustivel,float valor_venda) throws Exception {
+        super(placa, combustivel, tipo);
+        
 
         super.custosFixo = new CustosUtilitario(valor_venda);
 
         if (tipo.equals("Van") || tipo.equals("Furgão")) {
             this.setTipoUtilitario(tipo);
-            
         } else {
             throw new Exception("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
         }

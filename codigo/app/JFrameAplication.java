@@ -55,10 +55,7 @@ public class JFrameAplication extends JFrame {
 
     // Componentes tela inserir veículo
     private static JButton buttonEnviaVeiculoNovo = new JButton("Salvar");
-    private static JButton teste = ElementosJFrame.button("Inserir veículo", (e) -> formVeiculo());
     private static JTextField entradaPlaca = new JTextField(30),
-        entradaAutonomia = new JTextField(30),
-        entradaCombustivelAtual = new JTextField(30),
         entradaVenda = new JTextField(30);
     private static String[] tiposVeiculo = { "Carro", "Caminhão", "Van", "Furgão" };
     private static JComboBox<String> selectVeiculo = new JComboBox<String>(tiposVeiculo),
@@ -149,10 +146,6 @@ public class JFrameAplication extends JFrame {
         });
 
         formulario.add(selectCombustivel);
-        formulario.add(ElementosJFrame.label("Autonomia(km/l):"));
-        formulario.add(entradaAutonomia);
-        formulario.add(ElementosJFrame.label("Combustivel atual:"));
-        formulario.add(entradaCombustivelAtual);
         formulario.add(ElementosJFrame.label("Valor de venda:"));
         formulario.add(entradaVenda);
         formulario.add(buttonEnviaVeiculoNovo);
@@ -341,13 +334,14 @@ public class JFrameAplication extends JFrame {
     // Funções de instanciação
 
     public static void criarVeiculo() {
+        
         String placa = entradaPlaca.getText(),
             veiculoSelecionado = selectVeiculo.getSelectedItem().toString(),
             combustivelSelecionado = selectCombustivel.getSelectedItem().toString();
 
-        float capacidadeMaxima = Float.parseFloat(entradaAutonomia.getText()),
-            valor_venda = Float.parseFloat(entradaVenda.getText()),
-            litragemAtual = Float.parseFloat(entradaCombustivelAtual.getText());
+        
+        Float valor_venda = Float.parseFloat(entradaVenda.getText());
+            
 
         Combustivel selecionado = Combustivel.GASOLINA;
         
@@ -356,38 +350,78 @@ public class JFrameAplication extends JFrame {
         } else if (combustivelSelecionado.equals(Combustivel.DIESEL.toString())) {
             selecionado = Combustivel.DIESEL;
         }
-
-        switch (veiculoSelecionado) {
-            case "Carro":
-                Carro carro = new Carro(placa, litragemAtual, capacidadeMaxima, selecionado, valor_venda);
-                frota.inserirVeiculo(carro);
-                break;
-
-            case "Caminhão":
-                Caminhao caminhao = new Caminhao(placa, litragemAtual, capacidadeMaxima, selecionado, valor_venda);
-                frota.inserirVeiculo(caminhao);
-                break;
-
-            case "Van":
-                try {
-                    Utilitario van = new Utilitario(placa, veiculoSelecionado, litragemAtual, capacidadeMaxima, selecionado,
-                            valor_venda);
-                    frota.inserirVeiculo(van);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "Furgão":
-                try {
-                    Utilitario furgao = new Utilitario(placa, veiculoSelecionado, litragemAtual, capacidadeMaxima, selecionado,
-                            valor_venda);
-                    frota.inserirVeiculo(furgao);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+        if(valor_venda > 0){
+            switch (veiculoSelecionado) {
+                case "Carro":
+                
+                    Carro carro;
+                    try {
+                        carro = new Carro(placa, selecionado, valor_venda);
+                        frota.inserirVeiculo(carro);
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        System.out.println("ERRO");
+                        JFrameAplication error = new JFrameAplication();
+                        error.setSize(500, 50);
+                        error.setTitle("Error");
+                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
+                        error.setVisible(true);
+                    }
+                    
+                    break;
+    
+                case "Caminhão":
+                    Caminhao caminhao;
+                    try {
+                        caminhao = new Caminhao(placa, selecionado, valor_venda);
+                        frota.inserirVeiculo(caminhao);
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        JFrameAplication error = new JFrameAplication();
+                        error.setSize(500, 50);
+                        error.setTitle("Error");
+                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
+                        error.setVisible(true);
+                    }
+                    
+                    break;
+    
+                case "Van":
+                    try {
+                        Utilitario van = new Utilitario(placa, veiculoSelecionado, selecionado,
+                                valor_venda);
+                        frota.inserirVeiculo(van);
+                    } catch (Exception e) {
+                        JFrameAplication error = new JFrameAplication();
+                        error.setSize(500, 50);
+                        error.setTitle("Error");
+                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
+                        error.setVisible(true);
+                    }
+                    break;
+    
+                case "Furgão":
+                    try {
+                        Utilitario furgao = new Utilitario(placa, veiculoSelecionado, selecionado,
+                                valor_venda);
+                        frota.inserirVeiculo(furgao);
+                    } catch (Exception e) {
+                        JFrameAplication error = new JFrameAplication();
+                        error.setSize(500, 50);
+                        error.setTitle("Error");
+                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
+                        error.setVisible(true);
+                    }
+                    break;
+            }
+        }else{
+                        JFrameAplication error = new JFrameAplication();
+                        error.setSize(500, 50);
+                        error.setTitle("Error");
+                        error.add(ElementosJFrame.label("O valor de venda não pode ser negativo"));
+                        error.setVisible(true);
         }
+        
     }
 
     public static void localizarVeiculo() {

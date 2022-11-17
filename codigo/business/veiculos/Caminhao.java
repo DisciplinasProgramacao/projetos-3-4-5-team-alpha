@@ -1,12 +1,13 @@
 package business.veiculos;
 
+import business.Capacidades;
 import business.Combustivel;
 import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
 
-    public Caminhao(String placa, float litragemAtual, float capacidadeMaxima, Combustivel combustivel,float valor_venda) {
-        super(placa, litragemAtual, capacidadeMaxima, combustivel);
+    public Caminhao(String placa, Combustivel combustivel,float valor_venda) throws Exception {
+        super(placa, combustivel, Capacidades.CAMINHAO);
         super.custosFixo = new CustosCaminhao(valor_venda);
     }
 
