@@ -18,7 +18,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
     private Tanque tanque;
     protected Custos custosFixo, custosVariaveis;
 
-    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade) throws Exception {
+    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade)  {
         this.km_rodados = 0;
         this.PLACA = placa;
         this.tanque = new Tanque(combustivel, capacidade);
@@ -36,8 +36,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         custosVariaveis = new CustosVariaveis();
     }
 
-    public Combustivel getAutonomia() {
-        return this.tanque.getCombustivel();
+    public float getAutonomia() {
+        return this.tanque.autonomia();
     }
 
     public int getKm_rodados() {
@@ -64,7 +64,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
             return true;
         }
 
-        if (this.tanque.getCapacidadeMaxima() > rota.getDistancia()) {
+        if (this.tanque.AUTONOMIA_MAXIMA >= rota.getDistancia()) {
             this.reabastecer();
             this.tanque.consumirCombustivel(rota.getDistancia());
             this.rotas.add(rota);

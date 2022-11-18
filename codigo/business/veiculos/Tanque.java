@@ -9,29 +9,32 @@ public class Tanque implements Serializable{
     private float litragemAtual;
     private final Capacidades CAPACIDADE_MAXIMA;
     private Combustivel combustivel;
+    public final double AUTONOMIA_MAXIMA;
     
     public Tanque(Combustivel combustivel, Capacidades capacidade){
-        System.out.println(capacidade.getCapacidadeMaxima());
         this.CAPACIDADE_MAXIMA = capacidade;
+        this.AUTONOMIA_MAXIMA = CAPACIDADE_MAXIMA.getCapacidadeMaxima() * combustivel.getConsumo();
         this.setLitragemAtual(CAPACIDADE_MAXIMA.getCapacidadeMaxima());
         this.combustivel = combustivel;
-        System.out.println(combustivel);
     }
 
     public boolean consumirCombustivel(float distancia){
-        if(distancia < (litragemAtual + (distancia * combustivel.getConsumo()))){
+        if(distancia <= autonomia()){
             setLitragemAtual(litragemAtual - (distancia / combustivel.getConsumo()));
-            System.out.println(litragemAtual + (distancia * combustivel.getConsumo()));
-            System.err.println(distancia);
             return true;
         }
 
         return false;
     }
 
+    public float autonomia(){
+        return litragemAtual*combustivel.getConsumo();
+    }
+
     public float reabastecer(){
+        float preco = ((CAPACIDADE_MAXIMA.getCapacidadeMaxima() - litragemAtual) * combustivel.getPrecoMedio());
         setLitragemAtual(CAPACIDADE_MAXIMA.getCapacidadeMaxima());
-        return ((CAPACIDADE_MAXIMA.getCapacidadeMaxima() - litragemAtual) * combustivel.getPrecoMedio());
+        return preco;
     }
 
     public float getLitragemAtual(){
@@ -39,7 +42,7 @@ public class Tanque implements Serializable{
     }
 
     public void setLitragemAtual(float litragemAtual) {
-        if(litragemAtual > 0 && litragemAtual <= CAPACIDADE_MAXIMA.getCapacidadeMaxima()) {
+        if(litragemAtual >= 0 && litragemAtual <= CAPACIDADE_MAXIMA.getCapacidadeMaxima()) {
             this.litragemAtual = litragemAtual;
         }
     }

@@ -5,7 +5,7 @@ import business.Combustivel;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {
-    public Carro(String placa, Combustivel combustivel,float valor_venda) throws Exception {
+    public Carro(String placa, Combustivel combustivel,float valor_venda) {
         super(placa, combustivel, Capacidades.CARRO);
         super.custosFixo = new CustosCarro(valor_venda);
     }
