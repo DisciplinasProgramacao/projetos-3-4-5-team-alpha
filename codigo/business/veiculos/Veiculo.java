@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.Capacidades;
-import business.Combustivel;
 import business.Rota;
+import business.Enuns.Capacidades;
+import business.Enuns.Combustivel;
 import business.custos.Custos;
 import business.custos.CustosVariaveis;
 

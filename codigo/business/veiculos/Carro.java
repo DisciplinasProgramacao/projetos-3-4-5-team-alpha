@@ -1,7 +1,7 @@
 package business.veiculos;
 
-import business.Capacidades;
-import business.Combustivel;
+import business.Enuns.Capacidades;
+import business.Enuns.Combustivel;
 import business.custos.CustosCarro;
 
 public class Carro extends Veiculo {

@@ -1,4 +1,4 @@
-package business;
+package business.Enuns;
 
 public enum Combustivel {
     GASOLINA(12F, 4.48F),

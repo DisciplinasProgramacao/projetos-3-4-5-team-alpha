@@ -2,8 +2,8 @@ package business.veiculos;
 
 import java.io.Serializable;
 
-import business.Capacidades;
-import business.Combustivel;
+import business.Enuns.Capacidades;
+import business.Enuns.Combustivel;
 
 public class Tanque implements Serializable{
     private float litragemAtual;

@@ -2,8 +2,8 @@ package business.veiculos;
 
 import java.time.LocalDate;
 
-import business.Combustivel;
 import business.Rota;
+import business.Enuns.Combustivel;
 
 public class VeiculoTest {
     static Carro carro = new Carro("aaa", Combustivel.GASOLINA, 1);

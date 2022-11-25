@@ -1,30 +1,40 @@
 package business.veiculos;
 
-import business.Capacidades;
-import business.Combustivel;
+import java.util.ArrayList;
+
+import business.Enuns.Capacidades;
+import business.Enuns.Combustivel;
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
-    private String tipo_utilitario;
+    static ArrayList<Capacidades> tiposUtilitario;
+    private Capacidades tipo_utilitario;
     
-    public Utilitario(String placa, String tipo, Combustivel combustivel,float valor_venda) throws Exception {
+    static{
+        tiposUtilitario = new ArrayList<Capacidades>();
+        tiposUtilitario.add(Capacidades.FURGAO);
+        tiposUtilitario.add(Capacidades.VAN);
+    }
+
+    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, float valor_venda) throws Exception {
         super(placa, combustivel, tipo);
         
 
         super.custosFixo = new CustosUtilitario(valor_venda);
 
-        if (tipo.equals("Van") || tipo.equals("Furgão")) {
+      if(tiposUtilitario.contains(tipo)){
             this.setTipoUtilitario(tipo);
-        } else {
+        }
+        else {
             throw new Exception("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
         }
     }
 
-    public String getTipo_utilitario() {
+    public Capacidades getTipo_utilitario() {
         return tipo_utilitario;
     }
 
-    public void setTipoUtilitario(String tipo_utilitario) {
+    public void setTipoUtilitario(Capacidades tipo_utilitario) {
         this.tipo_utilitario = tipo_utilitario;
     }
 

@@ -2,6 +2,8 @@ import javax.swing.*;
 
 import ElementosJFrame.ElementosJFrame;
 import business.*;
+import business.Enuns.Capacidades;
+import business.Enuns.Combustivel;
 import business.veiculos.*;
 import java.awt.*;
 import java.io.*;
@@ -388,7 +390,8 @@ public class JFrameAplication extends JFrame {
     
                 case "Van":
                     try {
-                        Utilitario van = new Utilitario(placa, veiculoSelecionado, selecionado,
+                        Capacidades minhaCapacidade = Capacidades.VAN;
+                        Utilitario van = new Utilitario(placa, minhaCapacidade, selecionado,
                                 valor_venda);
                         frota.inserirVeiculo(van);
                     } catch (Exception e) {
@@ -402,7 +405,8 @@ public class JFrameAplication extends JFrame {
     
                 case "Furgão":
                     try {
-                        Utilitario furgao = new Utilitario(placa, veiculoSelecionado, selecionado,
+                        Capacidades minhaCapacidade = Capacidades.FURGAO;
+                        Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado,
                                 valor_venda);
                         frota.inserirVeiculo(furgao);
                     } catch (Exception e) {

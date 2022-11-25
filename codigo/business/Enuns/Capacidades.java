@@ -1,4 +1,4 @@
-package business;
+package business.Enuns;
 
 public enum Capacidades {
     CARRO(50),
