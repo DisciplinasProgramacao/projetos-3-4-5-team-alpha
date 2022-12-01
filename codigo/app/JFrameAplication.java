@@ -136,6 +136,7 @@ public class JFrameAplication extends JFrame {
         formulario.add(ElementosJFrame.label("Placa:"));
         formulario.add(entradaPlaca);
         formulario.add(selectVeiculo);
+
         selectCombustivel = new JComboBox<String>(carregarTiposCombustivel(selectVeiculo.getSelectedItem().toString()));
         selectVeiculo.addActionListener((e) -> {
             selectCombustivel.removeAllItems();
@@ -158,13 +159,19 @@ public class JFrameAplication extends JFrame {
         AddVeiculoPage.setLocationRelativeTo(null);
         AddVeiculoPage.setVisible(true);
 
-        buttonEnviaVeiculoNovo.addActionListener((e) -> criarVeiculo());
+        buttonEnviaVeiculoNovo.addActionListener((e) -> {
+            criarVeiculo();
+            AddVeiculoPage.dispose();
+            entradaPlaca.setText("");
+            entradaVenda.setText("");
+        });
     }
 
     public static void formRota() {
         JFrameAplication AddRotaPage = new JFrameAplication();
         AddRotaPage.setSize(500, 500);
         AddRotaPage.setVisible(true);
+        AddRotaPage.setLocationRelativeTo(null);
         AddRotaPage.setTitle("Incluir Rota");
 
         JPanel formulario = new JPanel();
@@ -173,7 +180,9 @@ public class JFrameAplication extends JFrame {
         formulario.add(entradaPlaca);
         formulario.add(ElementosJFrame.button("Adicionar rota", (ev) -> {
             try {
-                if (frota.localizar(entradaPlaca.getText()) != null) {
+                Veiculo found = frota.localizar(entradaPlaca.getText());
+
+                if (found != null) {
 
                     String placa = entradaPlaca.getText();
                     AddRotaPage.remove(formulario);
@@ -194,18 +203,17 @@ public class JFrameAplication extends JFrame {
                         Rota rota = new Rota(placa,
                                 LocalDate.of(ano, mes, dia),
                                 Integer.parseInt(entradaDistancia.getText()));
-                        try {
-                            frota.localizar(entradaPlaca.getText()).setRota(rota);
-                            AddRotaPage.dispose();
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+                        
+                        found.setRota(rota);
+                        AddRotaPage.dispose();
                     }));
+
                     AddRotaPage.add(formulario1);
                     AddRotaPage.pack();
                 }
-            } catch (Exception e1) {
-                e1.printStackTrace();
+            } catch (Exception e) {
+                JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+                error.setVisible(true);
             }
         }));
 
@@ -321,8 +329,9 @@ public class JFrameAplication extends JFrame {
                 Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
                 veiculo.addNovoCustoVariavel(Float.parseFloat(entradaAddCustoImprevisto.getText()));
                 AddCustoInprevisto.dispose();
-            } catch (Exception e1) {
-                e1.printStackTrace();
+            } catch (Exception errFormCustoImprevisto) {
+                JFrame error = ElementosJFrame.errorWindow("Error", errFormCustoImprevisto.getMessage());
+                error.setVisible(true);
             }
         }));
 
@@ -340,10 +349,8 @@ public class JFrameAplication extends JFrame {
         String placa = entradaPlaca.getText(),
             veiculoSelecionado = selectVeiculo.getSelectedItem().toString(),
             combustivelSelecionado = selectCombustivel.getSelectedItem().toString();
-
         
         Float valor_venda = Float.parseFloat(entradaVenda.getText());
-            
 
         Combustivel selecionado = Combustivel.GASOLINA;
         
@@ -352,78 +359,51 @@ public class JFrameAplication extends JFrame {
         } else if (combustivelSelecionado.equals(Combustivel.DIESEL.toString())) {
             selecionado = Combustivel.DIESEL;
         }
-        if(valor_venda > 0){
-            switch (veiculoSelecionado) {
-                case "Carro":
-                
-                    Carro carro;
-                    try {
+        
+        if(valor_venda > 0) {
+            try {
+                Capacidades minhaCapacidade;
+
+                switch (veiculoSelecionado) {
+                    case "Carro":
+                        Carro carro;
                         carro = new Carro(placa, selecionado, valor_venda);
                         frota.inserirVeiculo(carro);
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        System.out.println("ERRO");
-                        JFrameAplication error = new JFrameAplication();
-                        error.setSize(500, 50);
-                        error.setTitle("Error");
-                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
-                        error.setVisible(true);
-                    }
                     
-                    break;
-    
-                case "Caminhão":
-                    Caminhao caminhao;
-                    try {
+                        break;
+        
+                    case "Caminhão":
+                        Caminhao caminhao;
                         caminhao = new Caminhao(placa, selecionado, valor_venda);
                         frota.inserirVeiculo(caminhao);
-                    } catch (Exception e1) {
-                        // TODO Auto-generated catch block
-                        JFrameAplication error = new JFrameAplication();
-                        error.setSize(500, 50);
-                        error.setTitle("Error");
-                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
-                        error.setVisible(true);
-                    }
-                    
-                    break;
-    
-                case "Van":
-                    try {
-                        Capacidades minhaCapacidade = Capacidades.VAN;
-                        Utilitario van = new Utilitario(placa, minhaCapacidade, selecionado,
-                                valor_venda);
+                        
+                        break;
+        
+                    case "Van":
+                    minhaCapacidade = Capacidades.VAN;
+                        Utilitario van = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
                         frota.inserirVeiculo(van);
-                    } catch (Exception e) {
-                        JFrameAplication error = new JFrameAplication();
-                        error.setSize(500, 50);
-                        error.setTitle("Error");
-                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
-                        error.setVisible(true);
-                    }
-                    break;
-    
-                case "Furgão":
-                    try {
-                        Capacidades minhaCapacidade = Capacidades.FURGAO;
-                        Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado,
-                                valor_venda);
+
+                        break;
+        
+                    case "Furgão":
+                        minhaCapacidade = Capacidades.FURGAO;
+                        Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
                         frota.inserirVeiculo(furgao);
-                    } catch (Exception e) {
-                        JFrameAplication error = new JFrameAplication();
-                        error.setSize(500, 50);
-                        error.setTitle("Error");
-                        error.add(ElementosJFrame.label("O combustivel não pode ser negativo"));
-                        error.setVisible(true);
-                    }
-                    break;
+
+                        break;
+                }
+            } catch (Exception e) {
+                String message = "O combustivel não pode ser negativo";
+
+                JFrame error = ElementosJFrame.errorWindow("Error", message);
+                error.setVisible(true);
             }
-        }else{
-                        JFrameAplication error = new JFrameAplication();
-                        error.setSize(500, 50);
-                        error.setTitle("Error");
-                        error.add(ElementosJFrame.label("O valor de venda não pode ser negativo"));
-                        error.setVisible(true);
+        } else {
+            String message = "O valor de venda não pode ser negativo";
+
+            JFrame error = ElementosJFrame.errorWindow("Error", message);
+            error.setVisible(true);
         }
         
     }
@@ -442,8 +422,9 @@ public class JFrameAplication extends JFrame {
 
             FrameVeiculoLocalizado.add(panelVeiculoEncontrado);
             FrameVeiculoLocalizado.pack();
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+            error.setVisible(true);
         }
     }
 
@@ -494,8 +475,9 @@ public class JFrameAplication extends JFrame {
 
         try {
             frota = carregar_arquivo(entradaNomeArquivo);
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (Exception e) {
+            JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+            error.setVisible(true);
         }
     }
 
@@ -504,8 +486,9 @@ public class JFrameAplication extends JFrame {
 
         try {
             salvar_arquivo(entradaNomeArquivo);
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (Exception e) {
+            JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+            error.setVisible(true);
         }
     }
 
@@ -519,8 +502,9 @@ public class JFrameAplication extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         List<Veiculo> veiculos = new ArrayList<Veiculo>();
-        int i = 1;
         veiculos = frota.ordenarCustosDecrescentes();
+
+        int i = 1;
         for (Veiculo veiculo : veiculos) {
             JLabel label = new JLabel(i++ + ". " + veiculo.toString());
             panel.add(label);
@@ -588,8 +572,7 @@ public class JFrameAplication extends JFrame {
 
             saidaVeiculos.flush();
         } catch (Exception e) {
-            System.out.println("ERRO ao gravar dados no disco!");
-            e.printStackTrace();
+            throw new Exception("ERRO ao salvar \"" + filename + "\" dados no disco!");
         }
 
     }
@@ -598,7 +581,7 @@ public class JFrameAplication extends JFrame {
         String path = "app/arquivos/";
         File directory = new File(path);
         if (!directory.exists()) {
-            throw new Exception();
+            throw new Exception("Arquivo não encontrado");
         }
 
         try (FileInputStream fis = new FileInputStream(path + filename + ".bin");
@@ -606,9 +589,7 @@ public class JFrameAplication extends JFrame {
 
             return  (Frota) inputFile.readObject();
         } catch (Exception e) {
-            System.out.println("ERRO ao carregar '" + filename + "' do disco!");
-            e.printStackTrace();
-            return null;
+            throw new Exception("Erro ao carregar \"" + filename + "\" do disco! Arquivo não encontrado");
         }
     }
 }
