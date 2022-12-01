@@ -550,8 +550,13 @@ public class JFrameAplication extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         double mediaQuilometragem = frota.quilometragemMedia();
-        JLabel label = new JLabel("A quilometragem média das rotas é: " + mediaQuilometragem + " km");
-        panel.add(label);
+        if(!Double.isNaN(mediaQuilometragem)){
+            JLabel label = new JLabel("A quilometragem média das rotas é: " + mediaQuilometragem + " km");
+            panel.add(label);
+        } else {
+            JLabel label = new JLabel("A quilometragem média das rotas é: " + 0 + " km");
+            panel.add(label);
+        }
 
         ListagemVeiculos.add(panel);
         ListagemVeiculos.pack();
