@@ -345,67 +345,68 @@ public class JFrameAplication extends JFrame {
     // Funções de instanciação
 
     public static void criarVeiculo() {
-        
-        String placa = entradaPlaca.getText(),
-            veiculoSelecionado = selectVeiculo.getSelectedItem().toString(),
+        if(entradaPlaca.getText().compareTo("")!=0 && Float.parseFloat(entradaVenda.getText())!= 0){
+            String placa = entradaPlaca.getText();
+            Float valor_venda = Float.parseFloat(entradaVenda.getText());
+            String veiculoSelecionado = selectVeiculo.getSelectedItem().toString(),
             combustivelSelecionado = selectCombustivel.getSelectedItem().toString();
-        
-        Float valor_venda = Float.parseFloat(entradaVenda.getText());
+            Combustivel selecionado = Combustivel.GASOLINA;
 
-        Combustivel selecionado = Combustivel.GASOLINA;
-        
-        if (combustivelSelecionado.equals(Combustivel.ETANOL.toString())) {
-            selecionado = Combustivel.ETANOL;
-        } else if (combustivelSelecionado.equals(Combustivel.DIESEL.toString())) {
-            selecionado = Combustivel.DIESEL;
-        }
-        
-        if(valor_venda > 0) {
-            try {
-                Capacidades minhaCapacidade;
-
-                switch (veiculoSelecionado) {
-                    case "Carro":
-                        Carro carro;
-                        carro = new Carro(placa, selecionado, valor_venda);
-                        frota.inserirVeiculo(carro);
-                    
-                        break;
-        
-                    case "Caminhão":
-                        Caminhao caminhao;
-                        caminhao = new Caminhao(placa, selecionado, valor_venda);
-                        frota.inserirVeiculo(caminhao);
+            if (combustivelSelecionado.equals(Combustivel.ETANOL.toString())) {
+                selecionado = Combustivel.ETANOL;
+            } else if (combustivelSelecionado.equals(Combustivel.DIESEL.toString())) {
+                selecionado = Combustivel.DIESEL;
+            }
+            
+            if(valor_venda > 0) {
+                try {
+                    Capacidades minhaCapacidade;
+    
+                    switch (veiculoSelecionado) {
+                        case "Carro":
+                            Carro carro;
+                            carro = new Carro(placa, selecionado, valor_venda);
+                            frota.inserirVeiculo(carro);
                         
-                        break;
-        
-                    case "Van":
-                    minhaCapacidade = Capacidades.VAN;
-                        Utilitario van = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
-                        frota.inserirVeiculo(van);
-
-                        break;
-        
-                    case "Furgão":
-                        minhaCapacidade = Capacidades.FURGAO;
-                        Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
-                        frota.inserirVeiculo(furgao);
-
-                        break;
+                            break;
+            
+                        case "Caminhão":
+                            Caminhao caminhao;
+                            caminhao = new Caminhao(placa, selecionado, valor_venda);
+                            frota.inserirVeiculo(caminhao);
+                            
+                            break;
+            
+                        case "Van":
+                        minhaCapacidade = Capacidades.VAN;
+                            Utilitario van = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
+                            frota.inserirVeiculo(van);
+    
+                            break;
+            
+                        case "Furgão":
+                            minhaCapacidade = Capacidades.FURGAO;
+                            Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
+                            frota.inserirVeiculo(furgao);
+    
+                            break;
+                    }
+                } catch (Exception e) {
+                    String message = "O combustivel não pode ser negativo";
+    
+                    JFrame error = ElementosJFrame.errorWindow("Error", message);
+                    error.setVisible(true);
                 }
-            } catch (Exception e) {
-                String message = "O combustivel não pode ser negativo";
-
+            } else {
+                String message = "O valor de venda não pode ser negativo";
+    
                 JFrame error = ElementosJFrame.errorWindow("Error", message);
                 error.setVisible(true);
             }
-        } else {
-            String message = "O valor de venda não pode ser negativo";
-
-            JFrame error = ElementosJFrame.errorWindow("Error", message);
-            error.setVisible(true);
+            
         }
         
+
     }
 
     public static void localizarVeiculo() {
