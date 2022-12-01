@@ -56,7 +56,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
         return this.rotas;
     }
 
-    public boolean setRota(Rota rota) {
+    public boolean setRota(Rota rota) throws ArithmeticException {
         if (this.tanque.consumirCombustivel(rota.getDistancia())) {
             this.rotas.add(rota);
             this.km_rodados += rota.getDistancia();
@@ -71,8 +71,11 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo> {
             this.km_rodados += rota.getDistancia();
             return true;
         }
+        else{
+            throw new ArithmeticException ("A rota deve ter uma distância menor que a autonima do veículo");
+        }
 
-        return false;
+
     }
 
     public List<Rota> getRotas() {

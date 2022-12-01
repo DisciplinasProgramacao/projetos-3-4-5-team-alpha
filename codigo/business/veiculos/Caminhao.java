@@ -6,7 +6,7 @@ import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
 
-    public Caminhao(String placa, Combustivel combustivel,float valor_venda) throws Exception {
+    public Caminhao(String placa, Combustivel combustivel,float valor_venda) throws IllegalArgumentException, ArithmeticException {
         super(placa, combustivel, Capacidades.CAMINHAO);
         super.custosFixo = new CustosCaminhao(valor_venda);
     }

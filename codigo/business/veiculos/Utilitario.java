@@ -16,7 +16,7 @@ public class Utilitario extends Veiculo {
         tiposUtilitario.add(Capacidades.VAN);
     }
 
-    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, float valor_venda) throws Exception {
+    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, float valor_venda) throws NoSuchFieldException, ArithmeticException  {
         super(placa, combustivel, tipo);
         
 
@@ -26,7 +26,7 @@ public class Utilitario extends Veiculo {
             this.setTipoUtilitario(tipo);
         }
         else {
-            throw new Exception("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
+            throw new NoSuchFieldException ("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
         }
     }
 

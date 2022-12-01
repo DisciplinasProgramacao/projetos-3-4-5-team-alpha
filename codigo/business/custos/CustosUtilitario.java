@@ -11,10 +11,14 @@ public class CustosUtilitario extends CustosFixos {
     private float custoAlinhamento = 0F, custoVistoria = 0F, valorIpva = 0F, valorSeguro = 0F;
     private int qtdVistoria, qtdAlinhamento;
 
-    public CustosUtilitario(float valorVenda) {
-        this.VALOR_VENDA = valorVenda;
-        this.calcularIpva();
-        this.calcularSeguro();
+    public CustosUtilitario(float valorVenda) throws ArithmeticException{
+        if(valorVenda>0){
+            this.VALOR_VENDA = valorVenda;
+       this.calcularIpva();
+       this.calcularSeguro();
+       }else{
+           throw new ArithmeticException("O valor de venda tem que ser positivo.");
+       }
     }
 
     public float calcularIpva(){

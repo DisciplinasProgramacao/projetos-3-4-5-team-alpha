@@ -10,10 +10,15 @@ public class CustosCarro extends CustosFixos {
     private float custoAlinhamento = 0F, valorIpva = 0F, valorSeguro = 0F;
     private int qtdAlinhamento;
 
-    public CustosCarro(float valorVenda) {
-        this.VALOR_VENDA = valorVenda;
+    public CustosCarro(float valorVenda) throws ArithmeticException{
+        if(valorVenda>0){
+             this.VALOR_VENDA = valorVenda;
         this.calcularIpva();
         this.calcularSeguro();
+        }else{
+            throw new ArithmeticException("O valor de venda tem que ser positivo.");
+        }
+       
     }
 
     public float calcularIpva(){

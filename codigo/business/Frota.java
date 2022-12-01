@@ -17,13 +17,13 @@ public class Frota implements Serializable{
         return true;
     }
 
-    public Veiculo localizar(String placa) throws Exception {
+    public Veiculo localizar(String placa) throws NoSuchFieldException {
         for (Veiculo veiculo : veiculos) {
             if (placa.equals(veiculo.getPlaca())) {
                 return veiculo;
             }
         }
-        throw new Exception("Não existe um veículo na frota com esta placa");
+        throw new NoSuchFieldException ("Não existe um veículo na frota com esta placa");
     }
 
     public Veiculo[] toArray() {

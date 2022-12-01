@@ -12,10 +12,15 @@ public class CustosCaminhao extends CustosFixos {
     private float custoManutencao = 0F, custoVistoria = 0F, valorIpva = 0F, valorSeguro = 0F;
     private int qtdManutencao, qtdVistoria;
 
-    public CustosCaminhao(float valorVenda) {
-        this.VALOR_VENDA = valorVenda;
+    public CustosCaminhao(float valorVenda) throws IllegalArgumentException{
+        if(valorVenda>0){
+            this.VALOR_VENDA = valorVenda;
         this.calcularIpva();
         this.calcularSeguro();
+        }else{
+            throw new IllegalArgumentException ("O valor de venda precisa ser positivo.");
+        }
+        
     }
 
     public float calcularIpva() {
