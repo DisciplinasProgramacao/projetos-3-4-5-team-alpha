@@ -200,18 +200,20 @@ public class JFrameAplication extends JFrame {
                                 mes = Integer.parseInt(entrada.split("/")[1]),
                                 ano = Integer.parseInt(entrada.split("/")[2]);
 
-                        Rota rota = new Rota(placa,
-                                LocalDate.of(ano, mes, dia),
-                                Integer.parseInt(entradaDistancia.getText()));
+                        
 
                         try {
+                            Rota rota = new Rota(placa,
+                                LocalDate.of(ano, mes, dia),
+                                Integer.parseInt(entradaDistancia.getText()));
                             found.setRota(rota);
                         } catch (ArithmeticException f) {
                             JFrame error = ElementosJFrame.errorWindow("Error", f.getMessage());
                             error.setVisible(true);
-                        }
-                        AddRotaPage.dispose();
-                    }));
+                        }catch(NumberFormatException e1){
+                            JFrame error = ElementosJFrame.errorWindow("Error", "Distância é irreal");
+                            error.setVisible(true);
+                        }}));
 
                     AddRotaPage.add(formulario1);
                     AddRotaPage.pack();
