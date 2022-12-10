@@ -194,7 +194,7 @@ public class JFrameAplication extends JFrame {
                                 LocalDate.of(ano, mes, dia),
                                 Integer.parseInt(entradaDistancia.getText()));
 
-                            found.setRota(rota);
+                            found.addRota(rota);
 
                         } catch (ArithmeticException f) {
                             JFrame error = ElementosJFrame.errorWindow("Error", f.getMessage());

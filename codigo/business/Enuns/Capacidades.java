@@ -3,18 +3,16 @@ package business.Enuns;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ComboBoxModel;
-
 public enum Capacidades {
     CARRO(50, Combustivel.GASOLINA, Combustivel.ETANOL),
     VAN(60, Combustivel.GASOLINA, Combustivel.DIESEL),
     FURGÃO(80, Combustivel.GASOLINA, null),
     CAMINHÃO(250, Combustivel.DIESEL, null);
 
-    private float capacidadeMaxima;
+    private double capacidadeMaxima;
     private List<Combustivel> combustiveis;
 
-    private Capacidades(float capacidadeMaxima, Combustivel combustivel1, Combustivel combustivel2) {
+    private Capacidades(double capacidadeMaxima, Combustivel combustivel1, Combustivel combustivel2) {
         combustiveis = new ArrayList<>();
         combustiveis.add(combustivel1);
         combustiveis.add(combustivel2);
@@ -22,7 +20,7 @@ public enum Capacidades {
         this.capacidadeMaxima = capacidadeMaxima;
     }
 
-    public float getCapacidadeMaxima() {
+    public double getCapacidadeMaxima() {
         return this.capacidadeMaxima;
     }
 

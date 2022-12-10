@@ -8,21 +8,21 @@ import business.Enuns.Combustivel;
 import business.custos.*;
 
 public class Utilitario extends Veiculo {
-    static List<Capacidades> tiposUtilitario;
+    private static List<Capacidades> tiposUtilitarios;
     private Capacidades tipo_utilitario;
     
     static {
-        tiposUtilitario = new ArrayList<Capacidades>();
-        tiposUtilitario.add(Capacidades.FURGÃO);
-        tiposUtilitario.add(Capacidades.VAN);
+        tiposUtilitarios = new ArrayList<Capacidades>();
+        tiposUtilitarios.add(Capacidades.FURGÃO);
+        tiposUtilitarios.add(Capacidades.VAN);
     }
 
-    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, double valor_venda) throws NoSuchFieldException, ArithmeticException, IllegalArgumentException  {
-        super(placa, combustivel, tipo);
+    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, double valorVenda) throws NoSuchFieldException, ArithmeticException, IllegalArgumentException  {
+        super(placa, combustivel, tipo, valorVenda);
         
-        super.custosFixo = new CustosUtilitario(valor_venda);
+        super.custosFixos = new CustosUtilitario(valorVenda);
         
-        if(tiposUtilitario.contains(tipo)) {
+        if(tiposUtilitarios.contains(tipo)) {
             this.setTipoUtilitario(tipo);
         } else {
             throw new NoSuchFieldException ("Os tipos de utilitário podem ser apenas \"Van\" ou \"Furgão\"");
@@ -39,20 +39,20 @@ public class Utilitario extends Veiculo {
 
     @Override
     public double calcularSeguro() {
-        return ((CustosUtilitario) this.custosFixo).calcularSeguro();
+        return ((CustosUtilitario) this.custosFixos).calcularSeguro();
     }
 
     @Override
     public double calcularIpva() {
-        return ((CustosUtilitario) this.custosFixo).calcularIpva();
+        return ((CustosUtilitario) this.custosFixos).calcularIpva();
     }
 
     public double calcularAlinhamento() {
-        return ((CustosUtilitario) this.custosFixo).calcularAlinhamento(super.getKm_rodados());
+        return ((CustosUtilitario) this.custosFixos).calcularAlinhamento(super.getKm_rodados());
     }
 
     public double calcularVistoria() {
-        return ((CustosUtilitario) this.custosFixo).calcularVistoria(super.getKm_rodados());
+        return ((CustosUtilitario) this.custosFixos).calcularVistoria(super.getKm_rodados());
     }
 
     @Override
@@ -63,8 +63,8 @@ public class Utilitario extends Veiculo {
     @Override
     public String getGastos() {
         String saida = super.getGastos() +
-        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
-        "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#";
+        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixos).qtdAlinhamento() + ")#" +
+        "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixos).qtdVistoria() + ")#";
 
         if(super.getCustosAdicionais().size() > 0) {
             saida += "# #+2&CUSTOS ADICIONAIS:";

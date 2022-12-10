@@ -8,27 +8,27 @@ public class Caminhao extends Veiculo {
 
     private static Capacidades caminhao = Capacidades.CAMINHÃO;
 
-    public Caminhao(String placa, Combustivel combustivel, double valor_venda) throws IllegalArgumentException, ArithmeticException {
-        super(placa, combustivel, caminhao); 
-        super.custosFixo = new CustosCaminhao(valor_venda);
+    public Caminhao(String placa, Combustivel combustivel, double valorVenda) throws IllegalArgumentException, ArithmeticException {
+        super(placa, combustivel, caminhao, valorVenda); 
+        super.custosFixos = new CustosCaminhao(valorVenda);
     }
 
     @Override
     public double calcularSeguro() {
-        return ((CustosCaminhao) this.custosFixo).calcularSeguro();
+        return ((CustosCaminhao) this.custosFixos).calcularSeguro();
     }
 
     @Override
     public double calcularIpva() {
-        return ((CustosCaminhao) this.custosFixo).calcularIpva();
+        return ((CustosCaminhao) this.custosFixos).calcularIpva();
     }
 
     public double calcularManutencao() {
-        return ((CustosCaminhao) this.custosFixo).calcularManutencao(super.getKm_rodados());
+        return ((CustosCaminhao) this.custosFixos).calcularManutencao(super.getKm_rodados());
     }
 
     public double calcularVistoria() {
-        return ((CustosCaminhao) this.custosFixo).calcularVistoria(super.getKm_rodados());
+        return ((CustosCaminhao) this.custosFixos).calcularVistoria(super.getKm_rodados());
     }
 
     @Override
@@ -39,8 +39,8 @@ public class Caminhao extends Veiculo {
     @Override
     public String getGastos() {
         String saida = super.getGastos() +
-            "+2&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
-            "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#";
+            "+2&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixos).qtdManutencao() + ")#" +
+            "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixos).qtdVistoria() + ")#";
 
         if(super.getCustosAdicionais().size() > 0) {
             saida += "# #+2&CUSTOS ADICIONAIS:";

@@ -13,6 +13,7 @@ public class Frota implements Serializable, Observer {
     public boolean inserirVeiculo(Veiculo veiculo) {
         veiculo.addObserver(this);
         veiculos.add(veiculo);
+
         return true;
     }
 
@@ -27,8 +28,8 @@ public class Frota implements Serializable, Observer {
     }
 
     public Veiculo[] toArray() {
-        
         Veiculo[] array = new Veiculo[veiculos.size()];
+        
         return veiculos.toArray(array);
     }
 

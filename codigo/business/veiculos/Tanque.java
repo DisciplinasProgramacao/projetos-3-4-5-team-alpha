@@ -11,14 +11,14 @@ public class Tanque implements Serializable{
     private Combustivel combustivel;
     public final double AUTONOMIA_MAXIMA;
     
-    public Tanque(Combustivel combustivel, Capacidades capacidade){
+    public Tanque(Combustivel combustivel, Capacidades capacidade) {
         this.CAPACIDADE_MAXIMA = capacidade;
         this.AUTONOMIA_MAXIMA = CAPACIDADE_MAXIMA.getCapacidadeMaxima() * combustivel.getConsumo();
         this.setLitragemAtual(CAPACIDADE_MAXIMA.getCapacidadeMaxima());
         this.combustivel = combustivel;
     }
 
-    public boolean consumirCombustivel(double distancia){
+    public boolean consumirCombustivel(double distancia) {
         if(distancia <= autonomia()){
             setLitragemAtual(litragemAtual - (distancia / combustivel.getConsumo()));
             return true;
@@ -27,17 +27,18 @@ public class Tanque implements Serializable{
         return false;
     }
 
-    public double autonomia(){
+    public double autonomia() {
         return litragemAtual*combustivel.getConsumo();
     }
 
-    public double reabastecer(){
+    public double reabastecer() {
         double preco = ((CAPACIDADE_MAXIMA.getCapacidadeMaxima() - litragemAtual) * combustivel.getPrecoMedio());
         setLitragemAtual(CAPACIDADE_MAXIMA.getCapacidadeMaxima());
+
         return preco;
     }
 
-    public double getLitragemAtual(){
+    public double getLitragemAtual() {
         return litragemAtual;
     }
 
@@ -47,11 +48,11 @@ public class Tanque implements Serializable{
         }
     }
 
-    public Combustivel getCombustivel(){
+    public Combustivel getCombustivel() {
         return combustivel;
     }
 
-    public double getCapacidadeMaxima(){
+    public double getCapacidadeMaxima() {
         return CAPACIDADE_MAXIMA.getCapacidadeMaxima();
     }
 }

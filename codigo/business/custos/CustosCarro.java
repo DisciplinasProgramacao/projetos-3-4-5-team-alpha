@@ -10,18 +10,17 @@ public class CustosCarro extends CustosFixos {
     private double custoAlinhamento = 0F, valorIpva = 0F, valorSeguro = 0F;
     private int qtdAlinhamento;
 
-    public CustosCarro(double valorVenda) throws ArithmeticException{
-        if(valorVenda>0){
-             this.VALOR_VENDA = valorVenda;
-        this.calcularIpva();
-        this.calcularSeguro();
-        }else{
+    public CustosCarro(double valorVenda) throws ArithmeticException {
+        if(valorVenda > 0) {
+            this.VALOR_VENDA = valorVenda;
+            this.calcularIpva();
+            this.calcularSeguro();
+
+        } else
             throw new ArithmeticException("O valor de venda tem que ser positivo.");
-        }
-       
     }
 
-    public double calcularIpva(){
+    public double calcularIpva() {
         this.valorIpva = super.calcularIpva(PERCENTUAL_IPVA, VALOR_VENDA);
 
         return this.valorIpva;

@@ -2,7 +2,7 @@ package business.custos;
 import java.io.Serializable;
 
 public abstract class CustosFixos implements Custos, Serializable  {
-    int qdtCustos;
+    private int qdtCustos;
 
     public double calcularIpva(double porcentagem, double valorVenda) {
         return porcentagem * valorVenda;

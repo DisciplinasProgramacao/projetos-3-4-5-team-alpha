@@ -11,10 +11,10 @@ public class VeiculoTest {
     static Rota rota50 = new Rota("aaa", LocalDate.now(), 600);
 
     public static void reabastecimentoMaximo(){
-        carro.setRota(rota10);
+        carro.addRota(rota10);
         System.err.println(carro.getAutonomia());
         System.err.println(carro.getKm_rodados());   
-        carro.setRota(rota50);
+        carro.addRota(rota50);
         System.err.println(carro.getAutonomia());
         System.err.println(carro.getKm_rodados());
         System.err.println(carro.getAutonomia());

@@ -13,14 +13,13 @@ public class CustosCaminhao extends CustosFixos {
     private int qtdManutencao, qtdVistoria;
 
     public CustosCaminhao(double valorVenda) throws IllegalArgumentException {
-        if(valorVenda>0){
+        if(valorVenda > 0) {
             this.VALOR_VENDA = valorVenda;
-        this.calcularIpva();
-        this.calcularSeguro();
-        }else{
+            this.calcularIpva();
+            this.calcularSeguro();
+            
+        } else
             throw new IllegalArgumentException ("O valor de venda precisa ser positivo.");
-        }
-        
     }
 
     public double calcularIpva() {

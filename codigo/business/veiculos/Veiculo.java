@@ -13,23 +13,29 @@ import business.Rota;
 public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Sujeito {
     private static final long serialVersionUID = 1L;
     private final String PLACA;
-    protected Custos custosFixo;
+    protected Custos custosFixos;
     protected List<Custos> custosAdicionais;
     private List<Rota> rotas = new ArrayList<Rota>();
     private List<Observer> observers;
     private int km_rodados;
     private Tanque tanque;
+    private double valorVenda;
 
-    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade) throws IllegalArgumentException {
+    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade, double valorVenda) throws IllegalArgumentException {
         if(capacidade.getCombustiveis().contains(combustivel)) {
             this.km_rodados = 0;
             this.PLACA = placa;
             this.tanque = new Tanque(combustivel, capacidade);
+            this.valorVenda = valorVenda;
 
             custosAdicionais = new ArrayList<Custos>();
             observers = new ArrayList<Observer>();
         } else
             throw new IllegalArgumentException(capacidade + " permite apenas " + capacidade.getCombustiveisString() + " como combustível");
+    }
+
+    public double getValorVenda() {
+        return this.valorVenda;
     }
 
     public double getAutonomia() {
@@ -52,7 +58,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
         return this.rotas;
     }
 
-    public boolean setRota(Rota rota) throws ArithmeticException {
+    public boolean addRota(Rota rota) throws ArithmeticException {
         if (this.tanque.consumirCombustivel(rota.getDistancia())) {
             this.rotas.add(rota);
             this.km_rodados += rota.getDistancia();
@@ -95,7 +101,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     }
 
     protected double getGastoTotal() {
-        return this.custosFixo.calcularCustoTotal() + this.getTotalCustosAdicionais();
+        return this.custosFixos.calcularCustoTotal() + this.getTotalCustosAdicionais();
     }
 
     public abstract double calcularSeguro();
@@ -111,7 +117,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
 
     @Override
     public String toString() {
-        String saida = "(" + this.getPlaca() + ")" +
+        String saida = "- " + this.getPlaca() + " (R$ " + String.format("%.02f", this.getValorVenda()) + ")" +
             "# #KM RODADOS: " + this.getKm_rodados() + "km" +
             "#TANQUE: " + tanque.getCombustivel() +
             "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual()) + "L" + " (" + String.format("%.02f", tanque.getCapacidadeMaxima()) + "L)" +

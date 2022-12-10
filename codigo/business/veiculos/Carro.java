@@ -8,24 +8,24 @@ public class Carro extends Veiculo {
 
     private static Capacidades carro = Capacidades.CARRO;
 
-    public Carro(String placa, Combustivel combustivel, double valor_venda) throws ArithmeticException, IllegalArgumentException {
-        super(placa, combustivel, carro);
+    public Carro(String placa, Combustivel combustivel, double valorVenda) throws ArithmeticException, IllegalArgumentException {
+        super(placa, combustivel, carro, valorVenda);
         
-        super.custosFixo = new CustosCarro(valor_venda);
+        super.custosFixos = new CustosCarro(valorVenda);
     }
 
     @Override
     public double calcularSeguro() {
-        return ((CustosCarro) this.custosFixo).calcularSeguro();
+        return ((CustosCarro) this.custosFixos).calcularSeguro();
     }
 
     @Override
     public double calcularIpva() {
-        return ((CustosCarro) this.custosFixo).calcularIpva();
+        return ((CustosCarro) this.custosFixos).calcularIpva();
     }
 
     public double calcularAlinhamento() {
-        return ((CustosCarro) this.custosFixo).calcularAlinhamento(super.getKm_rodados());
+        return ((CustosCarro) this.custosFixos).calcularAlinhamento(super.getKm_rodados());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Carro extends Veiculo {
     @Override
     public String getGastos() {
         String saida = super.getGastos() +
-        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixo).qtdAlinhamento() + ")";
+        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixos).qtdAlinhamento() + ")";
         
         if(super.getCustosAdicionais().size() > 0) {
             saida += "# #+2&CUSTOS ADICIONAIS:";

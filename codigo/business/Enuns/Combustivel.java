@@ -5,18 +5,18 @@ public enum Combustivel {
     ETANOL(8F, 3.65F),
     DIESEL(3.5F, 6.65F);
 
-    private float consumo, precoMedio;
+    private double consumo, precoMedio;
 
-    Combustivel(float consumo, float precoMedio) {
+    Combustivel(double consumo, double precoMedio) {
         this.consumo = consumo;
         this.precoMedio = precoMedio;
     }
 
-    public float getConsumo() {
+    public double getConsumo() {
         return this.consumo;
     }
 
-    public float getPrecoMedio() {
+    public double getPrecoMedio() {
         return this.precoMedio;
     }
 
