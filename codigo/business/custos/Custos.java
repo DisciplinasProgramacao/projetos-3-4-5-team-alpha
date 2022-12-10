@@ -2,5 +2,5 @@ package business.custos;
 
 public interface Custos {
 
-    public float calcularCustoTotal();
+    public double calcularCustoTotal();
 }

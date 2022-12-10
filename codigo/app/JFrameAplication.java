@@ -80,6 +80,7 @@ public class JFrameAplication extends JFrame {
 
     // Componente tela addCustoImprevisto
     private static JTextField entradaAddCustoImprevisto = new JTextField(30);
+    private static JTextField entradaAddDescricaoCustoImprevisto = new JTextField(30);
 
     public static void main(String[] args) {
         // Config janela
@@ -327,6 +328,8 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Digite a placa do veículo:"));
         formulario.add(entradaPlacaLocalizar);
+        formulario.add(ElementosJFrame.label("Digite uma descrição:"));
+        formulario.add(entradaAddDescricaoCustoImprevisto);
         formulario.add(ElementosJFrame.label("Digite o valor:"));
         formulario.add(entradaAddCustoImprevisto);
 
@@ -334,7 +337,8 @@ public class JFrameAplication extends JFrame {
             try {
                 entradaPlacaLocalizar.repaint();
                 Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
-                veiculo.addNovoCustoVariavel(Float.parseFloat(entradaAddCustoImprevisto.getText()));
+                String descricao = entradaAddDescricaoCustoImprevisto.getText();
+                veiculo.addNovoCustoVariavel(descricao, Float.parseFloat(entradaAddCustoImprevisto.getText()));
                 AddCustoInprevisto.dispose();
             } catch (NoSuchFieldException f) {
                 JFrame error = ElementosJFrame.errorWindow("Error", f.getMessage());
@@ -433,16 +437,16 @@ public class JFrameAplication extends JFrame {
 
     public static void listarVeiculos() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
-        ListagemVeiculos.setSize(500, 500);
         ListagemVeiculos.setVisible(true);
         ListagemVeiculos.setTitle("Listagem de veículos");
 
         JPanel panel = new JPanel();
+        JPanel veiculosLabel;
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         int i = 1;
         for (Veiculo selecionado : frota.toArray()) {
-            JLabel label = new JLabel(i++ + ". " + selecionado.toString());
-            panel.add(label);
+            veiculosLabel = ElementosJFrame.listarVeiculos(i, selecionado.toString());
+            panel.add(veiculosLabel);
         }
 
         ListagemVeiculos.add(panel);

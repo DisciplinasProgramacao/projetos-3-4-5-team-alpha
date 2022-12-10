@@ -2,17 +2,16 @@ package business;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.*;
 
 import business.veiculos.Veiculo;
+import business.pattern.Observer;
 
-public class Frota implements Serializable{
+public class Frota implements Serializable, Observer {
     private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 
     public boolean inserirVeiculo(Veiculo veiculo) {
+        veiculo.observar(this);
         veiculos.add(veiculo);
         return true;
     }
@@ -52,7 +51,16 @@ public class Frota implements Serializable{
     public List<Veiculo> veiculosComMaisRotas() {
     	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
     	
-    	list.sort((veiculo1, veiculo2) -> veiculo2.compararRotas(veiculo1));
+    	list.sort((veiculo1, veiculo2) -> {
+            if (veiculo1.getQuantRotas() < veiculo2.getQuantRotas()) {
+                return -1;
+            } else if (veiculo1.getQuantRotas() > veiculo2.getQuantRotas()) {
+                return 1;
+            }
+    
+            return 0;
+        });
+
     	if(list.size() >= 3) {
             return list.subList(0, 3);
         }
@@ -70,4 +78,7 @@ public class Frota implements Serializable{
     			.sum();
     }
 
+    @Override
+    public void update() {
+    }
 }

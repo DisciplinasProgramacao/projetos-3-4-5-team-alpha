@@ -5,11 +5,11 @@ import java.awt.event.*;
 
 public class ElementosJFrame {
     
-    public static JLabel label (String mensagem){
+    public static JLabel label(String mensagem) {
         return new JLabel(mensagem);
     }
 
-    public static JButton button(String msg, ActionListener funcao){
+    public static JButton button(String msg, ActionListener funcao) {
         JButton button = new JButton(msg);
         
         button.addActionListener(funcao);
@@ -24,5 +24,26 @@ public class ElementosJFrame {
         error.add(ElementosJFrame.label(message));
 
         return error;
+    }
+
+    public static JPanel listarVeiculos(int index, String entrada) {
+        JPanel panel = new JPanel();
+        String[] atributos = entrada.split("#");
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+        JLabel label = new JLabel(index + ". ");
+        panel.add(label);
+
+        for(String atributo : atributos) {
+            if(atributo.startsWith("&")) {
+                atributo = atributo.substring(1);
+                atributo = "    " + atributo;
+            }
+            
+            label = new JLabel(atributo);
+            panel.add(label);
+        }
+
+        return panel;
     }
 }

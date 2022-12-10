@@ -2,14 +2,20 @@ package business.custos;
 import java.io.Serializable;
 
 public class CustosVariaveis implements Custos, Serializable {
-    private float custoTotal = 0F;
+    private double precoCusto;
+    private String descricao;
 
-    public void addNovoCustoVariavel(float preco) {
-        custoTotal += preco;
+    public CustosVariaveis(String descricao, double preco) {
+        this.precoCusto = preco;
+        this.descricao = descricao;
     }
 
     @Override
-    public float calcularCustoTotal() {
-        return custoTotal;
+    public double calcularCustoTotal() {
+        return this.precoCusto;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
     }
 }

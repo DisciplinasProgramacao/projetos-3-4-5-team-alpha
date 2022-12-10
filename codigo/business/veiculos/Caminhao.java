@@ -6,31 +6,39 @@ import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
 
-    public Caminhao(String placa, Combustivel combustivel,float valor_venda) throws IllegalArgumentException, ArithmeticException {
+    public Caminhao(String placa, Combustivel combustivel, double valor_venda) throws IllegalArgumentException, ArithmeticException {
         super(placa, combustivel, Capacidades.CAMINHAO);
         super.custosFixo = new CustosCaminhao(valor_venda);
     }
 
     @Override
-    public float calcularSeguro() {
+    public double calcularSeguro() {
         return ((CustosCaminhao) this.custosFixo).calcularSeguro();
     }
 
     @Override
-    public float calcularIpva() {
+    public double calcularIpva() {
         return ((CustosCaminhao) this.custosFixo).calcularIpva();
     }
 
-    public float calcularManutencao() {
+    public double calcularManutencao() {
         return ((CustosCaminhao) this.custosFixo).calcularManutencao(super.getKm_rodados());
     }
 
-    public float calcularVistoria() {
+    public double calcularVistoria() {
         return ((CustosCaminhao) this.custosFixo).calcularVistoria(super.getKm_rodados());
     }
 
     @Override
     public String toString() {
-        return "Caminhão - " + super.toString();
+        return "CAMINHÃO" + super.toString();
+    }
+
+    @Override
+    public String getGastos() {
+        return super.getGastos() +
+            "&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
+            "&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#" +
+            "#GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

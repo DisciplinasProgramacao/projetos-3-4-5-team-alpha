@@ -4,15 +4,15 @@ import java.io.Serializable;
 public abstract class CustosFixos implements Custos, Serializable  {
     int qdtCustos;
 
-    public float calcularIpva(float porcentagem, float valorVenda) {
+    public double calcularIpva(double porcentagem, double valorVenda) {
         return porcentagem * valorVenda;
     }
 
-    public float calcularSeguro(float porcentagem, float valorVenda) {
+    public double calcularSeguro(double porcentagem, double valorVenda) {
         return porcentagem * valorVenda;
     }
 
-    public float calcularCustos(int quilometragem, float valor, int km_rodados, int qtdCustos) {
+    public double calcularCustos(int quilometragem, double valor, int km_rodados, int qtdCustos) {
         if (km_rodados >= (quilometragem * qtdCustos)) {
             qdtCustos = qtdCustos;
             return valor * (km_rodados/quilometragem);
@@ -22,9 +22,8 @@ public abstract class CustosFixos implements Custos, Serializable  {
     }
 
     public int getQtdCustos() {
-        return this.qdtCustos + 1;
+        return this.qdtCustos++;
     }
-
-    @Override
-    public abstract float calcularCustoTotal();
+    
+    public abstract double calcularCustoTotal();
 }
