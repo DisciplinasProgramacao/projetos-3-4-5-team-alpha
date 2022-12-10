@@ -11,7 +11,7 @@ public class Frota implements Serializable, Observer {
     private Set<Veiculo> veiculos = new HashSet<Veiculo>();
 
     public boolean inserirVeiculo(Veiculo veiculo) {
-        veiculo.observar(this);
+        veiculo.addObserver(this);
         veiculos.add(veiculo);
         return true;
     }
@@ -52,16 +52,16 @@ public class Frota implements Serializable, Observer {
     	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
     	
     	list.sort((veiculo1, veiculo2) -> {
-            if (veiculo1.getQuantRotas() < veiculo2.getQuantRotas()) {
+            if (veiculo2.getQuantRotas() < veiculo1.getQuantRotas()) {
                 return -1;
-            } else if (veiculo1.getQuantRotas() > veiculo2.getQuantRotas()) {
+            } else if (veiculo2.getQuantRotas() > veiculo1.getQuantRotas()) {
                 return 1;
             }
     
             return 0;
         });
 
-    	if(list.size() >= 3) {
+    	if(list.size() > 3) {
             return list.subList(0, 3);
         }
 
@@ -80,5 +80,6 @@ public class Frota implements Serializable, Observer {
 
     @Override
     public void update() {
+
     }
 }

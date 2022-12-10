@@ -6,8 +6,10 @@ import business.custos.CustosCaminhao;
 
 public class Caminhao extends Veiculo {
 
+    private static Capacidades caminhao = Capacidades.CAMINHÃO;
+
     public Caminhao(String placa, Combustivel combustivel, double valor_venda) throws IllegalArgumentException, ArithmeticException {
-        super(placa, combustivel, Capacidades.CAMINHAO);
+        super(placa, combustivel, caminhao); 
         super.custosFixo = new CustosCaminhao(valor_venda);
     }
 
@@ -31,7 +33,7 @@ public class Caminhao extends Veiculo {
 
     @Override
     public String toString() {
-        return "CAMINHÃO" + super.toString();
+        return caminhao + " " + super.toString();
     }
 
     @Override
@@ -39,6 +41,6 @@ public class Caminhao extends Veiculo {
         return super.getGastos() +
             "&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
             "&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#" +
-            "#GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+            "# #GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

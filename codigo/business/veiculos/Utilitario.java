@@ -1,29 +1,31 @@
 package business.veiculos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import business.Enuns.Capacidades;
 import business.Enuns.Combustivel;
 import business.custos.CustosUtilitario;
 
 public class Utilitario extends Veiculo {
-    static ArrayList<Capacidades> tiposUtilitario;
+    static List<Capacidades> tiposUtilitario;
     private Capacidades tipo_utilitario;
     
     static {
         tiposUtilitario = new ArrayList<Capacidades>();
-        tiposUtilitario.add(Capacidades.FURGAO);
+        tiposUtilitario.add(Capacidades.FURGÃO);
         tiposUtilitario.add(Capacidades.VAN);
     }
 
-    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, double valor_venda) throws NoSuchFieldException, ArithmeticException  {
+    public Utilitario(String placa, Capacidades tipo, Combustivel combustivel, double valor_venda) throws NoSuchFieldException, ArithmeticException, IllegalArgumentException  {
         super(placa, combustivel, tipo);
+        
         super.custosFixo = new CustosUtilitario(valor_venda);
-
-        if(tiposUtilitario.contains(tipo)){
+        
+        if(tiposUtilitario.contains(tipo)) {
             this.setTipoUtilitario(tipo);
         } else {
-            throw new NoSuchFieldException ("Os tipos de utilitário podem ser apenas 'Van' ou 'Furgão'");
+            throw new NoSuchFieldException ("Os tipos de utilitário podem ser apenas \"Van\" ou \"Furgão\"");
         }
     }
 
@@ -63,6 +65,6 @@ public class Utilitario extends Veiculo {
         return super.getGastos() +
             "&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
             "&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#" +
-            "#GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+            "# #GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

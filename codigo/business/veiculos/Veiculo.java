@@ -1,6 +1,8 @@
 package business.veiculos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,16 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     private int km_rodados;
     private Tanque tanque;
 
-    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade)  {
-        this.km_rodados = 0;
-        this.PLACA = placa;
-        this.tanque = new Tanque(combustivel, capacidade);
-        custosVariaves = new ArrayList<Custos>();
-        observers = new ArrayList<Observer>();
+    public Veiculo(String placa, Combustivel combustivel, Capacidades capacidade) throws IllegalArgumentException {
+        if(capacidade.getCombustiveis().contains(combustivel)) {
+            this.km_rodados = 0;
+            this.PLACA = placa;
+            this.tanque = new Tanque(combustivel, capacidade);
+
+            custosVariaves = new ArrayList<Custos>();
+            observers = new ArrayList<Observer>();
+        } else
+            throw new IllegalArgumentException(capacidade + " permite apenas " + capacidade.getCombustiveisString() + " como combustível");
     }
 
     public double getAutonomia() {
@@ -106,28 +112,25 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
 
     @Override
     public String toString() {
+        String saida = "(" + this.getPlaca() + ")" +
+        "# #KM RODADOS: " + this.getKm_rodados() + "km" +
+        "#TANQUE: " + tanque.getCombustivel() +
+        "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual()) + "L" +
+        "#GASTOS: #" + this.getGastos();
+
         if (rotas.size() > 0) {
             String stringRotas = new String();
 
             int i = 0;
             for (Rota rota : rotas) {
-                stringRotas += rota.getData() + " - " + rota.getDistancia() + "km";
-                if (i++ < rotas.size() - 1) {
-                    stringRotas += " | ";
-                }
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+                stringRotas += "#&" + ++i + ". " + formato.format(rota.getData()) + " - " + rota.getDistancia() + "km";
             }
 
-            return ("(" + this.getPlaca() + " - Tanque: " + " - Custo: R$" + this.getGastos()
-                    + " - Km rodados: " + this.getKm_rodados() + "km - Rotas (" + rotas.size() + "): " + stringRotas
-                    + " Tanque: " + tanque.getCombustivel() + " Litragem: "
-                    + String.format("%.02f", tanque.getLitragemAtual()));
+            saida += "# #ROTAS (" + rotas.size() + "): " + stringRotas;
         }
 
-        return ("(" + this.getPlaca() + ")" +
-            "#KM RODADOS: " + this.getKm_rodados() + "km" +
-            "#TANQUE: " + tanque.getCombustivel() +
-            "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual())) + "L" +
-            "#GASTOS: #" + this.getGastos();
+        return saida;
     }
 
     @Override
@@ -142,12 +145,12 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     }
 
     @Override
-    public void observar(Observer observer) {
+    public void addObserver(Observer observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void pararObservar(Observer observer) {
+    public void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
 

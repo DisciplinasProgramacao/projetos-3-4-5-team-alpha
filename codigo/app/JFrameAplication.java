@@ -2,8 +2,7 @@ import javax.swing.*;
 
 import ElementosJFrame.ElementosJFrame;
 import business.*;
-import business.Enuns.Capacidades;
-import business.Enuns.Combustivel;
+import business.Enuns.*;
 import business.veiculos.*;
 import java.awt.*;
 import java.io.*;
@@ -12,31 +11,6 @@ import java.util.List;
 import java.time.LocalDate;
 
 public class JFrameAplication extends JFrame {
-    private static Map<String, String[]> tiposCombustiveis = new HashMap<String, String[]>();
-
-    private static void carregarTiposCombustivelPorVeiculos() {
-        String combustivelCarro[] = { "Gasolina", "Etanol" },
-                combustivelVan[] = { "Gasolina", "Diesel" },
-                combustivelCaminhao[] = { "Diesel" },
-                combustivelFurgao[] = { "Gasolina" };
-
-        tiposCombustiveis.put("Carro", combustivelCarro);
-        tiposCombustiveis.put("Van", combustivelVan);
-        tiposCombustiveis.put("Furgão", combustivelFurgao);
-        tiposCombustiveis.put("Caminhão", combustivelCaminhao);
-    }
-
-    private static String[] carregarTiposCombustivel(String selectVeiculo) {
-        List<String> listaTiposCombustivel = new ArrayList<String>();
-
-        for (String tipo : tiposCombustiveis.get(selectVeiculo)) {
-            listaTiposCombustivel.add(tipo);
-        }
-
-        String[] arrayListCombustiveis = new String[listaTiposCombustivel.size()];
-
-        return listaTiposCombustivel.toArray(arrayListCombustiveis);
-    }
 
     private static final long serialVersionUID = 2L;
 
@@ -88,7 +62,6 @@ public class JFrameAplication extends JFrame {
         window.setSize(1000, 500);
         window.setVisible(true);
         window.setTitle("Frota de veículos");
-        carregarTiposCombustivelPorVeiculos();
 
         window.setLayout(new FlowLayout());
 
@@ -138,12 +111,19 @@ public class JFrameAplication extends JFrame {
         formulario.add(entradaPlaca);
         formulario.add(selectVeiculo);
 
-        selectCombustivel = new JComboBox<String>(carregarTiposCombustivel(selectVeiculo.getSelectedItem().toString()));
+        Capacidades capacidadeSelecionada = Capacidades.valueOf(selectVeiculo.getSelectedItem().toString().toUpperCase());
+
+        selectCombustivel = new JComboBox<String>(capacidadeSelecionada.getCombustiveisStringArray());
         selectVeiculo.addActionListener((e) -> {
             selectCombustivel.removeAllItems();
 
-            for (String combustivel : carregarTiposCombustivel(selectVeiculo.getSelectedItem().toString())) {
-                selectCombustivel.addItem(combustivel);
+            String veiculoSelecionadoString = selectVeiculo.getSelectedItem().toString();
+            Capacidades capacidadeSelecionada2 = Capacidades.valueOf(veiculoSelecionadoString.toUpperCase());
+
+            for (String combustivel : capacidadeSelecionada2.getCombustiveisStringArray()) {
+                if(combustivel != null) {
+                    selectCombustivel.addItem(combustivel);
+                }
             }
 
             selectCombustivel.repaint();
@@ -397,7 +377,7 @@ public class JFrameAplication extends JFrame {
                         break;
 
                     case "Furgão":
-                        minhaCapacidade = Capacidades.FURGAO;
+                        minhaCapacidade = Capacidades.FURGÃO;
                         Utilitario furgao = new Utilitario(placa, minhaCapacidade, selecionado, valor_venda);
                         frota.inserirVeiculo(furgao);
 
@@ -407,6 +387,9 @@ public class JFrameAplication extends JFrame {
                 JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
                 error.setVisible(true);
             } catch (ArithmeticException e) {
+                JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+                error.setVisible(true);
+            } catch (IllegalArgumentException e) {
                 JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
                 error.setVisible(true);
             }
@@ -419,15 +402,17 @@ public class JFrameAplication extends JFrame {
         String placa = entradaPlacaLocalizar.getText();
         try {
             Veiculo procurado = frota.localizar(placa);
-            JLabel veiculoEncontrado = new JLabel(procurado.toString());
+            JPanel veiculoLabel = ElementosJFrame.listarVeiculos(procurado.toString());
             JFrameAplication FrameVeiculoLocalizado = new JFrameAplication();
+
             JPanel panelVeiculoEncontrado = new JPanel();
             FrameVeiculoLocalizado.setSize(200, 200);
             FrameVeiculoLocalizado.setVisible(true);
             FrameVeiculoLocalizado.setTitle("Veículo encontrado");
-            panelVeiculoEncontrado.add(veiculoEncontrado);
+            panelVeiculoEncontrado.add(veiculoLabel);
 
             FrameVeiculoLocalizado.add(panelVeiculoEncontrado);
+            FrameVeiculoLocalizado.setLocationRelativeTo(null);
             FrameVeiculoLocalizado.pack();
         } catch (NoSuchFieldException e) {
             JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
@@ -437,19 +422,28 @@ public class JFrameAplication extends JFrame {
 
     public static void listarVeiculos() {
         JFrameAplication ListagemVeiculos = new JFrameAplication();
-        ListagemVeiculos.setVisible(true);
         ListagemVeiculos.setTitle("Listagem de veículos");
-
+        
         JPanel panel = new JPanel();
-        JPanel veiculosLabel;
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
+        JPanel veiculosLabel;
         int i = 1;
         for (Veiculo selecionado : frota.toArray()) {
             veiculosLabel = ElementosJFrame.listarVeiculos(i, selecionado.toString());
             panel.add(veiculosLabel);
+            
+            if(i++ < frota.toArray().length) {
+                JLabel separador = new JLabel("--------------------");
+                panel.add(separador);
+            }
         }
-
-        ListagemVeiculos.add(panel);
+        
+        JScrollPane scrollPanel = new JScrollPane(panel);
+        scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanel.setPreferredSize(new Dimension(400, 300));
+        
+        ListagemVeiculos.add(scrollPanel);
         ListagemVeiculos.pack();
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);
@@ -468,6 +462,7 @@ public class JFrameAplication extends JFrame {
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[1]),
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[0]));
         ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
+        
         for (Rota selecionado : datasLocalizadas) {
             JLabel label = new JLabel(i++ + ". " + selecionado.toString());
             panel.add(label);
@@ -511,13 +506,23 @@ public class JFrameAplication extends JFrame {
         List<Veiculo> veiculos = new ArrayList<Veiculo>();
         veiculos = frota.ordenarCustosDecrescentes();
 
+        JPanel veiculosLabel;
         int i = 1;
         for (Veiculo veiculo : veiculos) {
-            JLabel label = new JLabel(i++ + ". " + veiculo.toString());
-            panel.add(label);
+            veiculosLabel = ElementosJFrame.listarVeiculos(i, veiculo.toString());
+            panel.add(veiculosLabel);
+
+            if(i++ < veiculos.size()) {
+                JLabel separador = new JLabel("--------------------");
+                panel.add(separador);
+            }
         }
 
-        ListagemVeiculos.add(panel);
+        JScrollPane scrollPanel = new JScrollPane(panel);
+        scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanel.setPreferredSize(new Dimension(400, 300));
+
+        ListagemVeiculos.add(scrollPanel);
         ListagemVeiculos.pack();
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);
@@ -535,12 +540,23 @@ public class JFrameAplication extends JFrame {
         List<Veiculo> veiculos = new ArrayList<Veiculo>();
         int i = 1;
         veiculos = frota.veiculosComMaisRotas();
+
+        JPanel veiculosLabel;
         for (Veiculo veiculo : veiculos) {
-            JLabel label = new JLabel(i++ + ". " + veiculo.toString());
-            panel.add(label);
+            veiculosLabel = ElementosJFrame.listarVeiculos(i, veiculo.toString());
+            panel.add(veiculosLabel);
+
+            if(i++ < veiculos.size()) {
+                JLabel separador = new JLabel("--------------------");
+                panel.add(separador);
+            }
         }
 
-        ListagemVeiculos.add(panel);
+        JScrollPane scrollPanel = new JScrollPane(panel);
+        scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPanel.setPreferredSize(new Dimension(400, 300));
+
+        ListagemVeiculos.add(scrollPanel);
         ListagemVeiculos.pack();
         ListagemVeiculos.setLocationRelativeTo(null);
         ListagemVeiculos.setVisible(true);

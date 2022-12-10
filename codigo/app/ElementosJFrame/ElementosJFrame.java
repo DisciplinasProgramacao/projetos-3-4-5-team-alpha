@@ -1,6 +1,7 @@
 package ElementosJFrame;
 
 import javax.swing.*;
+import java.awt.GridLayout;
 import java.awt.event.*;
 
 public class ElementosJFrame {
@@ -26,23 +27,31 @@ public class ElementosJFrame {
         return error;
     }
 
-    public static JPanel listarVeiculos(int index, String entrada) {
+    public static JPanel listarVeiculos(String entrada) {
         JPanel panel = new JPanel();
         String[] atributos = entrada.split("#");
+        
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-        JLabel label = new JLabel(index + ". ");
-        panel.add(label);
-
+        JLabel label;
         for(String atributo : atributos) {
             if(atributo.startsWith("&")) {
                 atributo = atributo.substring(1);
-                atributo = "    " + atributo;
+                atributo = "            " + atributo;
             }
             
             label = new JLabel(atributo);
             panel.add(label);
         }
+
+        return panel;
+    }
+
+    public static JPanel listarVeiculos(int index, String entrada) {
+        JPanel panel = new JPanel();
+
+        panel.add(new JLabel(index + ". "));
+        panel.add(listarVeiculos(entrada));
 
         return panel;
     }
