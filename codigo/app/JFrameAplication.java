@@ -105,6 +105,9 @@ public class JFrameAplication extends JFrame {
         AddVeiculoPage.setVisible(true);
         AddVeiculoPage.setTitle("Adicionar Veículo");
 
+        entradaPlaca.setText("");
+        entradaVenda.setText("");
+
         JPanel formulario = new JPanel();
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Placa:"));
@@ -151,9 +154,10 @@ public class JFrameAplication extends JFrame {
     public static void formRota() {
         JFrameAplication AddRotaPage = new JFrameAplication();
         AddRotaPage.setSize(500, 500);
-        AddRotaPage.setVisible(true);
         AddRotaPage.setLocationRelativeTo(null);
         AddRotaPage.setTitle("Incluir Rota");
+
+        entradaPlaca.setText("");
 
         JPanel formulario = new JPanel();
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
@@ -167,8 +171,10 @@ public class JFrameAplication extends JFrame {
 
                     String placa = entradaPlaca.getText();
                     AddRotaPage.remove(formulario);
+
                     JTextField entradaData = new JTextField(30);
                     JTextField entradaDistancia = new JTextField(30);
+
                     JPanel formulario1 = new JPanel();
                     formulario1.setLayout(new BoxLayout(formulario1, BoxLayout.Y_AXIS));
                     formulario1.add(ElementosJFrame.label("Data"));
@@ -176,25 +182,29 @@ public class JFrameAplication extends JFrame {
                     formulario1.add(ElementosJFrame.label("Distância"));
                     formulario1.add(entradaDistancia);
                     formulario1.add(ElementosJFrame.button("Confirmar", (e) -> {
+                        AddRotaPage.dispose();
+
                         String entrada = entradaData.getText();
                         int dia = Integer.parseInt(entrada.split("/")[0]),
                                 mes = Integer.parseInt(entrada.split("/")[1]),
                                 ano = Integer.parseInt(entrada.split("/")[2]);
 
-                        
-
                         try {
                             Rota rota = new Rota(placa,
                                 LocalDate.of(ano, mes, dia),
                                 Integer.parseInt(entradaDistancia.getText()));
+
                             found.setRota(rota);
+
                         } catch (ArithmeticException f) {
                             JFrame error = ElementosJFrame.errorWindow("Error", f.getMessage());
                             error.setVisible(true);
+
                         }catch(NumberFormatException e1){
                             JFrame error = ElementosJFrame.errorWindow("Error", "Distância é irreal");
                             error.setVisible(true);
-                        }}));
+                        }
+                    }));
 
                     AddRotaPage.add(formulario1);
                     AddRotaPage.pack();
@@ -206,7 +216,7 @@ public class JFrameAplication extends JFrame {
         }));
 
         AddRotaPage.add(formulario);
-
+        AddRotaPage.setVisible(true);
         AddRotaPage.pack();
     }
 
@@ -220,7 +230,10 @@ public class JFrameAplication extends JFrame {
         formulario.setLayout(new BoxLayout(formulario, BoxLayout.Y_AXIS));
         formulario.add(ElementosJFrame.label("Digite a data:"));
         formulario.add(entradaProcurarRota);
-        formulario.add(ElementosJFrame.button("Procurar rotas:", (e) -> ListarRotasPorData()));
+        formulario.add(ElementosJFrame.button("Procurar rotas:", (e) ->  {
+            ListarRotasPorData();
+            AddLocalizarRotaPage.dispose();
+        }));
 
         AddLocalizarRotaPage.add(formulario);
 
@@ -230,6 +243,8 @@ public class JFrameAplication extends JFrame {
     }
 
     public static void formLocalizar() {
+        entradaPlacaLocalizar.setText("");
+
         JFrameAplication AddLocalizarPage = new JFrameAplication();
         AddLocalizarPage.setSize(500, 500);
         AddLocalizarPage.setVisible(true);
@@ -247,10 +262,16 @@ public class JFrameAplication extends JFrame {
         AddLocalizarPage.setLocationRelativeTo(null);
         AddLocalizarPage.setVisible(true);
 
-        buttonLocalizaVeiculo.addActionListener((e) -> localizarVeiculo());
+        buttonLocalizaVeiculo.addActionListener((e) -> {
+            localizarVeiculo();
+            AddLocalizarPage.dispose();
+            entradaPlacaLocalizar.setText("");
+        });
     }
 
     public static void formCarregarArquivo() {
+        entradaCarregarArquivo.setText("");
+
         JFrameAplication AddCarregarArquivo = new JFrameAplication();
         AddCarregarArquivo.setSize(500, 500);
         AddCarregarArquivo.setVisible(true);
@@ -351,7 +372,6 @@ public class JFrameAplication extends JFrame {
             }
 
             try {
-
                 Capacidades minhaCapacidade;
 
                 switch (veiculoSelecionado) {
@@ -393,9 +413,7 @@ public class JFrameAplication extends JFrame {
                 JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
                 error.setVisible(true);
             }
-
         }
-
     }
 
     public static void localizarVeiculo() {
@@ -430,7 +448,7 @@ public class JFrameAplication extends JFrame {
         JPanel veiculosLabel;
         int i = 1;
         for (Veiculo selecionado : frota.toArray()) {
-            veiculosLabel = ElementosJFrame.listarVeiculos(i, selecionado.toString());
+            veiculosLabel = ElementosJFrame.listarVeiculos(i + ". " + selecionado.toString());
             panel.add(veiculosLabel);
             
             if(i++ < frota.toArray().length) {
@@ -450,26 +468,47 @@ public class JFrameAplication extends JFrame {
     }
 
     public static void ListarRotasPorData() {
-        JFrameAplication ListagemRotas = new JFrameAplication();
-        ListagemRotas.setSize(500, 500);
-        ListagemRotas.setVisible(true);
-        ListagemRotas.setTitle("Listagem de rotas");
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        int i = 1;
-        LocalDate data = LocalDate.of(Integer.parseInt(entradaProcurarRota.getText().split("/")[2]),
+        try {
+            LocalDate data = LocalDate.of(Integer.parseInt(entradaProcurarRota.getText().split("/")[2]),
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[1]),
                 Integer.parseInt(entradaProcurarRota.getText().split("/")[0]));
-        ArrayList<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
-        
-        for (Rota selecionado : datasLocalizadas) {
-            JLabel label = new JLabel(i++ + ". " + selecionado.toString());
-            panel.add(label);
-        }
+    
+            List<Rota> datasLocalizadas = frota.localizarRotasPorData(data);
+    
+            JFrameAplication ListagemRotas = new JFrameAplication();
+            ListagemRotas.setSize(500, 500);
+            ListagemRotas.setTitle("Listagem de rotas");
 
-        ListagemRotas.add(panel);
-        ListagemRotas.pack();
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            
+            JPanel rotaSelecionada;
+            int i = 1;
+            for (Rota selecionado : datasLocalizadas) {
+                rotaSelecionada = ElementosJFrame.listarVeiculos(i + ". " + selecionado.toString());
+                panel.add(rotaSelecionada);
+    
+                if(i++ < datasLocalizadas.size()) {
+                    JLabel separador = new JLabel("--------------------");
+                    panel.add(separador);
+                }
+            }
+    
+            JScrollPane scrollPanel = new JScrollPane(panel);
+            scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPanel.setPreferredSize(new Dimension(400, 300));
+    
+            ListagemRotas.add(scrollPanel);
+            ListagemRotas.setLocationRelativeTo(null);
+            ListagemRotas.pack();
+            ListagemRotas.setVisible(true);
+            entradaProcurarRota.setText("");
+
+        } catch(NoSuchFieldException e) {
+            JFrame error = ElementosJFrame.errorWindow("Error", e.getMessage());
+            error.setVisible(true);
+            entradaProcurarRota.setText("");
+        }
     }
 
     public static void carregarArquivo() {
@@ -509,7 +548,7 @@ public class JFrameAplication extends JFrame {
         JPanel veiculosLabel;
         int i = 1;
         for (Veiculo veiculo : veiculos) {
-            veiculosLabel = ElementosJFrame.listarVeiculos(i, veiculo.toString());
+            veiculosLabel = ElementosJFrame.listarVeiculos(i + ". " + veiculo.toString());
             panel.add(veiculosLabel);
 
             if(i++ < veiculos.size()) {
@@ -543,7 +582,7 @@ public class JFrameAplication extends JFrame {
 
         JPanel veiculosLabel;
         for (Veiculo veiculo : veiculos) {
-            veiculosLabel = ElementosJFrame.listarVeiculos(i, veiculo.toString());
+            veiculosLabel = ElementosJFrame.listarVeiculos(i + ". " + veiculo.toString());
             panel.add(veiculosLabel);
 
             if(i++ < veiculos.size()) {

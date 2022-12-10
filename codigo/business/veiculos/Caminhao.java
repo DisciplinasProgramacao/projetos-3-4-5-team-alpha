@@ -39,8 +39,8 @@ public class Caminhao extends Veiculo {
     @Override
     public String getGastos() {
         return super.getGastos() +
-            "&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
-            "&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#" +
-            "# #GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+            "+&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
+            "+&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#" +
+            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

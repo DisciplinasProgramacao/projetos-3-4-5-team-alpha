@@ -31,14 +31,19 @@ public class Frota implements Serializable, Observer {
         return veiculos.toArray(array);
     }
 
-    public ArrayList<Rota> localizarRotasPorData(LocalDate data){
-        ArrayList<Rota> aux1 = new ArrayList<Rota>();
-        for(Veiculo veiculo:veiculos){
+    public List<Rota> localizarRotasPorData(LocalDate data) throws NoSuchFieldException {
+        List<Rota> rotasEncontradas = new ArrayList<Rota>();
+
+        for(Veiculo veiculo:veiculos) {
             veiculo.getRota().stream()
             .filter(rote -> rote.getData().equals(data))
-            .forEach(rote -> aux1.add(rote));
+            .forEach(rote -> rotasEncontradas.add(rote));
         }
-        return aux1;
+
+        if(rotasEncontradas.size() != 0) {
+            return rotasEncontradas;
+        } else
+            throw new NoSuchFieldException ("Nenhuma rota encontrada");
     }
     public List<Veiculo> ordenarCustosDecrescentes() {
         List<Veiculo> list = new ArrayList<Veiculo>(veiculos);

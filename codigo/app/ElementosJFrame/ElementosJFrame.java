@@ -37,21 +37,17 @@ public class ElementosJFrame {
         for(String atributo : atributos) {
             if(atributo.startsWith("&")) {
                 atributo = atributo.substring(1);
-                atributo = "            " + atributo;
+                atributo = "        " + atributo;
+            }
+
+            if(atributo.startsWith("+&")) {
+                atributo = atributo.substring(2);
+                atributo = "                " + atributo;
             }
             
             label = new JLabel(atributo);
             panel.add(label);
         }
-
-        return panel;
-    }
-
-    public static JPanel listarVeiculos(int index, String entrada) {
-        JPanel panel = new JPanel();
-
-        panel.add(new JLabel(index + ". "));
-        panel.add(listarVeiculos(entrada));
 
         return panel;
     }

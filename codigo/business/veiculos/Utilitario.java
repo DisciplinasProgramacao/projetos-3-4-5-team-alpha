@@ -63,8 +63,8 @@ public class Utilitario extends Veiculo {
     @Override
     public String getGastos() {
         return super.getGastos() +
-            "&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
-            "&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#" +
-            "# #GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+            "+&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
+            "+&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#" +
+            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

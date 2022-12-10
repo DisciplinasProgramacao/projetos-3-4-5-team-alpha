@@ -36,7 +36,7 @@ public class Carro extends Veiculo {
     @Override
     public String getGastos() {
         return super.getGastos() +
-            "&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixo).qtdAlinhamento() + ")" +
-            "# #GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+            "+&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixo).qtdAlinhamento() + ")" +
+            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

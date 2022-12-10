@@ -92,7 +92,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     }
 
     public String getGastos() {
-        return "IPVA: R$ " + String.format("%.02f", this.calcularIpva()) + "#SEGURO: R$ " + String.format("%.02f", this.calcularSeguro()) + "#MANUTENÇÃO: #";
+        return "&IPVA: R$ " + String.format("%.02f", this.calcularIpva()) + "#&SEGURO: R$ " + String.format("%.02f", this.calcularSeguro()) + "#&MANUTENÇÃO: #";
     }
 
     protected double getGastoTotal() {
