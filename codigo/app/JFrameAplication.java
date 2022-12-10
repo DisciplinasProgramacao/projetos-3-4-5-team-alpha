@@ -339,12 +339,17 @@ public class JFrameAplication extends JFrame {
                 entradaPlacaLocalizar.repaint();
                 Veiculo veiculo = frota.localizar(entradaPlacaLocalizar.getText());
                 String descricao = entradaAddDescricaoCustoImprevisto.getText();
-                veiculo.addNovoCustoVariavel(descricao, Float.parseFloat(entradaAddCustoImprevisto.getText()));
+                veiculo.addNovoCustoAdicional(descricao, Float.parseFloat(entradaAddCustoImprevisto.getText()));
+                
+                entradaPlacaLocalizar.setText("");
+                entradaAddDescricaoCustoImprevisto.setText("");
+                entradaAddCustoImprevisto.setText("");
+
                 AddCustoInprevisto.dispose();
+
             } catch (NoSuchFieldException f) {
                 JFrame error = ElementosJFrame.errorWindow("Error", f.getMessage());
                 error.setVisible(true);
-
             }
         }));
 

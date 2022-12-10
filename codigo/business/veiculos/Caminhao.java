@@ -2,7 +2,7 @@ package business.veiculos;
 
 import business.Enuns.Capacidades;
 import business.Enuns.Combustivel;
-import business.custos.CustosCaminhao;
+import business.custos.*;
 
 public class Caminhao extends Veiculo {
 
@@ -38,9 +38,18 @@ public class Caminhao extends Veiculo {
 
     @Override
     public String getGastos() {
-        return super.getGastos() +
-            "+&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
-            "+&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#" +
-            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+        String saida = super.getGastos() +
+            "+2&- Manutenção: R$ " + String.format("%.02f", this.calcularManutencao()) + " (" + ((CustosCaminhao) custosFixo).qtdManutencao() + ")#" +
+            "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosCaminhao) custosFixo).qtdVistoria() + ")#";
+
+        if(super.getCustosAdicionais().size() > 0) {
+            saida += "# #+2&CUSTOS ADICIONAIS:";
+            int index = 0;
+            for(Custos custoAdicional : super.getCustosAdicionais()) {
+                saida += "#+3&" + ++index + ". " + ((CustosVariaveis) custoAdicional).getDescricao() + " (R$ " + String.format("%.02f", custoAdicional.calcularCustoTotal()) + ")";
+            }
+        }
+
+        return saida + "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import business.Enuns.Capacidades;
 import business.Enuns.Combustivel;
-import business.custos.CustosUtilitario;
+import business.custos.*;
 
 public class Utilitario extends Veiculo {
     static List<Capacidades> tiposUtilitario;
@@ -62,9 +62,18 @@ public class Utilitario extends Veiculo {
 
     @Override
     public String getGastos() {
-        return super.getGastos() +
-            "+&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
-            "+&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#" +
-            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+        String saida = super.getGastos() +
+        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosUtilitario) custosFixo).qtdAlinhamento() + ")#" +
+        "+2&- Vistoria: R$ " + String.format("%.02f", this.calcularVistoria()) + " (" + ((CustosUtilitario) custosFixo).qtdVistoria() + ")#";
+
+        if(super.getCustosAdicionais().size() > 0) {
+            saida += "# #+2&CUSTOS ADICIONAIS:";
+            int index = 0;
+            for(Custos custoAdicional : super.getCustosAdicionais()) {
+                saida += "#+3&" + ++index + ". " + ((CustosVariaveis) custoAdicional).getDescricao() + " (R$ " + String.format("%.02f", custoAdicional.calcularCustoTotal()) + ")";
+            }
+        }
+
+        return saida + "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

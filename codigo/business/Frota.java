@@ -22,6 +22,7 @@ public class Frota implements Serializable, Observer {
                 return veiculo;
             }
         }
+        
         throw new NoSuchFieldException ("Não existe um veículo na frota com esta placa");
     }
 
@@ -34,7 +35,7 @@ public class Frota implements Serializable, Observer {
     public List<Rota> localizarRotasPorData(LocalDate data) throws NoSuchFieldException {
         List<Rota> rotasEncontradas = new ArrayList<Rota>();
 
-        for(Veiculo veiculo:veiculos) {
+        for(Veiculo veiculo : veiculos) {
             veiculo.getRota().stream()
             .filter(rote -> rote.getData().equals(data))
             .forEach(rote -> rotasEncontradas.add(rote));
@@ -45,6 +46,7 @@ public class Frota implements Serializable, Observer {
         } else
             throw new NoSuchFieldException ("Nenhuma rota encontrada");
     }
+
     public List<Veiculo> ordenarCustosDecrescentes() {
         List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
 

@@ -30,6 +30,7 @@ public class Rota implements Serializable {
     public String toString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataFormatada = data.format(formatter);
+        
         return "PLACA: " + this.placa + "#DATA: " + dataFormatada + "#DISTÂNCIA PERCORRIDA: " + this.distancia + "km";
     }
 }

@@ -2,7 +2,7 @@ package business.veiculos;
 
 import business.Enuns.Capacidades;
 import business.Enuns.Combustivel;
-import business.custos.CustosCarro;
+import business.custos.*;
 
 public class Carro extends Veiculo {
 
@@ -35,8 +35,17 @@ public class Carro extends Veiculo {
 
     @Override
     public String getGastos() {
-        return super.getGastos() +
-            "+&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixo).qtdAlinhamento() + ")" +
-            "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
+        String saida = super.getGastos() +
+        "+2&- Alinhamento: R$ " + String.format("%.02f", this.calcularAlinhamento()) + " (" + ((CustosCarro) custosFixo).qtdAlinhamento() + ")";
+        
+        if(super.getCustosAdicionais().size() > 0) {
+            saida += "# #+2&CUSTOS ADICIONAIS:";
+            int index = 0;
+            for(Custos custoAdicional : super.getCustosAdicionais()) {
+                saida += "#+3&" + ++index + ". " + ((CustosVariaveis) custoAdicional).getDescricao() + " (R$ " + String.format("%.02f", custoAdicional.calcularCustoTotal()) + ")";
+            }
+        }
+
+        return saida + "# #&GASTO TOTAL: R$ " + String.format("%.02f", super.getGastoTotal());
     }
 }

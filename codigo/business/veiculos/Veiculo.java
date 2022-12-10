@@ -1,7 +1,6 @@
 package business.veiculos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     private static final long serialVersionUID = 1L;
     private final String PLACA;
     protected Custos custosFixo;
-    protected List<Custos> custosVariaves;
+    protected List<Custos> custosAdicionais;
     private List<Rota> rotas = new ArrayList<Rota>();
     private List<Observer> observers;
     private int km_rodados;
@@ -27,7 +26,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
             this.PLACA = placa;
             this.tanque = new Tanque(combustivel, capacidade);
 
-            custosVariaves = new ArrayList<Custos>();
+            custosAdicionais = new ArrayList<Custos>();
             observers = new ArrayList<Observer>();
         } else
             throw new IllegalArgumentException(capacidade + " permite apenas " + capacidade.getCombustiveisString() + " como combustível");
@@ -87,8 +86,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
         this.tanque.reabastecer();
     }
 
-    public void addNovoCustoVariavel(String descricao, double preco) {
-        custosVariaves.add(new CustosVariaveis(descricao, preco));
+    public void addNovoCustoAdicional(String descricao, double preco) {
+        custosAdicionais.add(new CustosVariaveis(descricao, preco));
     }
 
     public String getGastos() {
@@ -96,15 +95,15 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     }
 
     protected double getGastoTotal() {
-        return this.custosFixo.calcularCustoTotal() + this.getTotalCustosVariaveis();
+        return this.custosFixo.calcularCustoTotal() + this.getTotalCustosAdicionais();
     }
 
     public abstract double calcularSeguro();
 
     public abstract double calcularIpva();
 
-    public double getTotalCustosVariaveis() {
-        return this.custosVariaves.stream()
+    public double getTotalCustosAdicionais() {
+        return this.custosAdicionais.stream()
             .filter(custoVariavel -> custoVariavel instanceof CustosVariaveis)
             .mapToDouble(Custos::calcularCustoTotal)
             .sum();
@@ -113,10 +112,10 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     @Override
     public String toString() {
         String saida = "(" + this.getPlaca() + ")" +
-        "# #KM RODADOS: " + this.getKm_rodados() + "km" +
-        "#TANQUE: " + tanque.getCombustivel() +
-        "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual()) + "L" +
-        "#GASTOS: #" + this.getGastos();
+            "# #KM RODADOS: " + this.getKm_rodados() + "km" +
+            "#TANQUE: " + tanque.getCombustivel() +
+            "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual()) + "L" + " (" + String.format("%.02f", tanque.getCapacidadeMaxima()) + "L)" +
+            "#GASTOS: #" + this.getGastos();
 
         if (rotas.size() > 0) {
             String stringRotas = new String();
@@ -131,6 +130,10 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
         }
 
         return saida;
+    }
+
+    protected List<Custos> getCustosAdicionais() {
+        return this.custosAdicionais;
     }
 
     @Override

@@ -40,9 +40,17 @@ public class ElementosJFrame {
                 atributo = "        " + atributo;
             }
 
-            if(atributo.startsWith("+&")) {
-                atributo = atributo.substring(2);
-                atributo = "                " + atributo;
+            if(atributo.startsWith("+")) {
+                String tabSpace = "";
+                int quant = Integer.parseInt(atributo.substring(1, 2));
+                System.out.println(quant);
+                
+                for(int i = 0; i < quant; i++) {
+                    tabSpace += "        ";
+                }
+                
+                atributo = atributo.substring(3);
+                atributo = tabSpace + atributo;
             }
             
             label = new JLabel(atributo);
