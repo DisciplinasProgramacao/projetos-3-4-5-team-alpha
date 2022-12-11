@@ -46,6 +46,6 @@ public class CustosCarro extends CustosFixos {
    
     @Override
     public double calcularCustoTotal() {
-        return this.valorIpva + this.valorSeguro + this.custoAlinhamento;
+        return this.valorIpva + this.valorSeguro + this.custoAlinhamento + super.getCustoAbastecimento();
     }
 }

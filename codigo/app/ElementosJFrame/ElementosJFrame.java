@@ -1,7 +1,6 @@
 package ElementosJFrame;
 
 import javax.swing.*;
-import java.awt.GridLayout;
 import java.awt.event.*;
 
 public class ElementosJFrame {
@@ -43,7 +42,6 @@ public class ElementosJFrame {
             if(atributo.startsWith("+")) {
                 String tabSpace = "";
                 int quant = Integer.parseInt(atributo.substring(1, 2));
-                System.out.println(quant);
                 
                 for(int i = 0; i < quant; i++) {
                     tabSpace += "        ";

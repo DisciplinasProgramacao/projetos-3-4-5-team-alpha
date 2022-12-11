@@ -29,6 +29,11 @@ public class Utilitario extends Veiculo {
         }
     }
 
+    @Override
+    public String tipoVeiculo() {
+        return tipo_utilitario.toString();
+    }
+
     public Capacidades getTipo_utilitario() {
         return tipo_utilitario;
     }

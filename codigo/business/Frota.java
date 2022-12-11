@@ -3,12 +3,21 @@ package business;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import business.veiculos.Veiculo;
 import business.pattern.Observer;
+import business.pattern.Sujeito;
 
 public class Frota implements Serializable, Observer {
-    private Set<Veiculo> veiculos = new HashSet<Veiculo>();
+    private Set<Veiculo> veiculos;
+    private Set<Veiculo> veiculosComMaisRotas;
+
+    public Frota() {
+        veiculos = new LinkedHashSet<>();
+        veiculosComMaisRotas = new LinkedHashSet<>();
+    }
 
     public boolean inserirVeiculo(Veiculo veiculo) {
         veiculo.addObserver(this);
@@ -56,24 +65,48 @@ public class Frota implements Serializable, Observer {
         return list;
     }
     
-    public List<Veiculo> veiculosComMaisRotas() {
-    	List<Veiculo> list = new ArrayList<Veiculo>(veiculos);
-    	
-    	list.sort((veiculo1, veiculo2) -> {
-            if (veiculo2.getQuantRotas() < veiculo1.getQuantRotas()) {
-                return -1;
-            } else if (veiculo2.getQuantRotas() > veiculo1.getQuantRotas()) {
-                return 1;
-            }
-    
-            return 0;
-        });
+    private void calcularVeiculosComMaisRotas(Veiculo veiculo) {
+        boolean[] inserido = new boolean[1];
+        inserido[0] = false;
+        
+        if(veiculosComMaisRotas.size() < 3) {
+            veiculosComMaisRotas.add(veiculo);
+            
+        } else if( veiculosComMaisRotas.size() == 3) {
+            veiculosComMaisRotas.forEach(veiculoDaLista -> {
+                if(veiculoDaLista.compareQtdRotas(veiculo) <= 0 && !inserido[0]) {
+                    
+                    if(!veiculosComMaisRotas.contains(veiculo)) {
+                        Veiculo lastElement = null;
+                        for (Veiculo x : veiculosComMaisRotas){
+                            lastElement = x;
+                        }
+                        
+                        veiculosComMaisRotas.remove(lastElement);
+                    }
 
-    	if(list.size() > 3) {
-            return list.subList(0, 3);
+                    veiculosComMaisRotas.add(veiculo);
+
+                    inserido[0] = true;
+                }
+            });
         }
+    	
+        this.ordernarVeiculosComMaisRotas();
+    }
+
+    public List<Veiculo> veiculosComMaisRotas() {
+        List<Veiculo> list = new ArrayList<Veiculo>(this.veiculosComMaisRotas);
+        
+        list.sort((veiculo1, veiculo2) -> veiculo2.compareQtdRotas(veiculo1));
 
         return list;
+    }
+
+    public void ordernarVeiculosComMaisRotas() {
+        this.veiculosComMaisRotas = this.veiculosComMaisRotas.stream()
+            .sorted((veiculo1, veiculo2) -> veiculo2.compareQtdRotas(veiculo1))
+            .collect(Collectors.toSet());
     }
     
     public double quilometragemMedia() {
@@ -87,7 +120,7 @@ public class Frota implements Serializable, Observer {
     }
 
     @Override
-    public void update() {
-
+    public void update(Sujeito veiculo) {
+        this.calcularVeiculosComMaisRotas((Veiculo) veiculo);
     }
 }

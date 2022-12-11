@@ -9,7 +9,7 @@ public class Tanque implements Serializable{
     private double litragemAtual;
     private final Capacidades CAPACIDADE_MAXIMA;
     private Combustivel combustivel;
-    public final double AUTONOMIA_MAXIMA;
+    private final double AUTONOMIA_MAXIMA;
     
     public Tanque(Combustivel combustivel, Capacidades capacidade) {
         this.CAPACIDADE_MAXIMA = capacidade;
@@ -28,7 +28,11 @@ public class Tanque implements Serializable{
     }
 
     public double autonomia() {
-        return litragemAtual*combustivel.getConsumo();
+        return litragemAtual * combustivel.getConsumo();
+    }
+
+    public double getAutonomiaMaxima() {
+        return this.AUTONOMIA_MAXIMA;
     }
 
     public double reabastecer() {

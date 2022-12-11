@@ -14,6 +14,11 @@ public class Caminhao extends Veiculo {
     }
 
     @Override
+    public String tipoVeiculo() {
+        return caminhao.toString();
+    }
+
+    @Override
     public double calcularSeguro() {
         return ((CustosCaminhao) this.custosFixos).calcularSeguro();
     }

@@ -15,6 +15,11 @@ public class Carro extends Veiculo {
     }
 
     @Override
+    public String tipoVeiculo() {
+        return carro.toString();
+    }
+
+    @Override
     public double calcularSeguro() {
         return ((CustosCarro) this.custosFixos).calcularSeguro();
     }

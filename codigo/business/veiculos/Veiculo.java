@@ -42,6 +42,10 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
         return this.tanque.autonomia();
     }
 
+    public double getAutonomiaMaxima() {
+        return this.tanque.getAutonomiaMaxima();
+    }
+
     public int getKm_rodados() {
         return this.km_rodados;
     }
@@ -67,8 +71,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
             return true;
         }
 
-        if (this.tanque.AUTONOMIA_MAXIMA >= rota.getDistancia()) {
-            this.reabastecer();
+        if (this.tanque.getAutonomiaMaxima() >= rota.getDistancia()) {
+            ((CustosFixos) custosFixos).custoAbastecimento(this.reabastecer());
             this.tanque.consumirCombustivel(rota.getDistancia());
             this.rotas.add(rota);
             this.km_rodados += rota.getDistancia();
@@ -76,7 +80,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
             this.updateAll();
             return true;
         } else {
-            throw new ArithmeticException ("A rota deve ter uma distância menor que a autonima do veículo");
+            throw new ArithmeticException ("A rota deve ter uma distância menor que a autonima de " + this.getAutonomiaMaxima() + "km do veículo");
         }
     }
 
@@ -88,8 +92,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
         return this.rotas.size();
     }
 
-    public void reabastecer() {
-        this.tanque.reabastecer();
+    public double reabastecer() {
+        return this.tanque.reabastecer();
     }
 
     public void addNovoCustoAdicional(String descricao, double preco) {
@@ -108,6 +112,8 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
 
     public abstract double calcularIpva();
 
+    public abstract String tipoVeiculo();
+
     public double getTotalCustosAdicionais() {
         return this.custosAdicionais.stream()
             .filter(custoVariavel -> custoVariavel instanceof CustosVariaveis)
@@ -121,6 +127,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
             "# #KM RODADOS: " + this.getKm_rodados() + "km" +
             "#TANQUE: " + tanque.getCombustivel() +
             "#LITRAGEM ATUAL: " + String.format("%.02f", tanque.getLitragemAtual()) + "L" + " (" + String.format("%.02f", tanque.getCapacidadeMaxima()) + "L)" +
+            "#AUTONOMIA MAXIMA: " + String.format("%.02f", this.getAutonomiaMaxima()) + "km" +
             "#GASTOS: #" + this.getGastos();
 
         if (rotas.size() > 0) {
@@ -140,6 +147,16 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
 
     protected List<Custos> getCustosAdicionais() {
         return this.custosAdicionais;
+    }
+
+    public int compareQtdRotas(Veiculo outroVeiculo) {
+        if (this.getQuantRotas() < outroVeiculo.getQuantRotas()) {
+            return -1;
+        } else if (this.getQuantRotas() > outroVeiculo.getQuantRotas()) {
+            return 1;
+        }
+
+        return 0;
     }
 
     @Override
@@ -165,6 +182,6 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
 
     @Override
     public void updateAll() {
-        this.observers.stream().forEach(observer -> observer.update());
+        this.observers.stream().forEach(observer -> observer.update(this));
     }
 }

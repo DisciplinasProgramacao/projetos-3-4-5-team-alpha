@@ -58,6 +58,6 @@ public class CustosUtilitario extends CustosFixos {
 
     @Override
     public double calcularCustoTotal() {
-        return this.valorIpva + this.valorSeguro + this.custoAlinhamento + this.custoVistoria;
+        return this.valorIpva + this.valorSeguro + this.custoAlinhamento + this.custoVistoria + super.getCustoAbastecimento();
     }
 }

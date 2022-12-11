@@ -58,6 +58,6 @@ public class CustosCaminhao extends CustosFixos {
 
     @Override
     public double calcularCustoTotal() {
-        return this.valorIpva + this.valorSeguro + this.custoManutencao + this.custoVistoria;
+        return this.valorIpva + this.valorSeguro + this.custoManutencao + this.custoVistoria + super.getCustoAbastecimento();
     }
 }
