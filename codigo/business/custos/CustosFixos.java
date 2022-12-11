@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 public abstract class CustosFixos implements Custos, Serializable  {
     private int qdtCustos;
-    private double custoAbastecimento = 0F;
+    private double custoAbastecimento = 0;
 
     public double calcularIpva(double porcentagem, double valorVenda) {
         return porcentagem * valorVenda;

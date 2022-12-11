@@ -15,7 +15,7 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
     private final String PLACA;
     protected Custos custosFixos;
     protected List<Custos> custosAdicionais;
-    private List<Rota> rotas = new ArrayList<Rota>();
+    private List<Rota> rotas;
     private List<Observer> observers;
     private int km_rodados;
     private Tanque tanque;
@@ -28,8 +28,9 @@ public abstract class Veiculo implements Serializable, Comparable<Veiculo>, Suje
             this.tanque = new Tanque(combustivel, capacidade);
             this.valorVenda = valorVenda;
 
-            custosAdicionais = new ArrayList<Custos>();
-            observers = new ArrayList<Observer>();
+            rotas = new ArrayList<>();
+            custosAdicionais = new ArrayList<>();
+            observers = new ArrayList<>();
         } else
             throw new IllegalArgumentException(capacidade + " permite apenas " + capacidade.getCombustiveisString() + " como combustível");
     }

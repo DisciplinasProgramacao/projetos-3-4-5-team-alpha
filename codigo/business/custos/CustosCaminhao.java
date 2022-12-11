@@ -1,15 +1,15 @@
 package business.custos;
 
 public class CustosCaminhao extends CustosFixos {
-    private static final double VALOR_VISTORIA = 1000.00F,
-            VALOR_MANUTENCAO = 1000.00F,
-            VALOR_ADICIONAL_SEGURO = 2000.00F,
-            PERCENTUAL_IPVA = 0.01F,
-            PERCENTUAL_SEGURO = 0.02F;
+    private static final double VALOR_VISTORIA = 1000.0,
+            VALOR_MANUTENCAO = 1000.0,
+            VALOR_ADICIONAL_SEGURO = 2000.0,
+            PERCENTUAL_IPVA = 0.01,
+            PERCENTUAL_SEGURO = 0.02;
     private static final int QUILOMETRO_VISTORIA = 30000,
             QUILOMETRO_MANUTENCAO = 20000;
     private final double VALOR_VENDA;
-    private double custoManutencao = 0F, custoVistoria = 0F, valorIpva = 0F, valorSeguro = 0F;
+    private double custoManutencao = 0, custoVistoria = 0, valorIpva = 0, valorSeguro = 0;
     private int qtdManutencao, qtdVistoria;
 
     public CustosCaminhao(double valorVenda) throws IllegalArgumentException {

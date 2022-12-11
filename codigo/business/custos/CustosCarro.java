@@ -1,13 +1,13 @@
 package business.custos;
 
 public class CustosCarro extends CustosFixos {
-    private static final double VALOR_ALINHAMENTO = 80.00F,
-    VALOR_ADICIONAL_SEGURO = 300.00F,
-    PERCENTUAL_IPVA = 0.04F,
-    PERCENTUAL_SEGURO = 0.05F;
+    private static final double VALOR_ALINHAMENTO = 80.0,
+    VALOR_ADICIONAL_SEGURO = 300.0,
+    PERCENTUAL_IPVA = 0.04,
+    PERCENTUAL_SEGURO = 0.05;
     private static final int QUILOMETRO_ALINHAMENTO = 10000;
     private final double VALOR_VENDA;
-    private double custoAlinhamento = 0F, valorIpva = 0F, valorSeguro = 0F;
+    private double custoAlinhamento = 0, valorIpva = 0, valorSeguro = 0;
     private int qtdAlinhamento;
 
     public CustosCarro(double valorVenda) throws ArithmeticException {
