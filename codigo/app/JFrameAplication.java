@@ -682,21 +682,4 @@ public class JFrameAplication extends JFrame {
             throw new Exception("Erro ao carregar \"" + filename + "\" do disco! Arquivo não encontrado");
         }
     }
-
-    private static String[] ordernarVetorString(String[] vetor) {
-        int i;
-        String key;
-
-        for (int j = 1; j < vetor.length; j++) {
-            key = vetor[j];
-
-            for (i = j - 1; (i >= 0) && (vetor[i].compareTo(key) > 0); i--) {
-                vetor[i + 1] = vetor[i];
-            }
-
-            vetor[i + 1] = key;
-        }
-
-        return vetor;
-    }
 }

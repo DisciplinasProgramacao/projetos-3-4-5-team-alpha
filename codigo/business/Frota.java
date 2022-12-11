@@ -3,7 +3,6 @@ package business;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import business.veiculos.Veiculo;
